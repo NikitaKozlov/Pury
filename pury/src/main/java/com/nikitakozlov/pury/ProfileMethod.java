@@ -8,4 +8,4 @@ import java.lang.annotation.Target;
 
 @Retention(RetentionPolicy.CLASS)
 @Target({ ElementType.CONSTRUCTOR, ElementType.METHOD })
-public @interface DebugLog {}
+public @interface ProfileMethod {}
