@@ -1,15 +1,21 @@
 package com.nikitakozlov.pury;
 
+
 public class StopWatch {
 
+    private long startTimeStamp;
+    private long execTime;
+
     public void start() {
+        startTimeStamp = System.currentTimeMillis();
     }
 
     public void stop() {
+        execTime = System.currentTimeMillis() - startTimeStamp;
     }
 
-    public int getExecTimeInMillis() {
-        return 0;
+    public long getExecTimeInMillis() {
+        return execTime;
     }
 
 }
