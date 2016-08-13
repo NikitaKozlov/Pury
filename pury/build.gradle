@@ -30,6 +30,7 @@ dependencies {
     testCompile 'junit:junit:4.12'
 
     compile 'org.aspectj:aspectjrt:1.8.1'
+    compile 'com.android.support:support-v4:24.1.1'
 }
 
 android.libraryVariants.all { variant ->

@@ -1,4 +1,4 @@
-package com.nikitakozlov.pury;
+package com.nikitakozlov.pury.method;
 
 
 import java.lang.annotation.ElementType;

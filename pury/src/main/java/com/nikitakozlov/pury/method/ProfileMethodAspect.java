@@ -1,6 +1,8 @@
-package com.nikitakozlov.pury;
+package com.nikitakozlov.pury.method;
 
-import android.util.Log;
+import com.nikitakozlov.pury.internal.MethodProfiler;
+import com.nikitakozlov.pury.internal.MethodProfilingManager;
+import com.nikitakozlov.pury.internal.ProfilerId;
 
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
@@ -10,10 +12,10 @@ import org.aspectj.lang.annotation.Pointcut;
 @Aspect
 public class ProfileMethodAspect {
     private static final String POINTCUT_METHOD =
-            "execution(@com.nikitakozlov.pury.ProfileMethod * *(..))";
+            "execution(@com.nikitakozlov.pury.method.ProfileMethod * *(..))";
 
     private static final String POINTCUT_CONSTRUCTOR =
-            "execution(@com.nikitakozlov.pury.ProfileMethod *.new(..))";
+            "execution(@com.nikitakozlov.pury.method.ProfileMethod *.new(..))";
 
     @Pointcut(POINTCUT_METHOD)
     public void method() {}
@@ -23,13 +25,12 @@ public class ProfileMethodAspect {
 
     @Around("constructor() || method()")
     public Object weaveJoinPoint(ProceedingJoinPoint joinPoint) throws Throwable {
-        StopWatch stopWatch = new StopWatch();
+        ProfilerId profilerId = new ProfilerId("OnCreate", 10);
+        MethodProfiler methodProfiler = MethodProfilingManager.getInstance().getMethodProfiler(profilerId);
 
-        stopWatch.start();
+        int runId = methodProfiler.startRun();
         Object result = joinPoint.proceed();
-        stopWatch.stop();
-
-        Log.d("ProfileMethod", "--> " + stopWatch.getExecTimeInMillis() + "ms");
+        methodProfiler.stopRun(runId);
 
         return result;
     }

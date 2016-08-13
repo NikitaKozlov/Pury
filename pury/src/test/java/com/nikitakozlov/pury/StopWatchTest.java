@@ -1,5 +1,7 @@
 package com.nikitakozlov.pury;
 
+import com.nikitakozlov.pury.internal.StopWatch;
+
 import org.junit.Test;
 
 import static java.lang.Thread.sleep;

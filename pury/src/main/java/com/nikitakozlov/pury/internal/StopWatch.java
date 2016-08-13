@@ -1,4 +1,4 @@
-package com.nikitakozlov.pury;
+package com.nikitakozlov.pury.internal;
 
 
 public class StopWatch {
