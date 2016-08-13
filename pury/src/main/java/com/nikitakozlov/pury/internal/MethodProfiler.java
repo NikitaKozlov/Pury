@@ -35,6 +35,7 @@ public class MethodProfiler {
     public void stopRun(Integer runId) {
         if (mStopWatches.containsKey(runId)) {
             mStopWatches.get(runId).stop();
+
             mFinishedRuns++;
             logIfFinished();
         } else {
@@ -44,12 +45,11 @@ public class MethodProfiler {
 
     private void logIfFinished() {
         if (mRunsCounter == mFinishedRuns) {
-            Log.d(mProfilerId.getMethodId(), "done");
-            mCallback.onDone(mProfilerId);
+            mCallback.onDone(mProfilerId, MethodProfileProcessor.process(mProfilerId, mStopWatches.values()));
         }
     }
 
     interface Callback {
-        void onDone(ProfilerId profilerId);
+        void onDone(ProfilerId profilerId, MethodProfileResult result);
     }
 }
