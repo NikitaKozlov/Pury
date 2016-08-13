@@ -28,7 +28,7 @@ public class ProfileMethodAspect {
         ProfilerId profilerId = new ProfilerId("OnCreate", 10);
         MethodProfiler methodProfiler = MethodProfilingManager.getInstance().getMethodProfiler(profilerId);
 
-        int runId = methodProfiler.startRun();
+        Integer runId = methodProfiler.startRun();
         Object result = joinPoint.proceed();
         methodProfiler.stopRun(runId);
 
