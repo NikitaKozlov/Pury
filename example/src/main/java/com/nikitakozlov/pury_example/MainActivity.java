@@ -7,10 +7,14 @@ import android.util.Log;
 import android.view.View;
 
 import com.nikitakozlov.pury.method.ProfileMethod;
+import com.nikitakozlov.pury.method.ProfileMethods;
 
 public class MainActivity extends AppCompatActivity {
 
-    @ProfileMethod
+    @ProfileMethods(value = {
+            @ProfileMethod(runsCounter = 10, methodId = "onCreate")
+    })
+    @ProfileMethod(methodId = "onCreate")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

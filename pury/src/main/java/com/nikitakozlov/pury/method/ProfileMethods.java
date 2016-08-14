@@ -8,7 +8,6 @@ import java.lang.annotation.Target;
 
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ ElementType.CONSTRUCTOR, ElementType.METHOD })
-public @interface ProfileMethod {
-    String methodId() default "";
-    int runsCounter() default 1;
+public @interface ProfileMethods {
+    ProfileMethod[] value();
 }
