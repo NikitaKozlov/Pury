@@ -7,14 +7,24 @@ public class StopWatch {
 
     private long startTimeStamp;
     private long execTime;
+    private boolean isStopped;
 
     public void start() {
-        startTimeStamp = System.currentTimeMillis();
+        if (!isStopped) {
+            startTimeStamp = System.currentTimeMillis();
+        }
     }
 
     public void stop() {
-        execTime = System.currentTimeMillis() - startTimeStamp;
-        Log.d("StopWatch", String.valueOf(execTime));
+        if (!isStopped) {
+            execTime = System.currentTimeMillis() - startTimeStamp;
+            isStopped = true;
+            Log.d("StopWatch", String.valueOf(execTime));
+        }
+    }
+
+    public boolean isStopped() {
+        return isStopped;
     }
 
     public long getExecTimeInMillis() {

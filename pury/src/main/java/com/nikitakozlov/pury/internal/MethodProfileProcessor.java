@@ -2,8 +2,8 @@ package com.nikitakozlov.pury.internal;
 
 import java.util.Collection;
 
-class MethodProfileProcessor {
-    static MethodProfileResult process(ProfilerId profilerId, Collection<StopWatch> stopWatches) {
+public class MethodProfileProcessor {
+    public static MethodProfileResult process(ProfilerId profilerId, Collection<StopWatch> stopWatches) {
         final int collectionSize = stopWatches.size();
         if (collectionSize <= 0) {
             return null;
