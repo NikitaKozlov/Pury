@@ -14,7 +14,7 @@ public class MethodProfiler {
     private final Callback mCallback;
     private volatile int mFinishedRuns;
 
-    MethodProfiler(ProfilerId profilerId, @NonNull Callback callback) {
+    public MethodProfiler(ProfilerId profilerId, @NonNull Callback callback) {
         mProfilerId = profilerId;
         mRunsCounter = profilerId.getRunsCounter();
         mStopWatches = new ConcurrentHashMap<>();
@@ -49,7 +49,7 @@ public class MethodProfiler {
         }
     }
 
-    interface Callback {
+    public interface Callback {
         void onDone(ProfilerId profilerId, MethodProfileResult result);
     }
 }

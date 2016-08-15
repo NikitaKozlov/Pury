@@ -12,7 +12,6 @@ import org.aspectj.lang.reflect.MethodSignature;
 
 import java.lang.annotation.Annotation;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 @Aspect
@@ -29,6 +28,16 @@ public class ProfileMethodAspect {
 
     private static final String GROUP_ANNOTATION_POINTCUT_CONSTRUCTOR =
             "execution(@com.nikitakozlov.pury.method.ProfileMethods *.new(..))";
+
+    private final MethodProfilingManager mMethodProfilingManager;
+
+    public ProfileMethodAspect() {
+        this(new MethodProfilingManager());
+    }
+
+    ProfileMethodAspect(MethodProfilingManager methodProfilingManager) {
+        mMethodProfilingManager = methodProfilingManager;
+    }
 
     @Pointcut(POINTCUT_METHOD)
     public void method() {
@@ -78,6 +87,6 @@ public class ProfileMethodAspect {
     private MethodProfiler getMethodProfiler(ProfileMethod profileMethodAnnotation) {
         ProfilerId profilerId = new ProfilerId(profileMethodAnnotation.methodId(),
                 profileMethodAnnotation.runsCounter());
-        return MethodProfilingManager.getInstance().getMethodProfiler(profilerId);
+        return mMethodProfilingManager.getMethodProfiler(profilerId);
     }
 }
