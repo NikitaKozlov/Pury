@@ -101,6 +101,41 @@ public class ProfileMethodAspectTest {
         verify(methodProfilingManager).getMethodProfiler(eq(profilerId1Run));
     }
 
+    @Test
+    public void weaveJoinPoint_StartAndStopAllProfilersAccordingToAnnotations()  throws Throwable {
+        ProfilerId profilerId5Runs = new ProfilerId(METHOD_ID, RUNS_COUNTER_5);
+        MethodProfiler profiler5Runs = mock(MethodProfiler.class);
+        Integer profiler5RunsRunId = 1;
+        when(profiler5Runs.startRun()).thenReturn(profiler5RunsRunId);
+
+        ProfilerId profilerId10Runs = new ProfilerId(METHOD_ID, RUNS_COUNTER_10);
+        MethodProfiler profiler10Runs = mock(MethodProfiler.class);
+        Integer profiler10RunsRunId = 2;
+        when(profiler10Runs.startRun()).thenReturn(profiler10RunsRunId);
+
+        ProfilerId profilerId1Run = new ProfilerId(DEFAULT_METHOD_ID, DEFAULT_RUNS_COUNTER);
+        MethodProfiler profiler1Run = mock(MethodProfiler.class);
+        Integer profiler1RunRunId = 3;
+        when(profiler1Run.startRun()).thenReturn(profiler1RunRunId);
+
+
+        MethodProfilingManager methodProfilingManager = mock(MethodProfilingManager.class);
+        when(methodProfilingManager.getMethodProfiler(eq(profilerId1Run)))
+                .thenReturn(profiler1Run);
+        when(methodProfilingManager.getMethodProfiler(eq(profilerId5Runs)))
+                .thenReturn(profiler5Runs);
+        when(methodProfilingManager.getMethodProfiler(eq(profilerId10Runs)))
+                .thenReturn(profiler10Runs);
+
+        ProceedingJoinPoint joinPoint = mockJoinPoint("methodWithProfileMethodAndProfileMethodsAnnotations");
+        ProfileMethodAspect aspect = new ProfileMethodAspect(methodProfilingManager);
+        aspect.weaveJoinPoint(joinPoint);
+
+        verify(profiler1Run).stopRun(profiler1RunRunId);
+        verify(profiler5Runs).stopRun(profiler5RunsRunId);
+        verify(profiler10Runs).stopRun(profiler10RunsRunId);
+    }
+
     private ProceedingJoinPoint mockJoinPoint(String methodName) throws NoSuchMethodException {
         ProceedingJoinPoint joinPoint = mock(ProceedingJoinPoint.class);
         MethodSignature methodSignature = mock(MethodSignature.class);
