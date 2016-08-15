@@ -18,7 +18,7 @@ public class AsyncProfiler {
     private final Callback mCallback;
     private volatile int mFinishedRuns;
 
-    AsyncProfiler(ProfilerId profilerId, @NonNull Callback callback) {
+    public AsyncProfiler(ProfilerId profilerId, @NonNull Callback callback) {
         mProfilerId = profilerId;
         mRunsCounter = profilerId.getRunsCounter();
         mStopWatches = new CopyOnWriteArrayList<>();

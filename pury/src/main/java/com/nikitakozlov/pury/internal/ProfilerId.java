@@ -35,4 +35,12 @@ public class ProfilerId {
         result = 31 * result + runsCounter;
         return result;
     }
+
+    @Override
+    public String toString() {
+        return "ProfilerId{" +
+                "methodId='" + methodId + '\'' +
+                ", runsCounter=" + runsCounter +
+                '}';
+    }
 }

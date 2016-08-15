@@ -18,6 +18,11 @@ public class AsyncProfilingManager {
         return sInstance;
     }
 
+    //For Testing only
+    public static void setInstance(AsyncProfilingManager sInstance) {
+        AsyncProfilingManager.sInstance = sInstance;
+    }
+
     private final Map<ProfilerId, AsyncProfiler> mAsyncProfilers;
     private final AsyncProfiler.Callback mAsyncProfilerCallback = new AsyncProfiler.Callback() {
         @Override
