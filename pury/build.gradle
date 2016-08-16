@@ -74,3 +74,31 @@ android.libraryVariants.all { variant ->
         }
     }
 }
+
+ext {
+    bintrayRepo = 'maven'
+    bintrayName = 'pury'
+
+    publishedGroupId = 'com.nikitakozlov.pury'
+    libraryName = 'Pury'
+    artifact = 'pury'
+
+    libraryDescription = 'Pury - profiling library'
+
+    siteUrl = 'https://github.com/NikitaKozlov/Pury'
+    gitUrl = 'https://github.com/NikitaKozlov/Pury.git'
+
+    libraryVersion = '0.0.1'
+
+    developerId = 'NikitaKozlov'
+    developerName = 'Nikita Kozlov'
+    developerEmail = 'nikita.e.kozlov@gmail.com'
+
+    licenseName = 'The MIT License'
+    licenseUrl = 'https://opensource.org/licenses/MIT'
+    allLicenses = ["MIT"]
+}
+
+// Place it at the end of the file
+apply from: 'https://raw.githubusercontent.com/nuuneoi/JCenter/master/installv1.gradle'
+apply from: 'https://raw.githubusercontent.com/nuuneoi/JCenter/master/bintrayv1.gradle'
