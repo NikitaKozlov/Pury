@@ -54,10 +54,7 @@ public class Stage {
             startNewNestedStage(stageName, stageOrder);
             return true;
         } else {
-            if (mActiveNestedStage.getOrder() < stageOrder) {
-                return mActiveNestedStage.startStage(stageName, stageOrder);
-            }
-            return false;
+            return mActiveNestedStage.startStage(stageName, stageOrder);
         }
     }
 
