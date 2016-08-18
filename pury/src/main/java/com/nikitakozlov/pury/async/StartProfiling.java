@@ -9,5 +9,9 @@ import java.lang.annotation.Target;
 @Target({ ElementType.CONSTRUCTOR, ElementType.METHOD })
 public @interface StartProfiling {
     String methodId() default "";
+    String stageName() default "";
+    int stageOrder() default 0;
     int runsCounter() default 1;
 }
+
+

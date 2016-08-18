@@ -1,5 +1,7 @@
 package com.nikitakozlov.pury.async;
 
+import com.nikitakozlov.pury.internal.Profiler;
+import com.nikitakozlov.pury.internal.ProfilingManager;
 import com.nikitakozlov.pury.internal.ProfilerId;
 
 import org.aspectj.lang.ProceedingJoinPoint;
@@ -46,14 +48,14 @@ public class StopProfilingAspect {
     @Around("constructor() || method()")
     public Object weaveJoinPoint(ProceedingJoinPoint joinPoint) throws Throwable {
         Object result = joinPoint.proceed();
-        for (AsyncProfiler profiler : getAllProfilers(joinPoint)) profiler.stopRun();
+//        for (Profiler profiler : getAllProfilers(joinPoint)) profiler.stopRun();
         return result;
     }
 
-    private List<AsyncProfiler> getAllProfilers(ProceedingJoinPoint joinPoint) {
+    private List<Profiler> getAllProfilers(ProceedingJoinPoint joinPoint) {
         Annotation[] annotations =
                 ((MethodSignature) joinPoint.getSignature()).getMethod().getAnnotations();
-        List<AsyncProfiler> profilers = new ArrayList<>();
+        List<Profiler> profilers = new ArrayList<>();
         for (Annotation annotation : annotations) {
             if (annotation.annotationType() == StopProfiling.class) {
                 profilers.add(getAsyncProfiler((StopProfiling) annotation));
@@ -68,9 +70,8 @@ public class StopProfilingAspect {
         return profilers;
     }
 
-    private AsyncProfiler getAsyncProfiler(StopProfiling profileMethodAnnotation) {
-        ProfilerId profilerId = new ProfilerId(profileMethodAnnotation.methodId(),
-                profileMethodAnnotation.runsCounter());
-        return AsyncProfilingManager.getInstance().getAsyncProfiler(profilerId);
+    private Profiler getAsyncProfiler(StopProfiling annotation) {
+        ProfilerId profilerId = new ProfilerId(annotation.methodId(), annotation.runsCounter());
+        return ProfilingManager.getInstance().getAsyncProfiler(profilerId);
     }
 }

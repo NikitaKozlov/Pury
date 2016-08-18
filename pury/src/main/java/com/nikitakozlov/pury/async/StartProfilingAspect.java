@@ -1,8 +1,9 @@
 package com.nikitakozlov.pury.async;
 
+import com.nikitakozlov.pury.internal.Profiler;
+import com.nikitakozlov.pury.internal.ProfilingManager;
 import com.nikitakozlov.pury.internal.ProfilerId;
-import com.nikitakozlov.pury.method.ProfileMethod;
-import com.nikitakozlov.pury.method.ProfileMethods;
+import com.nikitakozlov.pury.internal.StageId;
 
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
@@ -47,14 +48,14 @@ public class StartProfilingAspect {
 
     @Around("constructor() || method()")
     public Object weaveJoinPoint(ProceedingJoinPoint joinPoint) throws Throwable {
-        for (AsyncProfiler profiler : getAllProfilers(joinPoint)) profiler.startRun();
+        //for (Profiler profiler : getAllProfilers(joinPoint)) profiler.startRun();
         return joinPoint.proceed();
     }
 
-    private List<AsyncProfiler> getAllProfilers(ProceedingJoinPoint joinPoint) {
+    private List<Profiler> getAllProfilers(ProceedingJoinPoint joinPoint) {
         Annotation[] annotations =
                 ((MethodSignature) joinPoint.getSignature()).getMethod().getAnnotations();
-        List<AsyncProfiler> profilers = new ArrayList<>();
+        List<Profiler> profilers = new ArrayList<>();
         for (Annotation annotation : annotations) {
             if (annotation.annotationType() == StartProfiling.class) {
                 profilers.add(getAsyncProfiler((StartProfiling) annotation));
@@ -69,9 +70,10 @@ public class StartProfilingAspect {
         return profilers;
     }
 
-    private AsyncProfiler getAsyncProfiler(StartProfiling profileMethodAnnotation) {
-        ProfilerId profilerId = new ProfilerId(profileMethodAnnotation.methodId(),
-                profileMethodAnnotation.runsCounter());
-        return AsyncProfilingManager.getInstance().getAsyncProfiler(profilerId);
+    private Profiler getAsyncProfiler(StartProfiling annotation) {
+        ProfilerId profilerId = new ProfilerId(annotation.methodId(), annotation.runsCounter());
+
+        StageId stageId = new StageId(profilerId, annotation.stageName(), annotation.stageOrder());
+        return ProfilingManager.getInstance().getAsyncProfiler(profilerId);
     }
 }

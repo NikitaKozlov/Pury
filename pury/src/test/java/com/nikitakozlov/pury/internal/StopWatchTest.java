@@ -1,4 +1,4 @@
-package com.nikitakozlov.pury;
+package com.nikitakozlov.pury.internal;
 
 import com.nikitakozlov.pury.internal.StopWatch;
 

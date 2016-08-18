@@ -1,4 +1,9 @@
-package com.nikitakozlov.pury.internal;
+package com.nikitakozlov.pury.method;
+
+import com.nikitakozlov.pury.internal.ProfilerId;
+import com.nikitakozlov.pury.internal.StopWatch;
+import com.nikitakozlov.pury.method.MethodProfileProcessor;
+import com.nikitakozlov.pury.method.MethodProfileResult;
 
 import org.junit.Test;
 

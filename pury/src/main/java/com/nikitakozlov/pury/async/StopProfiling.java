@@ -9,5 +9,6 @@ import java.lang.annotation.Target;
 @Target({ ElementType.CONSTRUCTOR, ElementType.METHOD })
 public @interface StopProfiling {
     String methodId() default "";
+    String stageName() default "";
     int runsCounter() default 1;
 }

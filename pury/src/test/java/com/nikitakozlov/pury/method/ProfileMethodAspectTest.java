@@ -1,15 +1,10 @@
 package com.nikitakozlov.pury.method;
 
-import com.nikitakozlov.pury.internal.MethodProfileResult;
-import com.nikitakozlov.pury.internal.MethodProfiler;
-import com.nikitakozlov.pury.internal.MethodProfilingManager;
 import com.nikitakozlov.pury.internal.ProfilerId;
 
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.reflect.MethodSignature;
 import org.junit.Test;
-
-import java.lang.reflect.Method;
 
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Matchers.eq;

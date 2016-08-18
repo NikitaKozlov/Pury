@@ -1,4 +1,7 @@
-package com.nikitakozlov.pury.internal;
+package com.nikitakozlov.pury.method;
+
+import com.nikitakozlov.pury.internal.ProfilerId;
+import com.nikitakozlov.pury.internal.StopWatch;
 
 import java.util.Collection;
 

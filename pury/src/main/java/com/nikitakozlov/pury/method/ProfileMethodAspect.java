@@ -1,7 +1,5 @@
 package com.nikitakozlov.pury.method;
 
-import com.nikitakozlov.pury.internal.MethodProfiler;
-import com.nikitakozlov.pury.internal.MethodProfilingManager;
 import com.nikitakozlov.pury.internal.ProfilerId;
 
 import org.aspectj.lang.ProceedingJoinPoint;

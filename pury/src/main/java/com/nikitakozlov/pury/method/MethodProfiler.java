@@ -1,27 +1,25 @@
-package com.nikitakozlov.pury.async;
+package com.nikitakozlov.pury.method;
 
 import android.support.annotation.NonNull;
 
-import com.nikitakozlov.pury.internal.MethodProfileProcessor;
-import com.nikitakozlov.pury.internal.MethodProfileResult;
 import com.nikitakozlov.pury.internal.ProfilerId;
 import com.nikitakozlov.pury.internal.StopWatch;
 
-import java.util.List;
-import java.util.concurrent.CopyOnWriteArrayList;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
-public class AsyncProfiler {
+public class MethodProfiler {
 
     private final ProfilerId mProfilerId;
     private final int mRunsCounter;
-    private final List<StopWatch> mStopWatches;
+    private final Map<Integer, StopWatch> mStopWatches;
     private final Callback mCallback;
     private volatile int mFinishedRuns;
 
-    public AsyncProfiler(ProfilerId profilerId, @NonNull Callback callback) {
+    public MethodProfiler(ProfilerId profilerId, @NonNull Callback callback) {
         mProfilerId = profilerId;
         mRunsCounter = profilerId.getRunsCounter();
-        mStopWatches = new CopyOnWriteArrayList<>();
+        mStopWatches = new ConcurrentHashMap<>();
         mCallback = callback;
         mFinishedRuns = 0;
     }
@@ -30,27 +28,30 @@ public class AsyncProfiler {
         if (mStopWatches.size() < mRunsCounter) {
             StopWatch stopWatch = new StopWatch();
             stopWatch.start();
-            mStopWatches.add(stopWatch);
+            mStopWatches.put(stopWatch.hashCode(), stopWatch);
             return stopWatch.hashCode();
         }
         throw new IllegalStateException("Too many starts for one profiler");
     }
 
-    public void stopRun() {
-        if (mFinishedRuns < mStopWatches.size()) {
-            mStopWatches.get(mFinishedRuns).stop();
+    public void stopRun(Integer runId) {
+        if (mStopWatches.containsKey(runId)) {
+            mStopWatches.get(runId).stop();
+
             mFinishedRuns++;
             logIfFinished();
+        } else {
+            throw new IllegalStateException("No such runId in this profiler");
         }
     }
 
     private void logIfFinished() {
         if (mRunsCounter == mFinishedRuns) {
-            mCallback.onDone(mProfilerId, MethodProfileProcessor.process(mProfilerId, mStopWatches));
+            mCallback.onDone(mProfilerId, MethodProfileProcessor.process(mProfilerId, mStopWatches.values()));
         }
     }
 
-    interface Callback {
+    public interface Callback {
         void onDone(ProfilerId profilerId, MethodProfileResult result);
     }
 }

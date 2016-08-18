@@ -9,6 +9,10 @@ public class ProfilerId {
         this.runsCounter = runsCounter;
     }
 
+    public ProfilerId(String methodId, int stageOrder, int runsCounter) {
+        this(methodId, runsCounter);
+    }
+
     public String getMethodId() {
         return methodId;
     }
