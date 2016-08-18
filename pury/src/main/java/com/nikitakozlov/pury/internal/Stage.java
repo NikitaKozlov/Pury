@@ -6,14 +6,19 @@ public class Stage {
     private final String mName;
     private final int mOrder;
     private final StopWatch mStopWatch;
+    private boolean mIsStarted;
     private boolean mIsStopped;
     private Stage mActiveNestedStage;
     private List<Stage> mStages;
 
     public Stage(String name, int order) {
+        this(name, order, new StopWatch());
+    }
+
+    Stage(String name, int order, StopWatch stopWatch) {
         mName = name;
         mOrder = order;
-        mStopWatch = new StopWatch();
+        mStopWatch = stopWatch;
     }
 
     public String getName() {
@@ -24,13 +29,11 @@ public class Stage {
         return mOrder;
     }
 
-    public long getExecTimeInMillis() {
-        return mStopWatch.getExecTimeInMillis();
-    }
 
     public void start() {
-        if (!mIsStopped) {
+        if (!mIsStarted && !mIsStopped) {
             mStopWatch.start();
+            mIsStarted = true;
         }
     }
 
@@ -59,6 +62,7 @@ public class Stage {
             if (!mIsStopped) {
                 mStopWatch.stop();
                 mIsStopped = true;
+                mIsStarted = false;
             }
         } else if (!mActiveNestedStage.mIsStopped) {
             mActiveNestedStage.stop(stageName);
@@ -67,5 +71,14 @@ public class Stage {
 
     public boolean isStopped() {
         return mIsStopped;
+    }
+
+
+    public long getExecTimeInMillis() {
+        return mStopWatch.getExecTimeInMillis();
+    }
+
+    public List<Stage> getStages() {
+        return mStages;
     }
 }
