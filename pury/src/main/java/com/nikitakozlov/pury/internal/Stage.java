@@ -1,6 +1,7 @@
 package com.nikitakozlov.pury.internal;
 
 import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 public class Stage {
     private final String mName;
@@ -9,7 +10,7 @@ public class Stage {
     private boolean mIsStarted;
     private boolean mIsStopped;
     private Stage mActiveNestedStage;
-    private List<Stage> mStages;
+    private final List<Stage> mStages;
 
     public Stage(String name, int order) {
         this(name, order, new StopWatch());
@@ -19,6 +20,7 @@ public class Stage {
         mName = name;
         mOrder = order;
         mStopWatch = stopWatch;
+        mStages = new CopyOnWriteArrayList<>();
     }
 
     public String getName() {
@@ -30,29 +32,38 @@ public class Stage {
     }
 
 
-    public void start() {
+    /**
+     * Start this stage
+     * @return true if start was successful
+     */
+    public boolean start() {
         if (!mIsStarted && !mIsStopped) {
             mStopWatch.start();
             mIsStarted = true;
+            return true;
         }
+        return false;
     }
 
-    public void startStage(String stageName, int stageOrder) {
-        if (mOrder > stageOrder) {
-            return;
+    public boolean startStage(String stageName, int stageOrder) {
+        if (mOrder >= stageOrder || !mIsStarted) {
+            return false;
         }
 
-        if (mActiveNestedStage.mIsStopped) {
+        if (mActiveNestedStage == null || mActiveNestedStage.mIsStopped) {
             startNewNestedStage(stageName, stageOrder);
+            return true;
         } else {
             if (mActiveNestedStage.getOrder() < stageOrder) {
-                mActiveNestedStage.startStage(stageName, stageOrder);
+                return mActiveNestedStage.startStage(stageName, stageOrder);
             }
+            return false;
         }
     }
 
     private void startNewNestedStage(String stageName, int stageOrder) {
         Stage stage = new Stage(stageName, stageOrder);
+        stage.start();
         mActiveNestedStage = stage;
         mStages.add(stage);
     }
@@ -73,6 +84,9 @@ public class Stage {
         return mIsStopped;
     }
 
+    boolean isStarted() {
+        return mIsStarted;
+    }
 
     public long getExecTimeInMillis() {
         return mStopWatch.getExecTimeInMillis();
