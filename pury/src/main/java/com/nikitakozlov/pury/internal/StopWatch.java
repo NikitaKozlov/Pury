@@ -31,4 +31,7 @@ public class StopWatch {
         return execTime;
     }
 
+    public long getStartTimeInMillis() {
+        return startTimeStamp;
+    }
 }
