@@ -32,16 +32,20 @@ public class Profiler {
         }
     }
 
-    public void stopStage() {
+    public void stopStage(String stageName) {
         if (mActiveRun != null && !mActiveRun.isStopped()) {
-
-            logIfFinished();
+            mActiveRun.stopStage(stageName);
+            if (mActiveRun.isStopped()) {
+                mFinishedRuns++;
+                logIfFinished();
+            }
         }
     }
 
     private void logIfFinished() {
         if (mRunsCounter == mFinishedRuns) {
-            //mCallback.onDone(mProfilerId, MethodProfileProcessor.process(mProfilerId, mStopWatches));
+            mCallback.onDone(mProfilerId, null);
+//            mCallback.onDone(mProfilerId, MethodProfileProcessor.process(mProfilerId, mStopWatches));
         }
     }
 

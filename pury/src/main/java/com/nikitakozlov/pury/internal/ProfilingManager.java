@@ -37,7 +37,7 @@ public class ProfilingManager {
         mAsyncProfilers = new ConcurrentHashMap<>();
     }
 
-    public Profiler getAsyncProfiler(ProfilerId profilerId) {
+    public Profiler getProfiler(ProfilerId profilerId) {
         if (mAsyncProfilers.containsKey(profilerId)) {
             return mAsyncProfilers.get(profilerId);
         }

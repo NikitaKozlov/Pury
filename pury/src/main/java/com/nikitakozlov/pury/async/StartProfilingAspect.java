@@ -48,7 +48,7 @@ public class StartProfilingAspect {
 
     @Around("constructor() || method()")
     public Object weaveJoinPoint(ProceedingJoinPoint joinPoint) throws Throwable {
-        //for (Profiler profiler : getAllProfilers(joinPoint)) profiler.startRun();
+        //for (Profiler profiler : getAllProfilers(joinPoint)) profiler.startStage();
         return joinPoint.proceed();
     }
 
@@ -63,7 +63,7 @@ public class StartProfilingAspect {
 //            else if (annotation.annotationType() == ProfileMethods.class) {
 //                ProfileMethods profileMethodsAnnotation = ((ProfileMethods) annotation);
 //                for (ProfileMethod profileMethod : profileMethodsAnnotation.value()) {
-//                    profilers.add(getAsyncProfiler(profileMethod));
+//                    profilers.add(getProfiler(profileMethod));
 //                }
 //            }
         }
@@ -74,6 +74,6 @@ public class StartProfilingAspect {
         ProfilerId profilerId = new ProfilerId(annotation.methodId(), annotation.runsCounter());
 
         StageId stageId = new StageId(profilerId, annotation.stageName(), annotation.stageOrder());
-        return ProfilingManager.getInstance().getAsyncProfiler(profilerId);
+        return ProfilingManager.getInstance().getProfiler(profilerId);
     }
 }

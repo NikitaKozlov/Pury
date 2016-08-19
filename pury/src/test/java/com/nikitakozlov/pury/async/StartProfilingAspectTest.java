@@ -41,15 +41,15 @@ public class StartProfilingAspectTest {
         ProfilerId profilerId = new ProfilerId(METHOD_ID, RUNS_COUNTER_5);
         Profiler profiler = mock(Profiler.class);
         ProfilingManager asyncProfilingManager = mock(ProfilingManager.class);
-        when(asyncProfilingManager.getAsyncProfiler(eq(profilerId)))
+        when(asyncProfilingManager.getProfiler(eq(profilerId)))
                 .thenReturn(profiler);
         ProfilingManager.setInstance(asyncProfilingManager);
 
         ProceedingJoinPoint joinPoint = mockJoinPoint("methodWithStartProfilingAnnotation");
         StartProfilingAspect aspect = new StartProfilingAspect();
         aspect.weaveJoinPoint(joinPoint);
-        verify(asyncProfilingManager).getAsyncProfiler(eq(profilerId));
-        //verify(profiler).startRun();
+        verify(asyncProfilingManager).getProfiler(eq(profilerId));
+        //verify(profiler).startStage();
     }
 
     private ProceedingJoinPoint mockJoinPoint(String methodName) throws NoSuchMethodException {
