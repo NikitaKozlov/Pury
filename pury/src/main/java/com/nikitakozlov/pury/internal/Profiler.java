@@ -25,8 +25,7 @@ public class Profiler {
 
     public void startStage(String stageName, int stageOrder) {
         if (mActiveRun == null || mActiveRun.isStopped()) if (mRuns.size() < mRunsCounter) {
-            mActiveRun = new Run();
-            mActiveRun.startStage(stageName, stageOrder);
+            mActiveRun = Run.startRun(stageName, stageOrder);
             mRuns.add(mActiveRun);
         } else if (mActiveRun != null && !mActiveRun.isStopped()) {
             mActiveRun.startStage(stageName, stageOrder);
