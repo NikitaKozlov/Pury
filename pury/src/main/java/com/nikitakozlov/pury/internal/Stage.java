@@ -71,6 +71,9 @@ public class Stage {
                 mStopWatch.stop();
                 mIsStopped = true;
                 mIsStarted = false;
+                if (mActiveNestedStage != null) {
+                    mActiveNestedStage.stop(mActiveNestedStage.getName());
+                }
             }
         } else if (!mActiveNestedStage.mIsStopped) {
             mActiveNestedStage.stop(stageName);

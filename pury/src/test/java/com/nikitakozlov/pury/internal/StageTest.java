@@ -35,6 +35,13 @@ public class StageTest {
     }
 
     @Test
+    public void start_MoveStageIntoStartedState() {
+        Stage stage = new Stage(STAGE_NAME_0, STAGE_ORDER_0);
+        stage.start();
+        assertTrue(stage.isStarted());
+    }
+
+    @Test
     public void start_DontCallsSecondTimeStartOnStopWatch_WhenStopIsCalled() {
         StopWatch stopWatch = mock(StopWatch.class);
         Stage stage = new Stage(STAGE_NAME_0, STAGE_ORDER_0, stopWatch);
@@ -42,6 +49,43 @@ public class StageTest {
         stage.stop(STAGE_NAME_0);
         assertFalse(stage.start());
         verify(stopWatch).start();
+    }
+
+    @Test
+    public void stop_CallsStopOnStopWatch() {
+        StopWatch stopWatch = mock(StopWatch.class);
+        Stage stage = new Stage(STAGE_NAME_0, STAGE_ORDER_0, stopWatch);
+        stage.start();
+        stage.stop(STAGE_NAME_0);
+        verify(stopWatch).stop();
+    }
+
+    @Test
+    public void stop_MoveStageIntoStoppedState() {
+        Stage stage = new Stage(STAGE_NAME_0, STAGE_ORDER_0);
+        stage.start();
+        stage.stop(STAGE_NAME_0);
+        assertFalse(stage.isStarted());
+        assertTrue(stage.isStopped());
+    }
+
+    @Test
+    public void stop_StopOnlyNestedStage_IfNameEqualToNestedStagesName() {
+        Stage stage = new Stage(STAGE_NAME_0, STAGE_ORDER_0);
+        stage.start();
+        stage.startStage(STAGE_NAME_1, STAGE_ORDER_1);
+        stage.stop(STAGE_NAME_1);
+        assertTrue(stage.getStages().get(0).isStopped());
+        assertFalse(stage.isStopped());
+    }
+
+    @Test
+    public void stop_StopNestedStage_IfNameEqualToCurrentStagesName() {
+        Stage stage = new Stage(STAGE_NAME_0, STAGE_ORDER_0);
+        stage.start();
+        stage.startStage(STAGE_NAME_1, STAGE_ORDER_1);
+        stage.stop(STAGE_NAME_0);
+        assertTrue(stage.getStages().get(0).isStopped());
     }
 
     @Test
@@ -63,6 +107,15 @@ public class StageTest {
     @Test
     public void startStage_ShouldNotStartNextStage_IfCurrentStageWasNotStarted() {
         Stage stage = new Stage(STAGE_NAME_0, STAGE_ORDER_1);
+        assertFalse(stage.startStage(STAGE_NAME_1, STAGE_ORDER_1));
+        assertEmpty(stage.getStages());
+    }
+
+    @Test
+    public void startStage_ShouldNotStartNextStage_IfCurrentStageWasStopped() {
+        Stage stage = new Stage(STAGE_NAME_0, STAGE_ORDER_1);
+        stage.start();
+        stage.stop(STAGE_NAME_0);
         assertFalse(stage.startStage(STAGE_NAME_1, STAGE_ORDER_1));
         assertEmpty(stage.getStages());
     }
