@@ -10,14 +10,16 @@ import java.util.concurrent.CopyOnWriteArrayList;
 public class Profiler {
     private final ProfilerId mProfilerId;
     private final int mRunsCounter;
+    private final Callback mCallback;
+    private final Logger logger;
     private final List<Run> mRuns;
     private Run mActiveRun;
-    private final Callback mCallback;
     private volatile int mFinishedRuns;
 
-    public Profiler(ProfilerId profilerId, @NonNull Callback callback) {
+    public Profiler(ProfilerId profilerId, @NonNull Callback callback, Logger logger) {
         mProfilerId = profilerId;
         mRunsCounter = profilerId.getRunsCounter();
+        this.logger = logger;
         mRuns = new CopyOnWriteArrayList<>();
         mCallback = callback;
         mFinishedRuns = 0;
@@ -45,7 +47,6 @@ public class Profiler {
     private void logIfFinished() {
         if (mRunsCounter == mFinishedRuns) {
             mCallback.onDone(mProfilerId, null);
-//            mCallback.onDone(mProfilerId, MethodProfileProcessor.process(mProfilerId, mStopWatches));
         }
     }
 

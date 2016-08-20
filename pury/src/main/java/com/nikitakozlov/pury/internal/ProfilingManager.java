@@ -41,7 +41,7 @@ public class ProfilingManager {
         if (mAsyncProfilers.containsKey(profilerId)) {
             return mAsyncProfilers.get(profilerId);
         }
-        Profiler methodProfiler = new Profiler(profilerId, mAsyncProfilerCallback);
+        Profiler methodProfiler = new Profiler(profilerId, mAsyncProfilerCallback, Pury.getLogger());
         mAsyncProfilers.put(profilerId, methodProfiler);
         return methodProfiler;
     }
