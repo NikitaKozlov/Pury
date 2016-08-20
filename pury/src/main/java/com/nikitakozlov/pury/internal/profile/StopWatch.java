@@ -1,4 +1,4 @@
-package com.nikitakozlov.pury.internal;
+package com.nikitakozlov.pury.internal.profile;
 
 
 import android.util.Log;

@@ -1,4 +1,4 @@
-package com.nikitakozlov.pury.internal;
+package com.nikitakozlov.pury.internal.profile;
 
 public class Run {
     private final Stage mRootStage;

@@ -1,4 +1,7 @@
-package com.nikitakozlov.pury.internal;
+package com.nikitakozlov.pury.internal.profile;
+
+import com.nikitakozlov.pury.internal.profile.Run;
+import com.nikitakozlov.pury.internal.profile.Stage;
 
 import org.junit.Test;
 

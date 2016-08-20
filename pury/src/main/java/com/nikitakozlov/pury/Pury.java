@@ -1,4 +1,7 @@
-package com.nikitakozlov.pury.internal;
+package com.nikitakozlov.pury;
+
+import com.nikitakozlov.pury.internal.DefaultLogger;
+import com.nikitakozlov.pury.internal.Logger;
 
 public final class Pury {
     static Logger sLogger;

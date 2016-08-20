@@ -2,7 +2,7 @@ package com.nikitakozlov.pury.method;
 
 import android.util.Log;
 
-import com.nikitakozlov.pury.internal.ProfilerId;
+import com.nikitakozlov.pury.internal.profile.ProfilerId;
 
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;

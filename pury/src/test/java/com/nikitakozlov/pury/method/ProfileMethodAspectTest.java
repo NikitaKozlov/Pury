@@ -1,6 +1,6 @@
 package com.nikitakozlov.pury.method;
 
-import com.nikitakozlov.pury.internal.ProfilerId;
+import com.nikitakozlov.pury.internal.profile.ProfilerId;
 
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.reflect.MethodSignature;

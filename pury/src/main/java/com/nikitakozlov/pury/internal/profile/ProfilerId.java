@@ -1,4 +1,4 @@
-package com.nikitakozlov.pury.internal;
+package com.nikitakozlov.pury.internal.profile;
 
 public class ProfilerId {
     private final String methodId;

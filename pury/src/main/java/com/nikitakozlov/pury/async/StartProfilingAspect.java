@@ -1,9 +1,9 @@
 package com.nikitakozlov.pury.async;
 
-import com.nikitakozlov.pury.internal.Profiler;
-import com.nikitakozlov.pury.internal.ProfilingManager;
-import com.nikitakozlov.pury.internal.ProfilerId;
-import com.nikitakozlov.pury.internal.StageId;
+import com.nikitakozlov.pury.internal.profile.Profiler;
+import com.nikitakozlov.pury.internal.profile.ProfilingManager;
+import com.nikitakozlov.pury.internal.profile.ProfilerId;
+import com.nikitakozlov.pury.internal.profile.StageId;
 
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;

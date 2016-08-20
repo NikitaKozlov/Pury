@@ -1,4 +1,4 @@
-package com.nikitakozlov.pury.internal;
+package com.nikitakozlov.pury.internal.profile;
 
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
