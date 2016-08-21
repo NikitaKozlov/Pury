@@ -18,7 +18,7 @@ public class MainActivity extends AppCompatActivity {
             @ProfileMethod(runsCounter = 10, methodId = "onCreate")
     })
     @ProfileMethod(methodId = "onCreate")
-    @StartProfiling(runsCounter = 1, stageName = "full", methodId = "launch Activity")
+    @StartProfiling(runsCounter = 3, stageName = "full", methodId = "launch Activity")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -32,14 +32,14 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    @StartProfiling(methodId = "launch Activity", stageName = "start", stageOrder = 2, runsCounter = 1)
+    @StartProfiling(methodId = "launch Activity", stageName = "start", stageOrder = 2, runsCounter = 3)
     @Override
     protected void onStart() {
         super.onStart();
     }
 
     @Override
-    @StopProfiling(runsCounter = 1, stageName = "full", methodId = "launch Activity")
+    @StopProfiling(runsCounter = 3, stageName = "full", methodId = "launch Activity")
     protected void onResume() {
         super.onResume();
     }

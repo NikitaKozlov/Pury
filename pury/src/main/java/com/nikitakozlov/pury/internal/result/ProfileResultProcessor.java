@@ -49,8 +49,9 @@ public class ProfileResultProcessor {
     }
 
     private ProfileResult takeAverage(List<RootSingleProfileResult> singleProfileResults) {
-        return new RootAverageProfileResult(getAverageExecTime(singleProfileResults),
-                getAverageProfileResults(transpose(singleProfileResults)));
+        return new RootAverageProfileResult(singleProfileResults.get(0).getStageName(),
+                getAverageExecTime(singleProfileResults),
+                getAverageProfileResults(transpose(singleProfileResults), 1));
     }
 
     private List<List<SingleProfileResult>> transpose(List<? extends ProfileResult> inputResults) {
@@ -71,16 +72,17 @@ public class ProfileResultProcessor {
      * @param inputResults transposed.
      * @return average
      */
-    private List<AverageProfileResult> getAverageProfileResults(List<List<SingleProfileResult>> inputResults) {
+    private List<AverageProfileResult> getAverageProfileResults(List<List<SingleProfileResult>> inputResults, int depth) {
         if (inputResults.isEmpty()) {
             return Collections.emptyList();
         }
 
         List<AverageProfileResult> results = new ArrayList<>();
         for (List<SingleProfileResult> profileResults : inputResults) {
-            results.add(new AverageProfileResult(getAverageStartTime(profileResults),
+            results.add(new AverageProfileResult(profileResults.get(0).getStageName(),
+                    getAverageStartTime(profileResults),
                     getAverageExecTime(profileResults),
-                    getAverageProfileResults(transpose(profileResults)))
+                    getAverageProfileResults(transpose(profileResults), depth + 1), depth)
             );
         }
 

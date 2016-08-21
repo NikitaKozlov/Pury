@@ -1,6 +1,18 @@
 package com.nikitakozlov.pury.internal.result;
 
+import java.util.Locale;
+
 public class AverageTime {
+
+    private static final String MS = "ms";
+    private static final String AVERAGE = "average = ";
+    private static final String MIN = "min = ";
+    private static final String MAX = "max = ";
+    private static final String OUT_OF = "out of ";
+    private static final String RUNS = " runs";
+
+
+
     private final double mAverageValue;
     private final long mMinValue;
     private final long mMaxValue;
@@ -53,5 +65,30 @@ public class AverageTime {
         result = 31 * result + (int) (mMaxValue ^ (mMaxValue >>> 32));
         result = 31 * result + mRuns;
         return result;
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append(AVERAGE);
+        stringBuilder.append(String.format(Locale.US, "%.2f", mAverageValue));
+        stringBuilder.append(MS);
+        stringBuilder.append(", ");
+
+        stringBuilder.append(MIN);
+        stringBuilder.append(mMinValue);
+        stringBuilder.append(MS);
+        stringBuilder.append(", ");
+
+        stringBuilder.append(MAX);
+        stringBuilder.append(mMaxValue);
+        stringBuilder.append(MS);
+        stringBuilder.append(", ");
+
+        stringBuilder.append(OUT_OF);
+        stringBuilder.append(mRuns);
+        stringBuilder.append(RUNS);
+
+        return stringBuilder.toString();
     }
 }
