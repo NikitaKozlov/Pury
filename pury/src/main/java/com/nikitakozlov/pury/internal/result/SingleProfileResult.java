@@ -4,6 +4,7 @@ import java.util.List;
 
 public class SingleProfileResult implements ProfileResult {
 
+    private static final String EXEC_TIME = "execution = ";
     private static final String DEPTH_PREFIX = "  ";
 
     private final String mStageName;
@@ -56,6 +57,9 @@ public class SingleProfileResult implements ProfileResult {
         stringBuilder.append(depthPrefix);
         stringBuilder.append(mStageName);
         stringBuilder.append(" <-- ");
+        stringBuilder.append(getStartTime() + getExecTime());
+        stringBuilder.append("ms, ");
+        stringBuilder.append(EXEC_TIME);
         stringBuilder.append(getExecTime());
         stringBuilder.append("ms");
 

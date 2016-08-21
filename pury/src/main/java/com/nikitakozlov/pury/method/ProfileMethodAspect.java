@@ -1,6 +1,9 @@
 package com.nikitakozlov.pury.method;
 
+import com.nikitakozlov.pury.async.StartProfiling;
 import com.nikitakozlov.pury.internal.profile.ProfilerId;
+import com.nikitakozlov.pury.internal.profile.ProfilingManager;
+import com.nikitakozlov.pury.internal.profile.StageId;
 
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
@@ -55,36 +58,39 @@ public class ProfileMethodAspect {
 
     @Around("constructor() || method() || methodWithMultipleAnnotations() || constructorWithMultipleAnnotations()")
     public Object weaveJoinPoint(ProceedingJoinPoint joinPoint) throws Throwable {
-        List<MethodProfiler> profilers = getAllProfilers(joinPoint);
-        List<Integer> runIds = new ArrayList<>(profilers.size());
+        ProfilingManager profilingManager = ProfilingManager.getInstance();
 
-        for (MethodProfiler profiler : profilers) runIds.add(profiler.startRun());
+        List<StageId> stageIds = getStageIds(joinPoint);
+
+        for (StageId stageId : stageIds) {
+            profilingManager.getProfiler(stageId.getProfilerId())
+                    .startStage(stageId.getStageName(), stageId.getStageOrder());
+        }
+
         Object result = joinPoint.proceed();
-        for (int i = 0; i < profilers.size(); i++) profilers.get(i).stopRun(runIds.get(i));
+
+        for (StageId stageId : getStageIds(joinPoint)) {
+            profilingManager.getProfiler(stageId.getProfilerId())
+                    .stopStage(stageId.getStageName());
+        }
 
         return result;
     }
 
-    private List<MethodProfiler> getAllProfilers(ProceedingJoinPoint joinPoint) {
+    private List<StageId> getStageIds(ProceedingJoinPoint joinPoint) {
         Annotation[] annotations =
                 ((MethodSignature) joinPoint.getSignature()).getMethod().getAnnotations();
-        List<MethodProfiler> profilers = new ArrayList<>();
+        List<StageId> stageIds = new ArrayList<>();
         for (Annotation annotation : annotations) {
             if (annotation.annotationType() == ProfileMethod.class) {
-                profilers.add(getMethodProfiler((ProfileMethod) annotation));
-            } else if (annotation.annotationType() == ProfileMethods.class) {
-                ProfileMethods profileMethodsAnnotation = ((ProfileMethods) annotation);
-                for (ProfileMethod profileMethod : profileMethodsAnnotation.value()) {
-                    profilers.add(getMethodProfiler(profileMethod));
-                }
+                stageIds.add(getStageId((ProfileMethod) annotation));
             }
         }
-        return profilers;
+        return stageIds;
     }
 
-    private MethodProfiler getMethodProfiler(ProfileMethod profileMethodAnnotation) {
-        ProfilerId profilerId = new ProfilerId(profileMethodAnnotation.methodId(),
-                profileMethodAnnotation.runsCounter());
-        return mMethodProfilingManager.getMethodProfiler(profilerId);
+    private StageId getStageId(ProfileMethod annotation) {
+        ProfilerId profilerId = new ProfilerId(annotation.methodId(), annotation.runsCounter());
+        return new StageId(profilerId, annotation.stageName(), annotation.stageOrder());
     }
 }

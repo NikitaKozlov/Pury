@@ -88,7 +88,7 @@ ext {
     siteUrl = 'https://github.com/NikitaKozlov/Pury'
     gitUrl = 'https://github.com/NikitaKozlov/Pury.git'
 
-    libraryVersion = '0.0.3.1'
+    libraryVersion = '0.0.3.2'
 
     developerId = 'NikitaKozlov'
     developerName = 'Nikita Kozlov'
