@@ -6,10 +6,13 @@ public class AverageProfileResult implements ProfileResult {
 
     private final AverageTime mStartTime;
     private final AverageTime mExecTime;
+    private final List<AverageProfileResult> mAverageProfileResults;
 
-    public AverageProfileResult(AverageTime mStartTime, AverageTime mExecTime) {
-        this.mStartTime = mStartTime;
-        this.mExecTime = mExecTime;
+    public AverageProfileResult(AverageTime startTime, AverageTime execTime,
+                                List<AverageProfileResult> averageProfileResults) {
+        mStartTime = startTime;
+        mExecTime = execTime;
+        mAverageProfileResults = averageProfileResults;
     }
 
     public AverageTime getStartTime() {
@@ -22,6 +25,6 @@ public class AverageProfileResult implements ProfileResult {
 
     @Override
     public List<? extends ProfileResult> getNestedResults() {
-        return null;
+        return mAverageProfileResults;
     }
 }

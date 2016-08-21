@@ -48,42 +48,62 @@ public class ProfileResultProcessor {
     }
 
     private ProfileResult takeAverage(List<RootSingleProfileResult> singleProfileResults) {
-        List<List<SingleProfileResult>> nestedResults = new ArrayList<>();
-        int nestedResultsCounter = singleProfileResults.get(0).getNestedResults().size();
-        for (int i = 0; i < nestedResultsCounter; i++) {
-            List<SingleProfileResult> resultRow = new ArrayList<>(singleProfileResults.size());
-            for (RootSingleProfileResult singleProfileResult : singleProfileResults) {
-                resultRow.add((SingleProfileResult) singleProfileResult.getNestedResults().get(i));
-            }
-            nestedResults.add(resultRow);
-        }
         return new RootAverageProfileResult(getAverageExecTime(singleProfileResults),
-                Collections.<AverageProfileResult>emptyList());
+                getAverageProfileResults(transpose(singleProfileResults)));
     }
 
-    private List<AverageProfileResult> getAveregeProfileResults(List<List<SingleProfileResult>> inputResult) {
-        if (inputResult.isEmpty()) {
+    private List<List<SingleProfileResult>> transpose(List<? extends ProfileResult> inputResults) {
+        List<List<SingleProfileResult>> outputResult = new ArrayList<>();
+        int nestedResultsCounter = inputResults.get(0).getNestedResults().size();
+        for (int i = 0; i < nestedResultsCounter; i++) {
+            List<SingleProfileResult> resultRow = new ArrayList<>(inputResults.size());
+            for (ProfileResult inputResult : inputResults) {
+                resultRow.add((SingleProfileResult) inputResult.getNestedResults().get(i));
+            }
+            outputResult.add(resultRow);
+        }
+        return outputResult;
+    }
+
+    /**
+     *
+     * @param inputResults transposed.
+     * @return average
+     */
+    private List<AverageProfileResult> getAverageProfileResults(List<List<SingleProfileResult>> inputResults) {
+        if (inputResults.isEmpty()) {
             return Collections.emptyList();
         }
 
         List<AverageProfileResult> results = new ArrayList<>();
 
-        for (List<SingleProfileResult> singleProfileResults : inputResult) {
-
+        for (List<SingleProfileResult> profileResults : inputResults) {
+            results.add(new AverageProfileResult(getAverageStartTime(profileResults),
+                    getAverageExecTime(profileResults),
+                    getAverageProfileResults(transpose(profileResults)))
+            );
         }
 
         return results;
     }
 
-    private AverageTime getAverageExecTime(List<? extends SingleProfileResult> singleProfileResults) {
+    private static AverageTime getAverageStartTime(List<? extends ProfileResult> singleProfileResults) {
         List<Long> times = new ArrayList<>(singleProfileResults.size());
-        for (SingleProfileResult singleProfileResult : singleProfileResults) {
-            times.add(singleProfileResult.getExecTime());
+        for (ProfileResult profileResult : singleProfileResults) {
+            times.add(((SingleProfileResult) profileResult).getStartTime());
         }
         return getAverageTime(times);
     }
 
-    private AverageTime getAverageTime(List<Long> times) {
+    private static AverageTime getAverageExecTime(List<? extends ProfileResult> singleProfileResults) {
+        List<Long> times = new ArrayList<>(singleProfileResults.size());
+        for (ProfileResult profileResult : singleProfileResults) {
+            times.add(((SingleProfileResult) profileResult).getExecTime());
+        }
+        return getAverageTime(times);
+    }
+
+    private static AverageTime getAverageTime(List<Long> times) {
         if (times.isEmpty()) {
             return new AverageTime(0, 0, 0, 0);
         }
@@ -93,7 +113,7 @@ public class ProfileResultProcessor {
         return new AverageTime(getAverage(times), min, max, runCounter);
     }
 
-    private double getAverage(List<Long> longs) {
+    private static double getAverage(List<Long> longs) {
         double average = 0;
         if (!longs.isEmpty()) {
             int size = longs.size();
