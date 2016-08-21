@@ -1,8 +1,5 @@
 package com.nikitakozlov.pury.internal.profile;
 
-import com.nikitakozlov.pury.internal.profile.Stage;
-import com.nikitakozlov.pury.internal.profile.StopWatch;
-
 import org.junit.Test;
 
 import static android.test.MoreAsserts.assertEmpty;

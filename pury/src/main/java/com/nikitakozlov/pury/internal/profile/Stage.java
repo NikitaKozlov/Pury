@@ -88,6 +88,9 @@ public class Stage {
         return mIsStarted;
     }
 
+    public long getStartTimeInMillis() {
+        return mStopWatch.getStartTimeInMillis();
+    }
     public long getExecTimeInMillis() {
         return mStopWatch.getExecTimeInMillis();
     }

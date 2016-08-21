@@ -1,5 +1,7 @@
 package com.nikitakozlov.pury.internal.result;
 
-public class ProfileResult {
+import java.util.List;
 
+public interface ProfileResult {
+    List<? extends ProfileResult> getNestedResults();
 }
