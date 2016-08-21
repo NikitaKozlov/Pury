@@ -3,6 +3,7 @@ package com.nikitakozlov.pury.async;
 import com.nikitakozlov.pury.internal.profile.Profiler;
 import com.nikitakozlov.pury.internal.profile.ProfilingManager;
 import com.nikitakozlov.pury.internal.profile.ProfilerId;
+import com.nikitakozlov.pury.internal.profile.StageId;
 
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
@@ -48,30 +49,29 @@ public class StopProfilingAspect {
     @Around("constructor() || method()")
     public Object weaveJoinPoint(ProceedingJoinPoint joinPoint) throws Throwable {
         Object result = joinPoint.proceed();
-//        for (Profiler profiler : getAllProfilers(joinPoint)) profiler.startStage();
+
+        ProfilingManager profilingManager = ProfilingManager.getInstance();
+        for (StageId stageId : getStageIds(joinPoint)) {
+            profilingManager.getProfiler(stageId.getProfilerId())
+                    .stopStage(stageId.getStageName());
+        }
         return result;
     }
 
-    private List<Profiler> getAllProfilers(ProceedingJoinPoint joinPoint) {
+    private List<StageId> getStageIds(ProceedingJoinPoint joinPoint) {
         Annotation[] annotations =
                 ((MethodSignature) joinPoint.getSignature()).getMethod().getAnnotations();
-        List<Profiler> profilers = new ArrayList<>();
+        List<StageId> stageIds = new ArrayList<>();
         for (Annotation annotation : annotations) {
             if (annotation.annotationType() == StopProfiling.class) {
-                profilers.add(getAsyncProfiler((StopProfiling) annotation));
+                stageIds.add(getStageId((StopProfiling) annotation));
             }
-//            else if (annotation.annotationType() == ProfileMethods.class) {
-//                ProfileMethods profileMethodsAnnotation = ((ProfileMethods) annotation);
-//                for (ProfileMethod profileMethod : profileMethodsAnnotation.value()) {
-//                    profilers.add(getProfiler(profileMethod));
-//                }
-//            }
         }
-        return profilers;
+        return stageIds;
     }
 
-    private Profiler getAsyncProfiler(StopProfiling annotation) {
+    private StageId getStageId(StopProfiling annotation) {
         ProfilerId profilerId = new ProfilerId(annotation.methodId(), annotation.runsCounter());
-        return ProfilingManager.getInstance().getProfiler(profilerId);
+        return new StageId(profilerId, annotation.stageName());
     }
 }

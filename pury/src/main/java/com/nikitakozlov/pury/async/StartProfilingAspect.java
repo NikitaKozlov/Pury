@@ -48,32 +48,28 @@ public class StartProfilingAspect {
 
     @Around("constructor() || method()")
     public Object weaveJoinPoint(ProceedingJoinPoint joinPoint) throws Throwable {
-        //for (Profiler profiler : getAllProfilers(joinPoint)) profiler.startStage();
+        ProfilingManager profilingManager = ProfilingManager.getInstance();
+        for (StageId stageId : getStageIds(joinPoint)) {
+            profilingManager.getProfiler(stageId.getProfilerId())
+                    .startStage(stageId.getStageName(), stageId.getStageOrder());
+        }
         return joinPoint.proceed();
     }
 
-    private List<Profiler> getAllProfilers(ProceedingJoinPoint joinPoint) {
+    private List<StageId> getStageIds(ProceedingJoinPoint joinPoint) {
         Annotation[] annotations =
                 ((MethodSignature) joinPoint.getSignature()).getMethod().getAnnotations();
-        List<Profiler> profilers = new ArrayList<>();
+        List<StageId> stageIds = new ArrayList<>();
         for (Annotation annotation : annotations) {
             if (annotation.annotationType() == StartProfiling.class) {
-                profilers.add(getAsyncProfiler((StartProfiling) annotation));
+                stageIds.add(getStageId((StartProfiling) annotation));
             }
-//            else if (annotation.annotationType() == ProfileMethods.class) {
-//                ProfileMethods profileMethodsAnnotation = ((ProfileMethods) annotation);
-//                for (ProfileMethod profileMethod : profileMethodsAnnotation.value()) {
-//                    profilers.add(getProfiler(profileMethod));
-//                }
-//            }
         }
-        return profilers;
+        return stageIds;
     }
 
-    private Profiler getAsyncProfiler(StartProfiling annotation) {
+    private StageId getStageId(StartProfiling annotation) {
         ProfilerId profilerId = new ProfilerId(annotation.methodId(), annotation.runsCounter());
-
-        StageId stageId = new StageId(profilerId, annotation.stageName(), annotation.stageOrder());
-        return ProfilingManager.getInstance().getProfiler(profilerId);
+        return new StageId(profilerId, annotation.stageName(), annotation.stageOrder());
     }
 }

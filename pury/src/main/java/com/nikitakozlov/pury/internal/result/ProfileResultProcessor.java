@@ -25,26 +25,27 @@ public class ProfileResultProcessor {
 
     private RootSingleProfileResult processSingleRun(Run run) {
         Stage rootStage = run.getRootStage();
-        return new RootSingleProfileResult(rootStage.getExecTimeInMillis(),
-                processStageList(rootStage.getStages(), rootStage.getStartTimeInMillis()));
+        return new RootSingleProfileResult(rootStage.getName(), rootStage.getExecTimeInMillis(),
+                processStageList(rootStage.getStages(), rootStage.getStartTimeInMillis(), 1));
     }
 
-    private List<SingleProfileResult> processStageList(List<Stage> stages, long rootStartTime) {
+    private List<SingleProfileResult> processStageList(List<Stage> stages, long rootStartTime, int depth) {
         if (stages.isEmpty()) {
             return Collections.emptyList();
         }
         List<SingleProfileResult> results = new ArrayList<>(stages.size());
         for (Stage stage : stages) {
-            results.add(processSingleStage(stage, rootStartTime));
+            results.add(processSingleStage(stage, rootStartTime, depth));
         }
         return results;
     }
 
-    private SingleProfileResult processSingleStage(Stage stage, long rootStartTime) {
+    private SingleProfileResult processSingleStage(Stage stage, long rootStartTime, int depth) {
         long relativeStartTime = stage.getStartTimeInMillis() - rootStartTime;
 
-        return new SingleProfileResult(relativeStartTime,
-                stage.getExecTimeInMillis(), processStageList(stage.getStages(), rootStartTime));
+        return new SingleProfileResult(stage.getName(), relativeStartTime,
+                stage.getExecTimeInMillis(), processStageList(stage.getStages(),
+                rootStartTime, depth + 1), depth);
     }
 
     private ProfileResult takeAverage(List<RootSingleProfileResult> singleProfileResults) {
@@ -76,7 +77,6 @@ public class ProfileResultProcessor {
         }
 
         List<AverageProfileResult> results = new ArrayList<>();
-
         for (List<SingleProfileResult> profileResults : inputResults) {
             results.add(new AverageProfileResult(getAverageStartTime(profileResults),
                     getAverageExecTime(profileResults),
