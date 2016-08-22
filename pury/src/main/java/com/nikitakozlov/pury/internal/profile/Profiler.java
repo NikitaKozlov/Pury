@@ -5,7 +5,6 @@ import android.support.annotation.NonNull;
 import com.nikitakozlov.pury.internal.Logger;
 import com.nikitakozlov.pury.internal.result.ProfileResult;
 import com.nikitakozlov.pury.internal.result.ProfileResultProcessor;
-import com.nikitakozlov.pury.method.MethodProfileResult;
 
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
@@ -57,11 +56,11 @@ public class Profiler {
         if (mRunsCounter == mFinishedRuns) {
             ProfileResult profileResult = mResultProcessor.process(mRuns);
             mLogger.result(mProfilerId.getMethodId(), profileResult.toString());
-            mCallback.onDone(mProfilerId, null);
+            mCallback.onDone(mProfilerId);
         }
     }
 
     interface Callback {
-        void onDone(ProfilerId profilerId, MethodProfileResult result);
+        void onDone(ProfilerId profilerId);
     }
 }

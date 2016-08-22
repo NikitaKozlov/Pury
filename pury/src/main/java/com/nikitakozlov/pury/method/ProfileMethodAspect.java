@@ -30,16 +30,6 @@ public class ProfileMethodAspect {
     private static final String GROUP_ANNOTATION_POINTCUT_CONSTRUCTOR =
             "execution(@com.nikitakozlov.pury.method.ProfileMethods *.new(..))";
 
-    private final MethodProfilingManager mMethodProfilingManager;
-
-    public ProfileMethodAspect() {
-        this(new MethodProfilingManager());
-    }
-
-    ProfileMethodAspect(MethodProfilingManager methodProfilingManager) {
-        mMethodProfilingManager = methodProfilingManager;
-    }
-
     @Pointcut(POINTCUT_METHOD)
     public void method() {
     }

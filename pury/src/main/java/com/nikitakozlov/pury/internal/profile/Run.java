@@ -12,12 +12,12 @@ public class Run {
         mRootStage.start();
     }
 
-    public boolean startStage(String stageName, int stageOrder) {
+    public StageError startStage(String stageName, int stageOrder) {
         return mRootStage.startStage(stageName, stageOrder);
     }
 
-    public void stopStage(String stageName) {
-        mRootStage.stop(stageName);
+    public StageError stopStage(String stageName) {
+         return mRootStage.stop(stageName);
     }
 
     public boolean isStopped() {

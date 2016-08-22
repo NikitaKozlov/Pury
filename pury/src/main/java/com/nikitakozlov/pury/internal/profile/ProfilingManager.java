@@ -4,7 +4,6 @@ import android.util.Log;
 
 import com.nikitakozlov.pury.Pury;
 import com.nikitakozlov.pury.internal.result.ProfileResultProcessor;
-import com.nikitakozlov.pury.method.MethodProfileResult;
 
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -29,11 +28,8 @@ public class ProfilingManager {
 
     private final Profiler.Callback mAsyncProfilerCallback = new Profiler.Callback() {
         @Override
-        public void onDone(ProfilerId profilerId, MethodProfileResult result) {
+        public void onDone(ProfilerId profilerId) {
             mAsyncProfilers.remove(profilerId);
-            if (result != null) {
-                Log.d("AsyncProfiling", result.toString());
-            }
         }
     };
 

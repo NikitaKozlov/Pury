@@ -45,14 +45,22 @@ public class Stage {
         return false;
     }
 
-    public boolean startStage(String stageName, int stageOrder) {
-        if (mOrder >= stageOrder || !mIsStarted) {
-            return false;
+
+    public StageError startStage(String stageName, int stageOrder) {
+        if (mOrder >= stageOrder) {
+            return new StageError(StageError.Type.START_TO_SMALL_ORDER);
+        }
+        if (mIsStopped) {
+            return new StageError(StageError.Type.START_PARENT_STAGE_IS_STOPPED);
+        }
+
+        if (!mIsStarted) {
+            return new StageError(StageError.Type.START_PARENT_STAGE_NOT_STARTED);
         }
 
         if (mActiveNestedStage == null || mActiveNestedStage.mIsStopped) {
             startNewNestedStage(stageName, stageOrder);
-            return true;
+            return null;
         } else {
             return mActiveNestedStage.startStage(stageName, stageOrder);
         }
@@ -65,7 +73,7 @@ public class Stage {
         mStages.add(stage);
     }
 
-    public void stop(String stageName) {
+    public StageError stop(String stageName) {
         if (mName.equals(stageName)) {
             if (!mIsStopped) {
                 mStopWatch.stop();
@@ -74,10 +82,16 @@ public class Stage {
                 if (mActiveNestedStage != null) {
                     mActiveNestedStage.stop(mActiveNestedStage.getName());
                 }
+            } else {
+                return new StageError(StageError.Type.STOPPED_ALREADY);
             }
-        } else if (mActiveNestedStage != null && !mActiveNestedStage.mIsStopped) {
-            mActiveNestedStage.stop(stageName);
+        } else if (mActiveNestedStage != null) {
+            return mActiveNestedStage.stop(stageName);
+        } else {
+            return new StageError(StageError.Type.STOP_NOT_STARTED_STAGE);
         }
+
+        return null;
     }
 
     public boolean isStopped() {
