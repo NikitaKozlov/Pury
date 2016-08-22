@@ -75,7 +75,7 @@ public class Stage {
                     mActiveNestedStage.stop(mActiveNestedStage.getName());
                 }
             }
-        } else if (!mActiveNestedStage.mIsStopped) {
+        } else if (mActiveNestedStage != null && !mActiveNestedStage.mIsStopped) {
             mActiveNestedStage.stop(stageName);
         }
     }

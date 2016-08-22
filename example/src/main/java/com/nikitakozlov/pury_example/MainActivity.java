@@ -1,5 +1,6 @@
 package com.nikitakozlov.pury_example;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.PersistableBundle;
 import android.support.v7.app.AppCompatActivity;
@@ -14,11 +15,18 @@ import com.nikitakozlov.pury.method.ProfileMethods;
 
 public class MainActivity extends AppCompatActivity {
 
-    @ProfileMethods(value = {
-            @ProfileMethod(runsCounter = 10, methodId = "onCreate")
-    })
-    @ProfileMethod(methodId = "onCreate")
+//    @ProfileMethods(value = {
+//            @ProfileMethod(runsCounter = 10, methodId = "onCreate")
+//    })
+//    @ProfileMethod(methodId = "onCreate")
+
     @StartProfiling(runsCounter = 1, stageName = "full", methodId = "launch Activity")
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(newBase);
+    }
+
+    @ProfileMethod(runsCounter = 1, stageName = "create", stageOrder = 2, methodId = "launch Activity")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -32,7 +40,7 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    @StartProfiling(methodId = "launch Activity", stageName = "start", stageOrder = 2, runsCounter = 1)
+    @ProfileMethod(methodId = "launch Activity", stageName = "start", stageOrder = 2, runsCounter = 1)
     @Override
     protected void onStart() {
         super.onStart();
@@ -42,5 +50,10 @@ public class MainActivity extends AppCompatActivity {
     @StopProfiling(runsCounter = 1, stageName = "full", methodId = "launch Activity")
     protected void onResume() {
         super.onResume();
+        try {
+            Thread.sleep(50);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 }

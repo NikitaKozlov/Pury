@@ -50,7 +50,6 @@ public class SingleProfileResult implements ProfileResult {
         stringBuilder.append(getStartTime());
         stringBuilder.append("ms \n");
         for (ProfileResult result : getNestedResults()) {
-            stringBuilder.append(depthPrefix);
             stringBuilder.append(result.toString());
             stringBuilder.append("\n");
         }

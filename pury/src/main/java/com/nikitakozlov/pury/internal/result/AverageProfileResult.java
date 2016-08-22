@@ -45,7 +45,6 @@ public class AverageProfileResult implements ProfileResult {
         stringBuilder.append(getStartTime());
         stringBuilder.append("\n");
         for (ProfileResult result : getNestedResults()) {
-            stringBuilder.append(depthPrefix);
             stringBuilder.append(result);
             stringBuilder.append("\n");
         }
