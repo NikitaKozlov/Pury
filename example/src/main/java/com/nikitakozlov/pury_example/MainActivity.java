@@ -26,7 +26,7 @@ public class MainActivity extends AppCompatActivity {
         super.attachBaseContext(newBase);
     }
 
-    @ProfileMethod(runsCounter = 1, stageName = "create", stageOrder = 2, methodId = "launch Activity")
+    @ProfileMethod(runsCounter = 1, stageName = "create", stageOrder = 0, methodId = "launch Activity")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

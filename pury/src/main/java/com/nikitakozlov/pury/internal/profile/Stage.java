@@ -48,14 +48,14 @@ public class Stage {
 
     public StageError startStage(String stageName, int stageOrder) {
         if (mOrder >= stageOrder) {
-            return new StageError(StageError.Type.START_TO_SMALL_ORDER);
+            return StageError.createError(stageName, stageOrder, this, StageError.Type.START_TO_SMALL_ORDER);
         }
         if (mIsStopped) {
-            return new StageError(StageError.Type.START_PARENT_STAGE_IS_STOPPED);
+            return StageError.createError(stageName, stageOrder, this, StageError.Type.START_PARENT_STAGE_IS_STOPPED);
         }
 
         if (!mIsStarted) {
-            return new StageError(StageError.Type.START_PARENT_STAGE_NOT_STARTED);
+            return StageError.createError(stageName, stageOrder, this, StageError.Type.START_PARENT_STAGE_NOT_STARTED);
         }
 
         if (mActiveNestedStage == null || mActiveNestedStage.mIsStopped) {
@@ -83,12 +83,12 @@ public class Stage {
                     mActiveNestedStage.stop(mActiveNestedStage.getName());
                 }
             } else {
-                return new StageError(StageError.Type.STOPPED_ALREADY);
+                return StageError.createError(stageName, this, StageError.Type.STOPPED_ALREADY);
             }
         } else if (mActiveNestedStage != null) {
             return mActiveNestedStage.stop(stageName);
         } else {
-            return new StageError(StageError.Type.STOP_NOT_STARTED_STAGE);
+            return StageError.createError(stageName, this, StageError.Type.STOP_NOT_STARTED_STAGE);
         }
 
         return null;

@@ -37,18 +37,24 @@ public class Profiler {
                 mRuns.add(mActiveRun);
             }
         } else if (mActiveRun != null && !mActiveRun.isStopped()) {
-            mActiveRun.startStage(stageName, stageOrder);
+            logIfError(mActiveRun.startStage(stageName, stageOrder));
         }
-
     }
 
     public void stopStage(String stageName) {
         if (mActiveRun != null && !mActiveRun.isStopped()) {
-            mActiveRun.stopStage(stageName);
+            logIfError(mActiveRun.stopStage(stageName));
+
             if (mActiveRun.isStopped()) {
                 mFinishedRuns++;
                 logIfFinished();
             }
+        }
+    }
+
+    private void logIfError(StageError stageError) {
+        if (stageError != null && !stageError.isInternal()) {
+            mLogger.error(mProfilerId.getMethodId(),  StageErrorUtils.format(stageError));
         }
     }
 

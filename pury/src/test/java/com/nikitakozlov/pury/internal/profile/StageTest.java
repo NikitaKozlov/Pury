@@ -185,6 +185,4 @@ public class StageTest {
         Stage nestedStage = stage.getStages().get(0);
         assertTrue(nestedStage.getStages().get(0).isStarted());
     }
-
-
 }
