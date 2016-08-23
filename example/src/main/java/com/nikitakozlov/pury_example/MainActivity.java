@@ -26,7 +26,7 @@ public class MainActivity extends AppCompatActivity {
         super.attachBaseContext(newBase);
     }
 
-    @ProfileMethod(runsCounter = 1, stageName = "create", stageOrder = 0, methodId = "launch Activity")
+    @ProfileMethod(runsCounter = 1, stageName = "create", stageOrder = 1, methodId = "launch Activity")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,8 +39,9 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
-
-    @ProfileMethod(methodId = "launch Activity", stageName = "start", stageOrder = 2, runsCounter = 1)
+//
+//    @ProfileMethod(methodId = "launch Activity", stageName = "start", stageOrder = 2, runsCounter = 1)
+    @StopProfiling(methodId = "launch Activity", stageName = "start", runsCounter = 1)
     @Override
     protected void onStart() {
         super.onStart();

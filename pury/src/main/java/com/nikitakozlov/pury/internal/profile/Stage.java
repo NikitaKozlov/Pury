@@ -50,6 +50,7 @@ public class Stage {
         if (mOrder >= stageOrder) {
             return StageError.createError(stageName, stageOrder, this, StageError.Type.START_TO_SMALL_ORDER);
         }
+
         if (mIsStopped) {
             return StageError.createError(stageName, stageOrder, this, StageError.Type.START_PARENT_STAGE_IS_STOPPED);
         }

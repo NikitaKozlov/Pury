@@ -10,6 +10,9 @@ import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 public class Profiler {
+
+    private static final String LOG_TAG = "Pury";
+
     private final ProfilerId mProfilerId;
     private final int mRunsCounter;
     private final Callback mCallback;
@@ -54,14 +57,14 @@ public class Profiler {
 
     private void logIfError(StageError stageError) {
         if (stageError != null && !stageError.isInternal()) {
-            mLogger.error(mProfilerId.getMethodId(),  StageErrorUtils.format(stageError));
+            mLogger.error(LOG_TAG, "MethodId = \"" + mProfilerId.getMethodId() + "\". " + StageErrorUtils.format(stageError));
         }
     }
 
     private void logIfFinished() {
         if (mRunsCounter == mFinishedRuns) {
             ProfileResult profileResult = mResultProcessor.process(mRuns);
-            mLogger.result(mProfilerId.getMethodId(), profileResult.toString());
+            mLogger.result(LOG_TAG, "Profiling results for " + mProfilerId.getMethodId() + ":\n" + profileResult.toString());
             mCallback.onDone(mProfilerId);
         }
     }

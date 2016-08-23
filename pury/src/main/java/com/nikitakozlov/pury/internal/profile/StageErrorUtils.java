@@ -1,7 +1,8 @@
 package com.nikitakozlov.pury.internal.profile;
 
 public final class StageErrorUtils {
-    private StageErrorUtils() {}
+    private StageErrorUtils() {
+    }
 
     public static String format(StageError error) {
         switch (error.getType()) {
@@ -10,12 +11,14 @@ public final class StageErrorUtils {
                         "\", but it's order value is smaller or equal to parent's stage has: " +
                         error.getIntendedStageOrder() + ". Parent stage: name = \"" +
                         error.getParentStageName() + "\", order value = " + error.getParentStageOrder() + ".";
-            case START_PARENT_STAGE_IS_STOPPED:
-                break;
             case STOP_NOT_STARTED_STAGE:
-                break;
+                return "You are trying to stop stage: \"" + error.getIntendedStageName() +
+                        "\" with order value " + error.getIntendedStageOrder() +
+                        ", but it wasn't started.";
             case STOPPED_ALREADY:
-                break;
+                return "You are trying to stop stage: \"" + error.getIntendedStageName() +
+                        "\" with order value " + error.getIntendedStageOrder() +
+                        ", but it is already stopped.";
             default:
                 break;
         }
