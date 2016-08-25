@@ -11,6 +11,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
 
 public class Profiler {
 
+    private static final int START_ORDER = 0;
     private static final String LOG_TAG = "Pury";
 
     private final ProfilerId mProfilerId;
@@ -36,17 +37,27 @@ public class Profiler {
     public void startStage(String stageName, int stageOrder) {
         if (mActiveRun == null || mActiveRun.isStopped()) {
             if (mRuns.size() < mRunsCounter) {
-                mActiveRun = Run.startRun(stageName, stageOrder);
-                mRuns.add(mActiveRun);
+                startRun(stageName, stageOrder);
             }
         } else if (mActiveRun != null && !mActiveRun.isStopped()) {
-            logIfError(mActiveRun.startStage(stageName, stageOrder));
+            logIfStageError(mActiveRun.startStage(stageName, stageOrder));
         }
+    }
+
+    private void startRun(String stageName, int stageOrder) {
+        if (stageOrder != START_ORDER) {
+            mLogger.warning(LOG_TAG, "MethodId = \"" + mProfilerId.getMethodId() + "\". " +
+                    "Can't start Run, stage order is wrong. Expected value: " + START_ORDER + ", " +
+                    "actual value: " + stageOrder + ".");
+            return;
+        }
+        mActiveRun = Run.startRun(stageName, stageOrder);
+        mRuns.add(mActiveRun);
     }
 
     public void stopStage(String stageName) {
         if (mActiveRun != null && !mActiveRun.isStopped()) {
-            logIfError(mActiveRun.stopStage(stageName));
+            logIfStageError(mActiveRun.stopStage(stageName));
 
             if (mActiveRun.isStopped()) {
                 mFinishedRuns++;
@@ -55,7 +66,7 @@ public class Profiler {
         }
     }
 
-    private void logIfError(StageError stageError) {
+    private void logIfStageError(StageError stageError) {
         if (stageError != null && !stageError.isInternal()) {
             mLogger.error(LOG_TAG, "MethodId = \"" + mProfilerId.getMethodId() + "\". " + StageErrorUtils.format(stageError));
         }

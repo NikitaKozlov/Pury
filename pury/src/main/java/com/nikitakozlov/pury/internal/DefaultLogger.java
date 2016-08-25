@@ -9,6 +9,11 @@ public class DefaultLogger implements Logger {
     }
 
     @Override
+    public void warning(String tag, String message) {
+        Log.w(tag, message);
+    }
+
+    @Override
     public void error(String tag, String message) {
         Log.e(tag, message);
     }
