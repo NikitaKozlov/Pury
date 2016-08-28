@@ -62,13 +62,19 @@ public class StartProfilingAspect {
         List<StageId> stageIds = new ArrayList<>();
         for (Annotation annotation : annotations) {
             if (annotation.annotationType() == StartProfiling.class) {
-                stageIds.add(getStageId((StartProfiling) annotation));
+                StageId stageId = getStageId((StartProfiling) annotation);
+                if (stageId != null) {
+                    stageIds.add(stageId);
+                }
             }
         }
         return stageIds;
     }
 
     private StageId getStageId(StartProfiling annotation) {
+        if (!annotation.enabled()) {
+            return null;
+        }
         ProfilerId profilerId = new ProfilerId(annotation.methodId(), annotation.runsCounter());
         return new StageId(profilerId, annotation.stageName(), annotation.stageOrder());
     }

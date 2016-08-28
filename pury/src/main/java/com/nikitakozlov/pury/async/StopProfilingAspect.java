@@ -64,13 +64,19 @@ public class StopProfilingAspect {
         List<StageId> stageIds = new ArrayList<>();
         for (Annotation annotation : annotations) {
             if (annotation.annotationType() == StopProfiling.class) {
-                stageIds.add(getStageId((StopProfiling) annotation));
+                StageId stageId = getStageId((StopProfiling) annotation);
+                if (stageId != null) {
+                    stageIds.add(stageId);
+                }
             }
         }
         return stageIds;
     }
 
     private StageId getStageId(StopProfiling annotation) {
+        if (!annotation.enabled()) {
+            return null;
+        }
         ProfilerId profilerId = new ProfilerId(annotation.methodId(), annotation.runsCounter());
         return new StageId(profilerId, annotation.stageName());
     }

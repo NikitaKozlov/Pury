@@ -74,13 +74,19 @@ public class ProfileMethodAspect {
         List<StageId> stageIds = new ArrayList<>();
         for (Annotation annotation : annotations) {
             if (annotation.annotationType() == ProfileMethod.class) {
-                stageIds.add(getStageId((ProfileMethod) annotation, joinPoint));
+                StageId stageId = getStageId((ProfileMethod) annotation, joinPoint);
+                if (stageId != null) {
+                    stageIds.add(stageId);
+                }
             }
         }
         return stageIds;
     }
 
     private StageId getStageId(ProfileMethod annotation, ProceedingJoinPoint joinPoint) {
+        if (!annotation.enabled()) {
+            return null;
+        }
         ProfilerId profilerId = new ProfilerId(annotation.methodId(), annotation.runsCounter());
         String stageName = annotation.stageName();
         if (stageName.isEmpty()) {

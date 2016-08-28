@@ -11,4 +11,5 @@ public @interface StopProfiling {
     String methodId() default "";
     String stageName() default "";
     int runsCounter() default 1;
+    boolean enabled() default true;
 }

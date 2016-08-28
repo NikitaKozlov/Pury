@@ -13,4 +13,5 @@ public @interface ProfileMethod {
     String stageName() default "";
     int stageOrder() default 0;
     int runsCounter() default 1;
+    boolean enabled() default true;
 }
