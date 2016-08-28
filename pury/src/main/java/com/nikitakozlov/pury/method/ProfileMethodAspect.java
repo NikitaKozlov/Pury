@@ -9,6 +9,7 @@ import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
+import org.aspectj.lang.reflect.CodeSignature;
 import org.aspectj.lang.reflect.MethodSignature;
 
 import java.lang.annotation.Annotation;
@@ -73,14 +74,25 @@ public class ProfileMethodAspect {
         List<StageId> stageIds = new ArrayList<>();
         for (Annotation annotation : annotations) {
             if (annotation.annotationType() == ProfileMethod.class) {
-                stageIds.add(getStageId((ProfileMethod) annotation));
+                stageIds.add(getStageId((ProfileMethod) annotation, joinPoint));
             }
         }
         return stageIds;
     }
 
-    private StageId getStageId(ProfileMethod annotation) {
+    private StageId getStageId(ProfileMethod annotation, ProceedingJoinPoint joinPoint) {
         ProfilerId profilerId = new ProfilerId(annotation.methodId(), annotation.runsCounter());
-        return new StageId(profilerId, annotation.stageName(), annotation.stageOrder());
+        String stageName = annotation.stageName();
+        if (stageName.isEmpty()) {
+
+            CodeSignature codeSignature = (CodeSignature) joinPoint.getSignature();
+
+            String className = codeSignature.getDeclaringType().getSimpleName();
+            String methodName = codeSignature.getName();
+
+            stageName = className + "." + methodName;
+        }
+
+        return new StageId(profilerId, stageName, annotation.stageOrder());
     }
 }
