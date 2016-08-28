@@ -24,11 +24,11 @@ public class StopProfilingAspect {
             "execution(@com.nikitakozlov.pury.async.StopProfiling *.new(..))";
 
 
-//    private static final String GROUP_ANNOTATION_POINTCUT_METHOD =
-//            "execution(@com.nikitakozlov.pury.method.ProfileMethods * *(..))";
-//
-//    private static final String GROUP_ANNOTATION_POINTCUT_CONSTRUCTOR =
-//            "execution(@com.nikitakozlov.pury.method.ProfileMethods *.new(..))";
+    private static final String GROUP_ANNOTATION_POINTCUT_METHOD =
+            "execution(@com.nikitakozlov.pury.async.StopProfilings * *(..))";
+
+    private static final String GROUP_ANNOTATION_POINTCUT_CONSTRUCTOR =
+            "execution(@com.nikitakozlov.pury.async.StopProfilings *.new(..))";
 
     @Pointcut(POINTCUT_METHOD)
     public void method() {
@@ -38,15 +38,15 @@ public class StopProfilingAspect {
     public void constructor() {
     }
 
-//    @Pointcut(GROUP_ANNOTATION_POINTCUT_METHOD)
-//    public void methodWithMultipleAnnotations() {
-//    }
-//
-//    @Pointcut(GROUP_ANNOTATION_POINTCUT_CONSTRUCTOR)
-//    public void constructorWithMultipleAnnotations() {
-//    }
+    @Pointcut(GROUP_ANNOTATION_POINTCUT_METHOD)
+    public void methodWithMultipleAnnotations() {
+    }
 
-    @Around("constructor() || method()")
+    @Pointcut(GROUP_ANNOTATION_POINTCUT_CONSTRUCTOR)
+    public void constructorWithMultipleAnnotations() {
+    }
+
+    @Around("constructor() || method() || methodWithMultipleAnnotations() || constructorWithMultipleAnnotations()")
     public Object weaveJoinPoint(ProceedingJoinPoint joinPoint) throws Throwable {
         Object result = joinPoint.proceed();
 
@@ -67,6 +67,14 @@ public class StopProfilingAspect {
                 StageId stageId = getStageId((StopProfiling) annotation);
                 if (stageId != null) {
                     stageIds.add(stageId);
+                }
+            }
+            if (annotation.annotationType() == StopProfilings.class) {
+                for (StopProfiling stopProfiling : ((StopProfilings) annotation).value()) {
+                    StageId stageId = getStageId(stopProfiling);
+                    if (stageId != null) {
+                        stageIds.add(stageId);
+                    }
                 }
             }
         }

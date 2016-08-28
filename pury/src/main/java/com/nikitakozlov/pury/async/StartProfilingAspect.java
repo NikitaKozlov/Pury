@@ -24,11 +24,12 @@ public class StartProfilingAspect {
             "execution(@com.nikitakozlov.pury.async.StartProfiling *.new(..))";
 
 
-//    private static final String GROUP_ANNOTATION_POINTCUT_METHOD =
-//            "execution(@com.nikitakozlov.pury.method.ProfileMethods * *(..))";
-//
-//    private static final String GROUP_ANNOTATION_POINTCUT_CONSTRUCTOR =
-//            "execution(@com.nikitakozlov.pury.method.ProfileMethods *.new(..))";
+    private static final String GROUP_ANNOTATION_POINTCUT_METHOD =
+            "execution(@com.nikitakozlov.pury.async.StartProfilings * *(..))";
+
+
+    private static final String GROUP_ANNOTATION_POINTCUT_CONSTRUCTOR =
+            "execution(@com.nikitakozlov.pury.async.StartProfilings *.new(..))";
 
     @Pointcut(POINTCUT_METHOD)
     public void method() {
@@ -38,15 +39,15 @@ public class StartProfilingAspect {
     public void constructor() {
     }
 
-//    @Pointcut(GROUP_ANNOTATION_POINTCUT_METHOD)
-//    public void methodWithMultipleAnnotations() {
-//    }
-//
-//    @Pointcut(GROUP_ANNOTATION_POINTCUT_CONSTRUCTOR)
-//    public void constructorWithMultipleAnnotations() {
-//    }
+    @Pointcut(GROUP_ANNOTATION_POINTCUT_METHOD)
+    public void methodWithMultipleAnnotations() {
+    }
 
-    @Around("constructor() || method()")
+    @Pointcut(GROUP_ANNOTATION_POINTCUT_CONSTRUCTOR)
+    public void constructorWithMultipleAnnotations() {
+    }
+
+    @Around("constructor() || method() || methodWithMultipleAnnotations() || constructorWithMultipleAnnotations()")
     public Object weaveJoinPoint(ProceedingJoinPoint joinPoint) throws Throwable {
         ProfilingManager profilingManager = ProfilingManager.getInstance();
         for (StageId stageId : getStageIds(joinPoint)) {
@@ -65,6 +66,14 @@ public class StartProfilingAspect {
                 StageId stageId = getStageId((StartProfiling) annotation);
                 if (stageId != null) {
                     stageIds.add(stageId);
+                }
+            }
+            if (annotation.annotationType() == StartProfilings.class) {
+                for (StartProfiling startProfiling : ((StartProfilings) annotation).value()) {
+                    StageId stageId = getStageId(startProfiling);
+                    if (stageId != null) {
+                        stageIds.add(stageId);
+                    }
                 }
             }
         }

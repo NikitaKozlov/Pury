@@ -9,17 +9,18 @@ import android.util.Log;
 import android.view.View;
 
 import com.nikitakozlov.pury.async.StartProfiling;
+import com.nikitakozlov.pury.async.StartProfilings;
 import com.nikitakozlov.pury.async.StopProfiling;
+import com.nikitakozlov.pury.async.StopProfilings;
 import com.nikitakozlov.pury.method.ProfileMethod;
 import com.nikitakozlov.pury.method.ProfileMethods;
 
 public class MainActivity extends AppCompatActivity {
 
-//    @ProfileMethods(value = {
-//            @ProfileMethod(runsCounter = 10, methodId = "onCreate")
-//    })
-//    @ProfileMethod(methodId = "onCreate")
-
+    @StartProfilings(value = {
+            @StartProfiling(runsCounter = 3, methodId = "onCreate"),
+            @StartProfiling(methodId = "onCreate")
+    })
     @StartProfiling(runsCounter = 1, stageName = "full", methodId = "launch Activity")
     @Override
     protected void attachBaseContext(Context newBase) {
@@ -47,6 +48,10 @@ public class MainActivity extends AppCompatActivity {
         super.onStart();
     }
 
+    @StopProfilings(value = {
+            @StopProfiling(runsCounter = 3, methodId = "onCreate"),
+            @StopProfiling(methodId = "onCreate")
+    })
     @Override
     @StopProfiling(runsCounter = 1, stageName = "full", methodId = "launch Activity")
     @ProfileMethod

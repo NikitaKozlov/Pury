@@ -1,10 +1,5 @@
 package com.nikitakozlov.pury.internal.profile;
 
-
-import com.nikitakozlov.pury.internal.profile.Profiler;
-import com.nikitakozlov.pury.internal.profile.ProfilerId;
-import com.nikitakozlov.pury.internal.profile.ProfilingManager;
-
 import org.junit.After;
 import org.junit.Test;
 

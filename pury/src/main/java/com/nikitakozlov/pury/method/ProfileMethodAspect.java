@@ -79,6 +79,14 @@ public class ProfileMethodAspect {
                     stageIds.add(stageId);
                 }
             }
+            if (annotation.annotationType() == ProfileMethods.class) {
+                for (ProfileMethod profileMethod : ((ProfileMethods) annotation).value()) {
+                    StageId stageId = getStageId(profileMethod, joinPoint);
+                    if (stageId != null) {
+                        stageIds.add(stageId);
+                    }
+                }
+            }
         }
         return stageIds;
     }
