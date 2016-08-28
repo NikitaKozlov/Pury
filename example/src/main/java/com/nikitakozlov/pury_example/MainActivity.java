@@ -43,7 +43,7 @@ public class MainActivity extends AppCompatActivity {
 //
 //    @ProfileMethod(methodId = "launch Activity", stageName = "start", stageOrder = 2, runsCounter = 1)
     @StopProfiling(methodId = "launch Activity", stageName = "start", runsCounter = 1)
-    @ProfileMethod(methodId = "onCreate", stageOrder = 1)
+    @ProfileMethod(methodId = "onStart", stageName = "start", stageOrder = 1)
     @Override
     protected void onStart() {
         super.onStart();

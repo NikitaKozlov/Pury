@@ -47,8 +47,8 @@ public class Profiler {
     private void startRun(String stageName, int stageOrder) {
         if (stageOrder != START_ORDER) {
             mLogger.warning(LOG_TAG, "MethodId = \"" + mProfilerId.getMethodId() + "\". " +
-                    "Can't start Run, stage order is wrong. Expected value: " + START_ORDER + ", " +
-                    "actual value: " + stageOrder + ".");
+                    "Can't start Run, stage order for stage \"" + stageName + "\" is wrong. " +
+                    "Expected value: " + START_ORDER + ", actual value: " + stageOrder + ".");
             return;
         }
         mActiveRun = Run.startRun(stageName, stageOrder);
