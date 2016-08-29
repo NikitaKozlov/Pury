@@ -77,7 +77,15 @@ public class Profiler {
     private void logIfFinished() {
         if (mRunsCounter == mFinishedRuns) {
             ProfileResult profileResult = mResultProcessor.process(mRuns);
-            mLogger.result(LOG_TAG, "Profiling results for " + mProfilerId.getMethodId() + ":\n" + profileResult.toString());
+            StringBuilder result = new StringBuilder("Profiling results");
+            String methodId = mProfilerId.getMethodId();
+            if (!methodId.isEmpty()) {
+                result.append(" for ");
+                result.append(methodId);
+            }
+            result.append(":\n");
+            result.append(profileResult);
+            mLogger.result(LOG_TAG, result.toString());
             mCallback.onDone(mProfilerId);
         }
     }
