@@ -1,7 +1,5 @@
 package com.nikitakozlov.pury.internal.profile;
 
-import android.util.Log;
-
 import com.nikitakozlov.pury.Pury;
 import com.nikitakozlov.pury.internal.result.ProfileResultProcessor;
 
@@ -23,8 +21,9 @@ public class ProfilingManager {
         ProfilingManager.sInstance = sInstance;
     }
 
-    private final Map<ProfilerId, Profiler> mAsyncProfilers;
-    private final ProfileResultProcessor mResultProcessor;
+    private final Map<ProfilerId, Profiler> mAsyncProfilers  = new ConcurrentHashMap<>();;
+    private final ProfileResultProcessor mResultProcessor = new ProfileResultProcessor();
+    private final RunFactory mRunFactory = new RunFactory();
 
     private final Profiler.Callback mAsyncProfilerCallback = new Profiler.Callback() {
         @Override
@@ -34,8 +33,6 @@ public class ProfilingManager {
     };
 
     private ProfilingManager() {
-        mAsyncProfilers = new ConcurrentHashMap<>();
-        mResultProcessor = new ProfileResultProcessor();
     }
 
     public Profiler getProfiler(ProfilerId profilerId) {
@@ -43,7 +40,7 @@ public class ProfilingManager {
             return mAsyncProfilers.get(profilerId);
         }
         Profiler methodProfiler = new Profiler(profilerId, mAsyncProfilerCallback, mResultProcessor,
-                Pury.getLogger());
+                Pury.getLogger(), mRunFactory);
         mAsyncProfilers.put(profilerId, methodProfiler);
         return methodProfiler;
     }

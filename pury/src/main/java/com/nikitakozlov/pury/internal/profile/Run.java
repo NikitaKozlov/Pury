@@ -3,11 +3,7 @@ package com.nikitakozlov.pury.internal.profile;
 public class Run {
     private final Stage mRootStage;
 
-    public static Run startRun(String rootStageName, int rootStageOrder) {
-        return new Run(rootStageName, rootStageOrder);
-    }
-
-    private Run(String rootStageName, int rootStageOrder) {
+    public Run(String rootStageName, int rootStageOrder) {
         mRootStage = new Stage(rootStageName, rootStageOrder);
         mRootStage.start();
     }

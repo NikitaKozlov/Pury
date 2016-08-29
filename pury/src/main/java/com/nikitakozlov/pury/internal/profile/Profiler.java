@@ -19,13 +19,15 @@ public class Profiler {
     private final Callback mCallback;
     private final ProfileResultProcessor mResultProcessor;
     private final Logger mLogger;
+    private final RunFactory mRunFactory;
     private final List<Run> mRuns;
     private Run mActiveRun;
     private volatile int mFinishedRuns;
 
     public Profiler(ProfilerId profilerId, @NonNull Callback callback,
-                    ProfileResultProcessor resultProcessor, Logger logger) {
+                    ProfileResultProcessor resultProcessor, Logger logger, RunFactory runFactory) {
         mProfilerId = profilerId;
+        mRunFactory = runFactory;
         mRunsCounter = profilerId.getRunsCounter();
         this.mResultProcessor = resultProcessor;
         this.mLogger = logger;
@@ -51,7 +53,7 @@ public class Profiler {
                     "Expected value: " + START_ORDER + ", actual value: " + stageOrder + ".");
             return;
         }
-        mActiveRun = Run.startRun(stageName, stageOrder);
+        mActiveRun = mRunFactory.startNewRun(stageName, stageOrder);
         mRuns.add(mActiveRun);
     }
 
