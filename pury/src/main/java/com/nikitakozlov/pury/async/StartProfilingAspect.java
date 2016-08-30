@@ -1,13 +1,12 @@
 package com.nikitakozlov.pury.async;
 
-import com.nikitakozlov.pury.internal.profile.Profiler;
 import com.nikitakozlov.pury.internal.profile.ProfilingManager;
 import com.nikitakozlov.pury.internal.profile.ProfilerId;
 import com.nikitakozlov.pury.internal.profile.StageId;
 
-import org.aspectj.lang.ProceedingJoinPoint;
-import org.aspectj.lang.annotation.Around;
+import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.Aspect;
+import org.aspectj.lang.annotation.Before;
 import org.aspectj.lang.annotation.Pointcut;
 import org.aspectj.lang.reflect.MethodSignature;
 
@@ -47,17 +46,16 @@ public class StartProfilingAspect {
     public void constructorWithMultipleAnnotations() {
     }
 
-    @Around("constructor() || method() || methodWithMultipleAnnotations() || constructorWithMultipleAnnotations()")
-    public Object weaveJoinPoint(ProceedingJoinPoint joinPoint) throws Throwable {
+    @Before("constructor() || method() || methodWithMultipleAnnotations() || constructorWithMultipleAnnotations()")
+    public void weaveJoinPoint(JoinPoint joinPoint) throws Throwable {
         ProfilingManager profilingManager = ProfilingManager.getInstance();
         for (StageId stageId : getStageIds(joinPoint)) {
             profilingManager.getProfiler(stageId.getProfilerId())
                     .startStage(stageId.getStageName(), stageId.getStageOrder());
         }
-        return joinPoint.proceed();
     }
 
-    private List<StageId> getStageIds(ProceedingJoinPoint joinPoint) {
+    private List<StageId> getStageIds(JoinPoint joinPoint) {
         Annotation[] annotations =
                 ((MethodSignature) joinPoint.getSignature()).getMethod().getAnnotations();
         List<StageId> stageIds = new ArrayList<>();
