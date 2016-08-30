@@ -17,17 +17,11 @@ import com.nikitakozlov.pury.method.ProfileMethods;
 
 public class MainActivity extends AppCompatActivity {
 
-    @StartProfilings(value = {
-            @StartProfiling(runsCounter = 3, methodId = "onCreate"),
-            @StartProfiling(methodId = "onCreate")
-    })
-    @StartProfiling(runsCounter = 1, stageName = "full", methodId = "launch Activity")
     @Override
     protected void attachBaseContext(Context newBase) {
         super.attachBaseContext(newBase);
     }
 
-    @ProfileMethod(runsCounter = 1, stageName = "create", stageOrder = 1, methodId = "launch Activity")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -40,21 +34,12 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
-//
-//    @ProfileMethod(methodId = "launch Activity", stageName = "start", stageOrder = 2, runsCounter = 1)
-    @StopProfiling(methodId = "launch Activity", stageName = "start", runsCounter = 1)
     @Override
     protected void onStart() {
         super.onStart();
     }
 
-    @StopProfilings(value = {
-            @StopProfiling(runsCounter = 3, methodId = "onCreate"),
-            @StopProfiling(methodId = "onCreate")
-    })
     @Override
-    @StopProfiling(runsCounter = 1, stageName = "full", methodId = "launch Activity")
-    @ProfileMethod
     protected void onResume() {
         super.onResume();
         try {

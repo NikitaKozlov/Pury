@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">Pury</string>
+    <string name="title_activity_splash">SplashActivity</string>
+    <string name="splash">Splash!</string>
 </resources>
