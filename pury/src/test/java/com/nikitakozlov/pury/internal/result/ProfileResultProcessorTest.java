@@ -1,6 +1,7 @@
 package com.nikitakozlov.pury.internal.result;
 
 import com.nikitakozlov.pury.internal.profile.Run;
+import com.nikitakozlov.pury.internal.profile.RunFactory;
 import com.nikitakozlov.pury.internal.profile.Stage;
 
 import org.junit.Before;
@@ -27,10 +28,12 @@ public class ProfileResultProcessorTest {
     private static final int STAGE_ORDER_2 = 2;
 
     private ProfileResultProcessor mProcessor;
+    private RunFactory mRunFactory;
 
     @Before
     public void setUp() {
         mProcessor = new ProfileResultProcessor();
+        mRunFactory = new RunFactory();
     }
 
     @Test
@@ -49,7 +52,7 @@ public class ProfileResultProcessorTest {
 
     @Test
     public void process_ReturnsResultWithNestedStageWithStartTimeFromRunStart_WhenListHasOneRunWithOneNestedStage() throws InterruptedException {
-        Run run = Run.startRun(STAGE_NAME_0, STAGE_ORDER_0);
+        Run run = mRunFactory.startNewRun(STAGE_NAME_0, STAGE_ORDER_0);
         Thread.sleep(PAUSE_30);
         run.startStage(STAGE_NAME_1, STAGE_ORDER_1);
         run.stopStage(STAGE_NAME_0);
@@ -107,14 +110,14 @@ public class ProfileResultProcessorTest {
     }
 
     private Run getRunWithoutNestedStages(long pause) throws InterruptedException {
-        Run run = Run.startRun(STAGE_NAME_0, STAGE_ORDER_0);
+        Run run = mRunFactory.startNewRun(STAGE_NAME_0, STAGE_ORDER_0);
         Thread.sleep(pause);
         run.stopStage(STAGE_NAME_0);
         return run;
     }
 
     private Run getRunWithNestedStage(long pause) throws InterruptedException {
-        Run run = Run.startRun(STAGE_NAME_0, STAGE_ORDER_0);
+        Run run = mRunFactory.startNewRun(STAGE_NAME_0, STAGE_ORDER_0);
         Thread.sleep(pause);
         run.startStage(STAGE_NAME_1, STAGE_ORDER_1);
         run.stopStage(STAGE_NAME_0);

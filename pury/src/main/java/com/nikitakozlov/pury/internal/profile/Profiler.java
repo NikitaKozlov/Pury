@@ -11,8 +11,8 @@ import java.util.concurrent.CopyOnWriteArrayList;
 
 public class Profiler {
 
-    private static final int START_ORDER = 0;
-    private static final String LOG_TAG = "Pury";
+    static final int START_ORDER = 0;
+    static final String LOG_TAG = "Pury";
 
     private final ProfilerId mProfilerId;
     private final int mRunsCounter;
@@ -24,7 +24,7 @@ public class Profiler {
     private Run mActiveRun;
     private volatile int mFinishedRuns;
 
-    public Profiler(ProfilerId profilerId, @NonNull Callback callback,
+    public Profiler(@NonNull ProfilerId profilerId, @NonNull Callback callback,
                     ProfileResultProcessor resultProcessor, Logger logger, RunFactory runFactory) {
         mProfilerId = profilerId;
         mRunFactory = runFactory;

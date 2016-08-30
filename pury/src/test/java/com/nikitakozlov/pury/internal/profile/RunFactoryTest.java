@@ -9,14 +9,15 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
-public class RunTest {
+public class RunFactoryTest {
 
     private static final String STAGE_NAME_0 = "stage_name_0";
     private static final int STAGE_ORDER_0 = 0;
 
     @Test
     public void startRun_ReturnsRunWithStartedStage() {
-        Run run = Run.startRun(STAGE_NAME_0, STAGE_ORDER_0);
+
+        Run run = new RunFactory().startNewRun(STAGE_NAME_0, STAGE_ORDER_0);
         Stage rootStage = run.getRootStage();
         assertFalse(run.isStopped());
         assertTrue(rootStage.isStarted());
