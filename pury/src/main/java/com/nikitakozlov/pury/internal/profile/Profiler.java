@@ -58,12 +58,17 @@ public class Profiler {
     }
 
     public void stopStage(String stageName) {
-        if (mActiveRun != null && !mActiveRun.isStopped()) {
-            logIfStageError(mActiveRun.stopStage(stageName));
+        if (mActiveRun != null) {
 
-            if (mActiveRun.isStopped()) {
-                mFinishedRuns++;
-                logIfFinished();
+            StageError stageError = mActiveRun.stopStage(stageName);
+
+            if (stageError == null) {
+                if (mActiveRun.isStopped()) {
+                    mFinishedRuns++;
+                    logIfFinished();
+                }
+            } else {
+                logIfStageError(stageError);
             }
         }
     }

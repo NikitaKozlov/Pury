@@ -28,15 +28,6 @@ public class StartProfilingAspectTest {
     }
 
     @Test
-    public void weaveJoinPoint_ReturnsProceedResult() throws Throwable {
-        Object proceedResult = new Object();
-        ProceedingJoinPoint joinPoint = mockJoinPoint("methodWithoutAnnotations");
-        StartProfilingAspect aspect = new StartProfilingAspect();
-        when(joinPoint.proceed()).thenReturn(proceedResult);
-        assertEquals(proceedResult, aspect.weaveJoinPoint(joinPoint));
-    }
-
-    @Test
     public void weaveJoinPoint_TakesParametersFromStartProfilingAnnotationAndStartAsyncProfiler() throws Throwable {
         ProfilerId profilerId = new ProfilerId(METHOD_ID, RUNS_COUNTER_5);
         Profiler profiler = mock(Profiler.class);
