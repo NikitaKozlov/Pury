@@ -1,24 +1,20 @@
 package com.nikitakozlov.pury.internal.profile;
 
 public class ProfilerId {
-    private final String methodId;
-    private final int runsCounter;
+    private final String mProfilerName;
+    private final int mRunsCounter;
 
-    public ProfilerId(String methodId, int runsCounter) {
-        this.methodId = methodId;
-        this.runsCounter = runsCounter;
+    public ProfilerId(String profilerName, int runsCounter) {
+        this.mProfilerName = profilerName;
+        this.mRunsCounter = runsCounter;
     }
 
-    public ProfilerId(String methodId, int stageOrder, int runsCounter) {
-        this(methodId, runsCounter);
-    }
-
-    public String getMethodId() {
-        return methodId;
+    public String getProfilerName() {
+        return mProfilerName;
     }
 
     public int getRunsCounter() {
-        return runsCounter;
+        return mRunsCounter;
     }
 
     @Override
@@ -28,23 +24,23 @@ public class ProfilerId {
 
         ProfilerId that = (ProfilerId) o;
 
-        if (runsCounter != that.runsCounter) return false;
-        return methodId != null ? methodId.equals(that.methodId) : that.methodId == null;
+        if (mRunsCounter != that.mRunsCounter) return false;
+        return mProfilerName != null ? mProfilerName.equals(that.mProfilerName) : that.mProfilerName == null;
 
     }
 
     @Override
     public int hashCode() {
-        int result = methodId != null ? methodId.hashCode() : 0;
-        result = 31 * result + runsCounter;
+        int result = mProfilerName != null ? mProfilerName.hashCode() : 0;
+        result = 31 * result + mRunsCounter;
         return result;
     }
 
     @Override
     public String toString() {
         return "ProfilerId{" +
-                "methodId='" + methodId + '\'' +
-                ", runsCounter=" + runsCounter +
+                "mProfilerName='" + mProfilerName + '\'' +
+                ", mRunsCounter=" + mRunsCounter +
                 '}';
     }
 }

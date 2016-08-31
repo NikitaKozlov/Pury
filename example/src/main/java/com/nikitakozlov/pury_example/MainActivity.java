@@ -2,18 +2,13 @@ package com.nikitakozlov.pury_example;
 
 import android.content.Context;
 import android.content.Intent;
-import android.os.PersistableBundle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 
-import com.nikitakozlov.pury.async.StartProfiling;
-import com.nikitakozlov.pury.async.StartProfilings;
 import com.nikitakozlov.pury.async.StopProfiling;
-import com.nikitakozlov.pury.async.StopProfilings;
 import com.nikitakozlov.pury.method.ProfileMethod;
-import com.nikitakozlov.pury.method.ProfileMethods;
 import com.nikitakozlov.pury_example.profilers.StartApp;
 
 public class MainActivity extends AppCompatActivity {
@@ -23,7 +18,7 @@ public class MainActivity extends AppCompatActivity {
         super.attachBaseContext(newBase);
     }
 
-    @ProfileMethod(methodId = StartApp.METHOD_ID, stageName = StartApp.MAIN_ACTIVITY_CREATE,
+    @ProfileMethod(profilerName = StartApp.PROFILER_NAME, stageName = StartApp.MAIN_ACTIVITY_CREATE,
             stageOrder = StartApp.MAIN_ACTIVITY_CREATE_ORDER)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,7 +33,7 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    @ProfileMethod(methodId = StartApp.METHOD_ID, stageName = StartApp.MAIN_ACTIVITY_START,
+    @ProfileMethod(profilerName = StartApp.PROFILER_NAME, stageName = StartApp.MAIN_ACTIVITY_START,
             stageOrder = StartApp.MAIN_ACTIVITY_START_ORDER)
     @Override
     protected void onStart() {
@@ -50,7 +45,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    @StopProfiling(methodId = StartApp.METHOD_ID, stageName = StartApp.TOP_STAGE)
+    @StopProfiling(profilerName = StartApp.PROFILER_NAME, stageName = StartApp.TOP_STAGE)
     @Override
     protected void onResume() {
         super.onResume();

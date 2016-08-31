@@ -95,7 +95,7 @@ public class ProfileMethodAspect {
         if (!annotation.enabled()) {
             return null;
         }
-        ProfilerId profilerId = new ProfilerId(annotation.methodId(), annotation.runsCounter());
+        ProfilerId profilerId = new ProfilerId(annotation.profilerName(), annotation.runsCounter());
         String stageName = annotation.stageName();
         if (stageName.isEmpty()) {
 

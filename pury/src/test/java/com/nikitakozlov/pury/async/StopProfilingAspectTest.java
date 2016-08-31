@@ -3,12 +3,12 @@ package com.nikitakozlov.pury.async;
 import com.nikitakozlov.pury.internal.profile.Profiler;
 import com.nikitakozlov.pury.internal.profile.ProfilingManager;
 import com.nikitakozlov.pury.internal.profile.ProfilerId;
+import com.nikitakozlov.pury.internal.profile.ProfilingManagerSetter;
 
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.reflect.MethodSignature;
 import org.junit.Test;
 
-import static org.junit.Assert.assertEquals;
 import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
@@ -17,7 +17,7 @@ import static org.mockito.Mockito.when;
 public class StopProfilingAspectTest {
 
     private static final int RUNS_COUNTER_5 = 5;
-    private static final String METHOD_ID = "methodId";
+    private static final String PROFILE_NAME = "profileName";
 
     @Test
     public void weaveJoinPoint_RunsProceedOnce() throws Throwable {
@@ -29,12 +29,12 @@ public class StopProfilingAspectTest {
 
     @Test
     public void weaveJoinPoint_TakesParametersFromStartProfilingAnnotationAndStartAsyncProfiler() throws Throwable {
-        ProfilerId profilerId = new ProfilerId(METHOD_ID, RUNS_COUNTER_5);
+        ProfilerId profilerId = new ProfilerId(PROFILE_NAME, RUNS_COUNTER_5);
         Profiler profiler = mock(Profiler.class);
         ProfilingManager asyncProfilingManager = mock(ProfilingManager.class);
         when(asyncProfilingManager.getProfiler(eq(profilerId)))
                 .thenReturn(profiler);
-        ProfilingManager.setInstance(asyncProfilingManager);
+        ProfilingManagerSetter.setInstance(asyncProfilingManager);
 
         ProceedingJoinPoint joinPoint = mockJoinPoint("methodWithStopProfilingAnnotation");
         StopProfilingAspect aspect = new StopProfilingAspect();
@@ -54,7 +54,7 @@ public class StopProfilingAspectTest {
 
     public void methodWithoutAnnotations() {}
 
-    @StopProfiling(runsCounter = RUNS_COUNTER_5, methodId = METHOD_ID)
+    @StopProfiling(runsCounter = RUNS_COUNTER_5, profilerName = PROFILE_NAME)
     private void methodWithStopProfilingAnnotation() {}
 
 }

@@ -53,7 +53,6 @@ public class StageError {
 
     public enum Type {
 
-        START_RUN_TO_SMALL_ORDER,
         START_TO_SMALL_ORDER,
         START_PARENT_STAGE_IS_STOPPED(true),
         START_PARENT_STAGE_NOT_STARTED(true),

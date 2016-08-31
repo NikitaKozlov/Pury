@@ -85,7 +85,7 @@ public class StopProfilingAspect {
         if (!annotation.enabled()) {
             return null;
         }
-        ProfilerId profilerId = new ProfilerId(annotation.methodId(), annotation.runsCounter());
+        ProfilerId profilerId = new ProfilerId(annotation.profilerName(), annotation.runsCounter());
         return new StageId(profilerId, annotation.stageName());
     }
 }

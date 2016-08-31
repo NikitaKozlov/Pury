@@ -24,7 +24,7 @@ public class Profiler {
     private Run mActiveRun;
     private volatile int mFinishedRuns;
 
-    public Profiler(@NonNull ProfilerId profilerId, @NonNull Callback callback,
+    Profiler(@NonNull ProfilerId profilerId, @NonNull Callback callback,
                     ProfileResultProcessor resultProcessor, Logger logger, RunFactory runFactory) {
         mProfilerId = profilerId;
         mRunFactory = runFactory;
@@ -48,7 +48,7 @@ public class Profiler {
 
     private void startRun(String stageName, int stageOrder) {
         if (stageOrder != START_ORDER) {
-            mLogger.warning(LOG_TAG, "MethodId = \"" + mProfilerId.getMethodId() + "\". " +
+            mLogger.warning(LOG_TAG, "Profiler Name = \"" + mProfilerId.getProfilerName() + "\". " +
                     "Can't start Run, stage order for stage \"" + stageName + "\" is wrong. " +
                     "Expected value: " + START_ORDER + ", actual value: " + stageOrder + ".");
             return;
@@ -75,7 +75,7 @@ public class Profiler {
 
     private void logIfStageError(StageError stageError) {
         if (stageError != null && !stageError.isInternal()) {
-            mLogger.error(LOG_TAG, "MethodId = \"" + mProfilerId.getMethodId() + "\". " + StageErrorUtils.format(stageError));
+            mLogger.error(LOG_TAG, "Profiler Name = \"" + mProfilerId.getProfilerName() + "\". " + StageErrorUtils.format(stageError));
         }
     }
 
@@ -83,7 +83,7 @@ public class Profiler {
         if (mRunsCounter == mFinishedRuns) {
             ProfileResult profileResult = mResultProcessor.process(mRuns);
             StringBuilder result = new StringBuilder("Profiling results");
-            String methodId = mProfilerId.getMethodId();
+            String methodId = mProfilerId.getProfilerName();
             if (!methodId.isEmpty()) {
                 result.append(" for ");
                 result.append(methodId);

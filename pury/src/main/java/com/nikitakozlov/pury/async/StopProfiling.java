@@ -8,7 +8,7 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ ElementType.CONSTRUCTOR, ElementType.METHOD })
 public @interface StopProfiling {
-    String methodId() default "";
+    String profilerName() default "";
     String stageName() default "";
     int runsCounter() default 1;
     boolean enabled() default true;

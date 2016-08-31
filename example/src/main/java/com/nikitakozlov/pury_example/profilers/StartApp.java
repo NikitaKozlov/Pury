@@ -1,7 +1,7 @@
 package com.nikitakozlov.pury_example.profilers;
 
 public final class StartApp {
-    public static final String METHOD_ID = "App Start";
+    public static final String PROFILER_NAME = "App Start";
 
     public static final String TOP_STAGE ="App Start";
     public static final int TOP_STAGE_ORDER = 0;
