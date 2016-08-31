@@ -14,8 +14,8 @@ public class ProfilingManager {
     }
 
     //For Testing only
-    static void setInstance(ProfilingManager sInstance) {
-        ProfilingManager.sInstance = sInstance;
+    static void setInstance(ProfilingManager instance) {
+        sInstance = instance;
     }
 
     private final Map<ProfilerId, Profiler> mAsyncProfilers  = new ConcurrentHashMap<>();;
