@@ -36,7 +36,7 @@ public class Profiler {
         mFinishedRuns = 0;
     }
 
-    public void startStage(String stageName, int stageOrder) {
+    public synchronized void startStage(String stageName, int stageOrder) {
         if (mActiveRun == null || mActiveRun.isStopped()) {
             if (mRuns.size() < mRunsCounter) {
                 startRun(stageName, stageOrder);
@@ -57,7 +57,7 @@ public class Profiler {
         mRuns.add(mActiveRun);
     }
 
-    public void stopStage(String stageName) {
+    public synchronized void stopStage(String stageName) {
         if (mActiveRun != null) {
 
             StageError stageError = mActiveRun.stopStage(stageName);

@@ -7,17 +7,14 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class ProfilingManager {
-    private static ProfilingManager sInstance;
+    private static ProfilingManager sInstance = new ProfilingManager();
 
     public static ProfilingManager getInstance() {
-        if (sInstance == null) {
-            sInstance = new ProfilingManager();
-        }
         return sInstance;
     }
 
     //For Testing only
-    public static void setInstance(ProfilingManager sInstance) {
+    static void setInstance(ProfilingManager sInstance) {
         ProfilingManager.sInstance = sInstance;
     }
 
@@ -35,7 +32,7 @@ public class ProfilingManager {
     private ProfilingManager() {
     }
 
-    public Profiler getProfiler(ProfilerId profilerId) {
+    public synchronized Profiler getProfiler(ProfilerId profilerId) {
         if (mAsyncProfilers.containsKey(profilerId)) {
             return mAsyncProfilers.get(profilerId);
         }

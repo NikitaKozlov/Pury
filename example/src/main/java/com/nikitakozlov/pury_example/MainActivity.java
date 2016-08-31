@@ -14,6 +14,7 @@ import com.nikitakozlov.pury.async.StopProfiling;
 import com.nikitakozlov.pury.async.StopProfilings;
 import com.nikitakozlov.pury.method.ProfileMethod;
 import com.nikitakozlov.pury.method.ProfileMethods;
+import com.nikitakozlov.pury_example.profilers.StartApp;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -22,6 +23,8 @@ public class MainActivity extends AppCompatActivity {
         super.attachBaseContext(newBase);
     }
 
+    @ProfileMethod(methodId = StartApp.METHOD_ID, stageName = StartApp.MAIN_ACTIVITY_CREATE,
+            stageOrder = StartApp.MAIN_ACTIVITY_CREATE_ORDER)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -34,11 +37,20 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
+
+    @ProfileMethod(methodId = StartApp.METHOD_ID, stageName = StartApp.MAIN_ACTIVITY_START,
+            stageOrder = StartApp.MAIN_ACTIVITY_START_ORDER)
     @Override
     protected void onStart() {
         super.onStart();
+        try {
+            Thread.sleep(30);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 
+    @StopProfiling(methodId = StartApp.METHOD_ID, stageName = StartApp.TOP_STAGE)
     @Override
     protected void onResume() {
         super.onResume();
