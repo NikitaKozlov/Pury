@@ -19,7 +19,7 @@ public @interface StopProfiling {
     String profilerName() default "";
 
     /**
-     * Name of stage to start. Used in results.
+     * Name of stage to stop. Used in results.
      */
     String stageName() default "";
 
