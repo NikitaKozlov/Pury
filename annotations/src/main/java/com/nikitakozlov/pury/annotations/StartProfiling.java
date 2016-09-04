@@ -1,4 +1,4 @@
-package com.nikitakozlov.pury.async;
+package com.nikitakozlov.pury.annotations;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

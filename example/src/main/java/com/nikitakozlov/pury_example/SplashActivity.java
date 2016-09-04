@@ -7,8 +7,8 @@ import android.os.Handler;
 import android.os.Looper;
 import android.support.v7.app.AppCompatActivity;
 
-import com.nikitakozlov.pury.async.StartProfiling;
-import com.nikitakozlov.pury.async.StopProfiling;
+import com.nikitakozlov.pury.annotations.StartProfiling;
+import com.nikitakozlov.pury.annotations.StopProfiling;
 import com.nikitakozlov.pury_example.profilers.StartApp;
 
 public class SplashActivity extends AppCompatActivity {

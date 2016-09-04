@@ -1,14 +1,13 @@
-package com.nikitakozlov.pury.async;
+package com.nikitakozlov.pury.aspects;
 
-import com.nikitakozlov.pury.internal.profile.Profiler;
+import com.nikitakozlov.pury.annotations.StopProfiling;
+import com.nikitakozlov.pury.annotations.StopProfilings;
 import com.nikitakozlov.pury.internal.profile.ProfilingManager;
 import com.nikitakozlov.pury.internal.profile.ProfilerId;
 import com.nikitakozlov.pury.internal.profile.StageId;
 
 import org.aspectj.lang.JoinPoint;
-import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.After;
-import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
 import org.aspectj.lang.reflect.MethodSignature;
@@ -20,17 +19,17 @@ import java.util.List;
 @Aspect
 public class StopProfilingAspect {
     private static final String POINTCUT_METHOD =
-            "execution(@com.nikitakozlov.pury.async.StopProfiling * *(..))";
+            "execution(@com.nikitakozlov.pury.annotations.StopProfiling * *(..))";
 
     private static final String POINTCUT_CONSTRUCTOR =
-            "execution(@com.nikitakozlov.pury.async.StopProfiling *.new(..))";
+            "execution(@com.nikitakozlov.pury.annotations.StopProfiling *.new(..))";
 
 
     private static final String GROUP_ANNOTATION_POINTCUT_METHOD =
-            "execution(@com.nikitakozlov.pury.async.StopProfilings * *(..))";
+            "execution(@com.nikitakozlov.pury.annotations.StopProfilings * *(..))";
 
     private static final String GROUP_ANNOTATION_POINTCUT_CONSTRUCTOR =
-            "execution(@com.nikitakozlov.pury.async.StopProfilings *.new(..))";
+            "execution(@com.nikitakozlov.pury.annotations.StopProfilings *.new(..))";
 
     @Pointcut(POINTCUT_METHOD)
     public void method() {

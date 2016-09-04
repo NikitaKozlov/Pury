@@ -3,11 +3,12 @@ package com.nikitakozlov.pury.internal.profile;
 import com.nikitakozlov.pury.Pury;
 import com.nikitakozlov.pury.internal.result.ProfileResultProcessor;
 
+import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class ProfilingManager {
-    private static ProfilingManager sInstance = new ProfilingManager();
+    private volatile static ProfilingManager sInstance = new ProfilingManager();
 
     public static ProfilingManager getInstance() {
         return sInstance;
@@ -18,14 +19,14 @@ public class ProfilingManager {
         sInstance = instance;
     }
 
-    private final Map<ProfilerId, Profiler> mAsyncProfilers  = new ConcurrentHashMap<>();;
+    private final Map<ProfilerId, Profiler> mAsyncProfilers  = new HashMap<>();
     private final ProfileResultProcessor mResultProcessor = new ProfileResultProcessor();
     private final RunFactory mRunFactory = new RunFactory();
 
     private final Profiler.Callback mAsyncProfilerCallback = new Profiler.Callback() {
         @Override
         public void onDone(ProfilerId profilerId) {
-            mAsyncProfilers.remove(profilerId);
+            removeProfiler(profilerId);
         }
     };
 
@@ -42,4 +43,7 @@ public class ProfilingManager {
         return methodProfiler;
     }
 
+    private synchronized void removeProfiler(ProfilerId profilerId) {
+        mAsyncProfilers.remove(profilerId);
+    }
 }

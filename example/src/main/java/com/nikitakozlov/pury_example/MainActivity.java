@@ -7,8 +7,8 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 
-import com.nikitakozlov.pury.async.StopProfiling;
-import com.nikitakozlov.pury.method.ProfileMethod;
+import com.nikitakozlov.pury.annotations.StopProfiling;
+import com.nikitakozlov.pury.annotations.ProfileMethod;
 import com.nikitakozlov.pury_example.profilers.StartApp;
 
 public class MainActivity extends AppCompatActivity {

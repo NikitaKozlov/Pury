@@ -1,1 +1,1 @@
-include ':example', ':pury'
+include ':example', ':pury', ':annotations'

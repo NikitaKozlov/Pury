@@ -1,5 +1,7 @@
-package com.nikitakozlov.pury.async;
+package com.nikitakozlov.pury.aspects;
 
+import com.nikitakozlov.pury.annotations.StartProfiling;
+import com.nikitakozlov.pury.annotations.StartProfilings;
 import com.nikitakozlov.pury.internal.profile.ProfilingManager;
 import com.nikitakozlov.pury.internal.profile.ProfilerId;
 import com.nikitakozlov.pury.internal.profile.StageId;
@@ -17,18 +19,18 @@ import java.util.List;
 @Aspect
 public class StartProfilingAspect {
     private static final String POINTCUT_METHOD =
-            "execution(@com.nikitakozlov.pury.async.StartProfiling * *(..))";
+            "execution(@com.nikitakozlov.pury.annotations.StartProfiling * *(..))";
 
     private static final String POINTCUT_CONSTRUCTOR =
-            "execution(@com.nikitakozlov.pury.async.StartProfiling *.new(..))";
+            "execution(@com.nikitakozlov.pury.annotations.StartProfiling *.new(..))";
 
 
     private static final String GROUP_ANNOTATION_POINTCUT_METHOD =
-            "execution(@com.nikitakozlov.pury.async.StartProfilings * *(..))";
+            "execution(@com.nikitakozlov.pury.annotations.StartProfilings * *(..))";
 
 
     private static final String GROUP_ANNOTATION_POINTCUT_CONSTRUCTOR =
-            "execution(@com.nikitakozlov.pury.async.StartProfilings *.new(..))";
+            "execution(@com.nikitakozlov.pury.annotations.StartProfilings *.new(..))";
 
     @Pointcut(POINTCUT_METHOD)
     public void method() {
