@@ -2,7 +2,9 @@ package com.nikitakozlov.pury;
 
 import com.nikitakozlov.pury.internal.DefaultLogger;
 import com.nikitakozlov.pury.internal.Logger;
+import com.nikitakozlov.pury.internal.profile.ProfilerId;
 import com.nikitakozlov.pury.internal.profile.ProfilingManager;
+import com.nikitakozlov.pury.internal.profile.StageId;
 
 public final class Pury {
     static volatile Logger sLogger;
@@ -28,5 +30,16 @@ public final class Pury {
             ProfilingManager.getInstance().clear();
         }
         sEnabled = enabled;
+    }
+
+    public static void startProfiling(String profilerName, String stageName, int stageOrder,
+                                      int runsCounter) {
+        ProfilerId profilerId = new ProfilerId(profilerName, runsCounter);
+        ProfilingManager.getInstance().getProfiler(profilerId).startStage(stageName, stageOrder);
+    }
+
+    public static void stopProfiling(String profilerName, String stageName, int runsCounter) {
+        ProfilerId profilerId = new ProfilerId(profilerName, runsCounter);
+        ProfilingManager.getInstance().getProfiler(profilerId).stopStage(stageName);
     }
 }
