@@ -1,5 +1,6 @@
 package com.nikitakozlov.pury.aspects;
 
+import com.nikitakozlov.pury.Pury;
 import com.nikitakozlov.pury.annotations.StopProfiling;
 import com.nikitakozlov.pury.annotations.StopProfilings;
 import com.nikitakozlov.pury.internal.profile.ProfilingManager;
@@ -49,6 +50,10 @@ public class StopProfilingAspect {
 
     @After("constructor() || method() || methodWithMultipleAnnotations() || constructorWithMultipleAnnotations()")
     public void weaveJoinPoint(JoinPoint joinPoint) throws Throwable {
+        if (!Pury.isEnabled()) {
+            return;
+        }
+
         ProfilingManager profilingManager = ProfilingManager.getInstance();
         for (StageId stageId : getStageIds(joinPoint)) {
             profilingManager.getProfiler(stageId.getProfilerId())

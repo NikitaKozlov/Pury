@@ -1,5 +1,6 @@
 package com.nikitakozlov.pury.aspects;
 
+import com.nikitakozlov.pury.Pury;
 import com.nikitakozlov.pury.annotations.StartProfiling;
 import com.nikitakozlov.pury.annotations.StartProfilings;
 import com.nikitakozlov.pury.internal.profile.ProfilingManager;
@@ -14,6 +15,7 @@ import org.aspectj.lang.reflect.MethodSignature;
 
 import java.lang.annotation.Annotation;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 @Aspect
@@ -50,6 +52,10 @@ public class StartProfilingAspect {
 
     @Before("constructor() || method() || methodWithMultipleAnnotations() || constructorWithMultipleAnnotations()")
     public void weaveJoinPoint(JoinPoint joinPoint) throws Throwable {
+        if (!Pury.isEnabled()) {
+            return;
+        }
+
         ProfilingManager profilingManager = ProfilingManager.getInstance();
         for (StageId stageId : getStageIds(joinPoint)) {
             profilingManager.getProfiler(stageId.getProfilerId())

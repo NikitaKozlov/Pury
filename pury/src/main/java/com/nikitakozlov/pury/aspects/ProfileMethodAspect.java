@@ -1,5 +1,6 @@
 package com.nikitakozlov.pury.aspects;
 
+import com.nikitakozlov.pury.Pury;
 import com.nikitakozlov.pury.annotations.ProfileMethod;
 import com.nikitakozlov.pury.annotations.ProfileMethods;
 import com.nikitakozlov.pury.internal.profile.ProfilerId;
@@ -15,6 +16,7 @@ import org.aspectj.lang.reflect.MethodSignature;
 
 import java.lang.annotation.Annotation;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 @Aspect
@@ -61,7 +63,7 @@ public class ProfileMethodAspect {
 
         Object result = joinPoint.proceed();
 
-        for (StageId stageId : getStageIds(joinPoint)) {
+        for (StageId stageId : stageIds) {
             profilingManager.getProfiler(stageId.getProfilerId())
                     .stopStage(stageId.getStageName());
         }
@@ -70,6 +72,10 @@ public class ProfileMethodAspect {
     }
 
     private List<StageId> getStageIds(ProceedingJoinPoint joinPoint) {
+        if (!Pury.isEnabled()) {
+            return Collections.emptyList();
+        }
+
         Annotation[] annotations =
                 ((MethodSignature) joinPoint.getSignature()).getMethod().getAnnotations();
         List<StageId> stageIds = new ArrayList<>();
