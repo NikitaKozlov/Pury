@@ -8,7 +8,7 @@ import com.nikitakozlov.pury.internal.profile.StageId;
 
 public final class Pury {
     static volatile Logger sLogger;
-    static volatile boolean sEnabled;
+    static volatile boolean sEnabled = true;
 
     public static void setLogger(Logger logger) {
         sLogger = logger;
