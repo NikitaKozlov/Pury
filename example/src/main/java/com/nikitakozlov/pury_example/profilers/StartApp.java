@@ -20,6 +20,4 @@ public final class StartApp {
 
     public static final String MAIN_ACTIVITY_START = "onStart()";
     public static final int MAIN_ACTIVITY_START_ORDER = MAIN_ACTIVITY_LAUNCH_ORDER + 1;
-
-
 }

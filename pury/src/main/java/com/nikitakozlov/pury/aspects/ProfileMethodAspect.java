@@ -1,8 +1,8 @@
 package com.nikitakozlov.pury.aspects;
 
 import com.nikitakozlov.pury.Pury;
-import com.nikitakozlov.pury.annotations.ProfileMethod;
-import com.nikitakozlov.pury.annotations.ProfileMethods;
+import com.nikitakozlov.pury.annotations.MethodProfiling;
+import com.nikitakozlov.pury.annotations.MethodProfilings;
 import com.nikitakozlov.pury.internal.profile.ProfilerId;
 import com.nikitakozlov.pury.internal.profile.ProfilingManager;
 import com.nikitakozlov.pury.internal.profile.StageId;
@@ -22,17 +22,17 @@ import java.util.List;
 @Aspect
 public class ProfileMethodAspect {
     private static final String POINTCUT_METHOD =
-            "execution(@com.nikitakozlov.pury.annotations.ProfileMethod * *(..))";
+            "execution(@com.nikitakozlov.pury.annotations.MethodProfiling * *(..))";
 
     private static final String POINTCUT_CONSTRUCTOR =
-            "execution(@com.nikitakozlov.pury.annotations.ProfileMethod *.new(..))";
+            "execution(@com.nikitakozlov.pury.annotations.MethodProfiling *.new(..))";
 
 
     private static final String GROUP_ANNOTATION_POINTCUT_METHOD =
-            "execution(@com.nikitakozlov.pury.annotations.ProfileMethods * *(..))";
+            "execution(@com.nikitakozlov.pury.annotations.MethodProfilings * *(..))";
 
     private static final String GROUP_ANNOTATION_POINTCUT_CONSTRUCTOR =
-            "execution(@com.nikitakozlov.pury.annotations.ProfileMethods *.new(..))";
+            "execution(@com.nikitakozlov.pury.annotations.MethodProfilings *.new(..))";
 
     @Pointcut(POINTCUT_METHOD)
     public void method() {
@@ -80,15 +80,15 @@ public class ProfileMethodAspect {
                 ((MethodSignature) joinPoint.getSignature()).getMethod().getAnnotations();
         List<StageId> stageIds = new ArrayList<>();
         for (Annotation annotation : annotations) {
-            if (annotation.annotationType() == ProfileMethod.class) {
-                StageId stageId = getStageId((ProfileMethod) annotation, joinPoint);
+            if (annotation.annotationType() == MethodProfiling.class) {
+                StageId stageId = getStageId((MethodProfiling) annotation, joinPoint);
                 if (stageId != null) {
                     stageIds.add(stageId);
                 }
             }
-            if (annotation.annotationType() == ProfileMethods.class) {
-                for (ProfileMethod profileMethod : ((ProfileMethods) annotation).value()) {
-                    StageId stageId = getStageId(profileMethod, joinPoint);
+            if (annotation.annotationType() == MethodProfilings.class) {
+                for (MethodProfiling methodProfiling : ((MethodProfilings) annotation).value()) {
+                    StageId stageId = getStageId(methodProfiling, joinPoint);
                     if (stageId != null) {
                         stageIds.add(stageId);
                     }
@@ -98,7 +98,7 @@ public class ProfileMethodAspect {
         return stageIds;
     }
 
-    private StageId getStageId(ProfileMethod annotation, ProceedingJoinPoint joinPoint) {
+    private StageId getStageId(MethodProfiling annotation, ProceedingJoinPoint joinPoint) {
         if (!annotation.enabled()) {
             return null;
         }

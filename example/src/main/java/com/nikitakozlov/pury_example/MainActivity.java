@@ -7,8 +7,8 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 
+import com.nikitakozlov.pury.annotations.MethodProfiling;
 import com.nikitakozlov.pury.annotations.StopProfiling;
-import com.nikitakozlov.pury.annotations.ProfileMethod;
 import com.nikitakozlov.pury_example.profilers.StartApp;
 
 public class MainActivity extends AppCompatActivity {
@@ -18,7 +18,7 @@ public class MainActivity extends AppCompatActivity {
         super.attachBaseContext(newBase);
     }
 
-    @ProfileMethod(profilerName = StartApp.PROFILER_NAME, stageName = StartApp.MAIN_ACTIVITY_CREATE,
+    @MethodProfiling(profilerName = StartApp.PROFILER_NAME, stageName = StartApp.MAIN_ACTIVITY_CREATE,
             stageOrder = StartApp.MAIN_ACTIVITY_CREATE_ORDER)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,7 +33,7 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    @ProfileMethod(profilerName = StartApp.PROFILER_NAME, stageName = StartApp.MAIN_ACTIVITY_START,
+    @MethodProfiling(profilerName = StartApp.PROFILER_NAME, stageName = StartApp.MAIN_ACTIVITY_START,
             stageOrder = StartApp.MAIN_ACTIVITY_START_ORDER)
     @Override
     protected void onStart() {

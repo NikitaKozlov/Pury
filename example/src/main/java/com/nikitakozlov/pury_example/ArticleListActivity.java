@@ -10,7 +10,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
-import com.nikitakozlov.pury.annotations.ProfileMethod;
+import com.nikitakozlov.pury.annotations.MethodProfiling;
 import com.nikitakozlov.pury.annotations.StartProfiling;
 import com.nikitakozlov.pury.annotations.StopProfiling;
 import com.nikitakozlov.pury_example.profilers.Pagination;
@@ -107,8 +107,8 @@ public class ArticleListActivity extends AppCompatActivity {
         }.execute(mPage + 1);
     }
 
-    @ProfileMethod(profilerName = Pagination.PROFILER_NAME, runsCounter = Pagination.RUN_COUNTER,
-            stageName = Pagination.LOAD_NEXT_PAGE, stageOrder = Pagination.LOAD_NEXT_PAGE_ORDER)
+    @MethodProfiling(profilerName = Pagination.PROFILER_NAME, runsCounter = Pagination.RUN_COUNTER,
+            stageName = Pagination.LOAD_PAGE, stageOrder = Pagination.LOAD_PAGE_ORDER)
     private List<String> loadNextPage(Integer page) {
         try {
             Thread.sleep((long) (LOAD_PAGE_DELAY + random.nextFloat() * DELAY_MAX_VARIATON));
@@ -119,8 +119,8 @@ public class ArticleListActivity extends AppCompatActivity {
         return mArticleDataSource.getNextPage(page);
     }
 
-    @ProfileMethod(profilerName = Pagination.PROFILER_NAME, runsCounter = Pagination.RUN_COUNTER,
-            stageName = Pagination.PROCESS_NEXT_PAGE, stageOrder = Pagination.PROCESS_NEXT_PAGE_ORDER)
+    @MethodProfiling(profilerName = Pagination.PROFILER_NAME, runsCounter = Pagination.RUN_COUNTER,
+            stageName = Pagination.PROCESS_PAGE, stageOrder = Pagination.PROCESS_PAGE_ORDER)
     private List<String> processNextPage(final List<String> articles) {
         try {
             Thread.sleep((long) (PAGE_PROCESS_DELAY + random.nextFloat() * DELAY_MAX_VARIATON));

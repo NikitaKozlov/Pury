@@ -5,10 +5,10 @@ import java.util.Locale;
 public class AverageTime {
 
     private static final String MS = "ms";
-    private static final String AVERAGE = "average = ";
+    private static final String AVERAGE = "avg = ";
     private static final String MIN = "min = ";
     private static final String MAX = "max = ";
-    private static final String OUT_OF = "out of ";
+    private static final String FOR = "for ";
     private static final String RUNS = " runs";
 
 
@@ -85,7 +85,7 @@ public class AverageTime {
         stringBuilder.append(MS);
         stringBuilder.append(", ");
 
-        stringBuilder.append(OUT_OF);
+        stringBuilder.append(FOR);
         stringBuilder.append(mRuns);
         stringBuilder.append(RUNS);
 

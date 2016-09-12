@@ -12,7 +12,7 @@ import java.lang.annotation.Target;
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ ElementType.CONSTRUCTOR, ElementType.METHOD })
-public @interface ProfileMethod {
+public @interface MethodProfiling {
     /**
      * Profiler Name, used in results.
      */
