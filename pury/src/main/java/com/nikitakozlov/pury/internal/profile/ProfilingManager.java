@@ -7,15 +7,19 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class ProfilingManager {
-    private volatile static ProfilingManager sInstance = new ProfilingManager();
+    private static ProfilingManager sInstance = new ProfilingManager();
 
-    public static ProfilingManager getInstance() {
+    public synchronized static ProfilingManager getInstance() {
         return sInstance;
     }
 
     //For Testing only
-    static void setInstance(ProfilingManager instance) {
-        sInstance = instance;
+    static synchronized void setInstance(ProfilingManager instance) {
+        if (instance == null) {
+            sInstance = new ProfilingManager();
+        } else {
+            sInstance = instance;
+        }
     }
 
     private final Map<ProfilerId, Profiler> mProfilers = new HashMap<>();

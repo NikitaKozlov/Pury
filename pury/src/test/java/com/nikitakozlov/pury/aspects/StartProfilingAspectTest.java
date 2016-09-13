@@ -6,6 +6,7 @@ import com.nikitakozlov.pury.internal.profile.ProfilingManager;
 import com.nikitakozlov.pury.internal.profile.ProfilerId;
 import com.nikitakozlov.pury.internal.profile.ProfilingManagerSetter;
 
+import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.reflect.MethodSignature;
 import org.junit.Test;
@@ -20,13 +21,6 @@ public class StartProfilingAspectTest {
     private static final int RUNS_COUNTER_5 = 5;
     private static final String PROFILER_NAME = "profilerName";
 
-    @Test
-    public void weaveJoinPoint_RunsProceedOnce() throws Throwable {
-        ProceedingJoinPoint joinPoint = mockJoinPoint("methodWithoutAnnotations");
-        StartProfilingAspect aspect = new StartProfilingAspect();
-        aspect.weaveJoinPoint(joinPoint);
-        verify(joinPoint).proceed();
-    }
 
     @Test
     public void weaveJoinPoint_TakesParametersFromStartProfilingAnnotationAndStartAsyncProfiler() throws Throwable {
@@ -37,15 +31,15 @@ public class StartProfilingAspectTest {
                 .thenReturn(profiler);
         ProfilingManagerSetter.setInstance(asyncProfilingManager);
 
-        ProceedingJoinPoint joinPoint = mockJoinPoint("methodWithStartProfilingAnnotation");
+        JoinPoint joinPoint = mockJoinPoint("methodWithStartProfilingAnnotation");
         StartProfilingAspect aspect = new StartProfilingAspect();
         aspect.weaveJoinPoint(joinPoint);
         verify(asyncProfilingManager).getProfiler(eq(profilerId));
         //verify(profiler).startStage();
     }
 
-    private ProceedingJoinPoint mockJoinPoint(String methodName) throws NoSuchMethodException {
-        ProceedingJoinPoint joinPoint = mock(ProceedingJoinPoint.class);
+    private JoinPoint mockJoinPoint(String methodName) throws NoSuchMethodException {
+        JoinPoint joinPoint = mock(JoinPoint.class);
         MethodSignature methodSignature = mock(MethodSignature.class);
 
         when(methodSignature.getMethod()).thenReturn(this.getClass().getDeclaredMethod(methodName));

@@ -6,6 +6,7 @@ import com.nikitakozlov.pury.internal.profile.ProfilingManager;
 import com.nikitakozlov.pury.internal.profile.ProfilerId;
 import com.nikitakozlov.pury.internal.profile.ProfilingManagerSetter;
 
+import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.reflect.MethodSignature;
 import org.junit.Test;
@@ -21,14 +22,6 @@ public class StopProfilingAspectTest {
     private static final String PROFILE_NAME = "profileName";
 
     @Test
-    public void weaveJoinPoint_RunsProceedOnce() throws Throwable {
-        ProceedingJoinPoint joinPoint = mockJoinPoint("methodWithoutAnnotations");
-        StopProfilingAspect aspect = new StopProfilingAspect();
-        aspect.weaveJoinPoint(joinPoint);
-        verify(joinPoint).proceed();
-    }
-
-    @Test
     public void weaveJoinPoint_TakesParametersFromStartProfilingAnnotationAndStartAsyncProfiler() throws Throwable {
         ProfilerId profilerId = new ProfilerId(PROFILE_NAME, RUNS_COUNTER_5);
         Profiler profiler = mock(Profiler.class);
@@ -37,15 +30,15 @@ public class StopProfilingAspectTest {
                 .thenReturn(profiler);
         ProfilingManagerSetter.setInstance(asyncProfilingManager);
 
-        ProceedingJoinPoint joinPoint = mockJoinPoint("methodWithStopProfilingAnnotation");
+        JoinPoint joinPoint = mockJoinPoint("methodWithStopProfilingAnnotation");
         StopProfilingAspect aspect = new StopProfilingAspect();
         aspect.weaveJoinPoint(joinPoint);
         verify(asyncProfilingManager).getProfiler(eq(profilerId));
         //verify(profiler).startStage();
     }
 
-    private ProceedingJoinPoint mockJoinPoint(String methodName) throws NoSuchMethodException {
-        ProceedingJoinPoint joinPoint = mock(ProceedingJoinPoint.class);
+    private JoinPoint mockJoinPoint(String methodName) throws NoSuchMethodException {
+        JoinPoint joinPoint = mock(ProceedingJoinPoint.class);
         MethodSignature methodSignature = mock(MethodSignature.class);
 
         when(methodSignature.getMethod()).thenReturn(this.getClass().getDeclaredMethod(methodName));
