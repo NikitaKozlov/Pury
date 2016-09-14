@@ -2,12 +2,13 @@ apply plugin: 'com.android.application'
 apply plugin: 'com.nikitakozlov.weaverlite'
 
 android {
-    compileSdkVersion 24
-    buildToolsVersion "24.0.0"
+    compileSdkVersion 23
+    buildToolsVersion "23.0.1"
+
     defaultConfig {
         applicationId "com.nikitakozlov.pury"
         minSdkVersion 15
-        targetSdkVersion 24
+        targetSdkVersion 23
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
@@ -26,9 +27,9 @@ dependencies {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
     compile project(':pury')
-    compile 'com.android.support:appcompat-v7:24.2.0'
+    compile 'com.android.support:appcompat-v7:23.3.0'
     compile 'org.aspectj:aspectjrt:1.8.6'
-    compile 'com.android.support:design:24.2.0'
+    compile 'com.android.support:design:23.3.0'
     testCompile 'junit:junit:4.12'
 }
 
