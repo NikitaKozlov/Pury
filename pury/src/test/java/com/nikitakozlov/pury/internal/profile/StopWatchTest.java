@@ -23,8 +23,8 @@ public class StopWatchTest {
     @Test
     public void getStartTimeInMillis_ReturnsTimeBiggerThenCurrentTimeBeforeStart() throws InterruptedException {
         StopWatch stopWatch = new StopWatch();
-        long currentTime = System.currentTimeMillis();
         stopWatch.start();
+        long currentTime = System.currentTimeMillis();
         assertTrue(currentTime >= stopWatch.getStartTimeInMillis());
     }
 }
