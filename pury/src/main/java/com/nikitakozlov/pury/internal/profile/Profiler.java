@@ -1,6 +1,5 @@
 package com.nikitakozlov.pury.internal.profile;
 
-import android.support.annotation.NonNull;
 
 import com.nikitakozlov.pury.internal.Logger;
 import com.nikitakozlov.pury.internal.result.ProfileResult;
@@ -24,7 +23,7 @@ public class Profiler {
     private Run mActiveRun;
     private volatile int mFinishedRuns;
 
-    Profiler(@NonNull ProfilerId profilerId, @NonNull Callback callback,
+    Profiler(ProfilerId profilerId, Callback callback,
                     ProfileResultProcessor resultProcessor, Logger logger, RunFactory runFactory) {
         mProfilerId = profilerId;
         mRunFactory = runFactory;
