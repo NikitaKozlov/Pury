@@ -36,7 +36,6 @@ dependencies {
     testCompile 'junit:junit:4.12'
     testCompile 'org.mockito:mockito-core:1.10.19'
     compile 'org.aspectj:aspectjrt:1.8.6'
-    compile 'com.android.support:support-v4:23.3.0'
     compile project(':annotations')
 }
 
@@ -64,6 +63,5 @@ ext {
     allLicenses = ["MIT"]
 }
 
-// Place it at the end of the file
 apply from: 'https://raw.githubusercontent.com/nuuneoi/JCenter/master/installv1.gradle'
-apply from: 'https://raw.githubusercontent.com/nuuneoi/JCenter/master/bintrayv1.gradle'
+//apply from: 'https://raw.githubusercontent.com/nuuneoi/JCenter/master/bintrayv1.gradle'
