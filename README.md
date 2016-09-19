@@ -1,4 +1,5 @@
 [![Build Status](https://travis-ci.org/NikitaKozlov/Pury.svg?branch=master)](https://travis-ci.org/NikitaKozlov/Pury)
+[![Gitter](https://badges.gitter.im/gitterHQ/gitter.svg)](https://gitter.im/NikitaKozlov/Pury)
 #Pury
 **Pury** is a profiling library for measuring time between multiple independent events. Events can be triggered with one of the annotations or with a method call. 
 
