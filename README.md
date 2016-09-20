@@ -34,6 +34,29 @@ Get Next Page <-- avg = 378.80ms, min = 353ms, max = 411ms, for 5 runs
 ```
 In this example, you can see some statistical information that was collected during 5 runs. For each stage start timestamp and execution time are displayed.
 
+##How to profile with Pury?
+
+There are three basic annotations:
+1. `@StartProfiling` — triggers an event to start Stage or Run. Profiling will start before method execution. 
+2. `@StopProfiling` — triggers an event to stop Stage or Run. Profiling will be stopped after method execution. Once Stage or Run is stopped, all nested stages are also stopped.
+3. `@MethodProfiling` — combination of StartProfiling and StopProfiling.
+
+Since Java 7 doesn’t support repeatable annotations, group annotations for each of annotation above were made:
+``` 
+@StartProfilings(StartProfiling[] value)
+
+@StopProfilings(StopProfiling[] value)
+
+@MethodProfilings(MethodProfiling[] value)
+```
+
+As already mentioned, you can call start or stop profiling with a direct call:
+```
+Pury.startProfiling();
+
+Pury.stopProfiling();
+```
+Arguments are exactly the same as in corresponding annotations.
 
 ##Logging Results
 By default  Pury uses default logger, but it also allows you to set your own one. All you need to do is to implement Logger interface and set it via Pury.setLogger().
@@ -62,7 +85,7 @@ dependencies {
    compile 'com.nikitakozlov.pury:annotations:1.0.1'
    debugCompile 'com.nikitakozlov.pury:pury:0.9'
 }
-```
+``
 If you want to profile on release, then use compile instead of compileDebug for a second dependency.
 
 ##License 
