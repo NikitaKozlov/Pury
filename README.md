@@ -1,6 +1,8 @@
 [![Build Status](https://travis-ci.org/NikitaKozlov/Pury.svg?branch=master)](https://travis-ci.org/NikitaKozlov/Pury)
 #Pury
-**Pury** is a profiling library for measuring time between multiple independent events. Events can be triggered with one of the annotations or with a method call. 
+**Pury** is a profiling library for measuring time between multiple independent events. 
+Events can be triggered with one of the annotations or with a method call. 
+All events for a single scenario are united into one report.
 
 Output for launching an example app:
 ```
@@ -38,4 +40,18 @@ First, apply AspectJ weaving plugin, there are more then one such a plugin out t
 Pury inside uses [WeaverLite](https://github.com/NikitaKozlov/WeaverLite) plugin.
 So you can use it as well.
 
-##
+##Logging Results
+By default  Pury uses default logger, but it also allows you to set your own one. All you need to do is to implement Logger interface and set it via Pury.setLogger().
+```
+public interface Logger {
+    void result(String tag, String message);
+
+    void warning(String tag, String message);
+
+    void error(String tag, String message);
+}
+```
+By default result goes to Log.d, warning to Log.w and error to Log.e.
+
+##License 
+MIT
