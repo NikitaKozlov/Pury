@@ -60,9 +60,12 @@ There are three basic annotations:
     ```
     @StopProfiling(profilerName = "List pagination", runsCounter = 3, stageName = "Loading")
     private void displayNextPage() { }
-    ``
+    ```
+
+    It has the same arguments as `@StartProfiling`, **except** stageOrder.
 
 3. `@MethodProfiling` — combination of StartProfiling and StopProfiling.
+
 
 Since Java 7 doesn’t support repeatable annotations, group annotations for each of annotation above were made:
 ``` 
