@@ -34,11 +34,6 @@ Get Next Page <-- avg = 378.80ms, min = 353ms, max = 411ms, for 5 runs
 ```
 In this example, you can see some statistical information that was collected during 5 runs. For each stage start timestamp and execution time are displayed.
 
-##How to start using Pury?
-In order to start using Pury, you need to do only two simple steps. 
-First, apply AspectJ weaving plugin, there are more then one such a plugin out there. 
-Pury inside uses [WeaverLite](https://github.com/NikitaKozlov/WeaverLite) plugin.
-So you can use it as well.
 
 ##Logging Results
 By default  Pury uses default logger, but it also allows you to set your own one. All you need to do is to implement Logger interface and set it via Pury.setLogger().
@@ -52,6 +47,23 @@ public interface Logger {
 }
 ```
 By default result goes to Log.d, warning to Log.w and error to Log.e.
+
+
+##How to start using Pury?
+In order to start using Pury, you need to do only two simple steps. 
+
+First, apply AspectJ weaving plugin, there are more then one such a plugin out there. 
+Pury inside uses [WeaverLite](https://github.com/NikitaKozlov/WeaverLite) plugin.
+So you can use it as well.
+
+Second, include following dependencies:
+```
+dependencies {
+   compile 'com.nikitakozlov.pury:annotations:1.0.1'
+   debugCompile 'com.nikitakozlov.pury:pury:0.9'
+}
+```
+If you want to profile on release, then use compile instead of compileDebug for a second dependency.
 
 ##License 
 MIT
