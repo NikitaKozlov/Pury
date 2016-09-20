@@ -36,7 +36,7 @@ dependencies {
     testCompile 'junit:junit:4.12'
     testCompile 'org.mockito:mockito-core:1.10.19'
     compile 'org.aspectj:aspectjrt:1.8.6'
-    compile project(':annotations')
+    compile 'com.nikitakozlov.pury:annotations:1.0.1'
 }
 
 ext {
@@ -52,7 +52,7 @@ ext {
     siteUrl = 'https://github.com/NikitaKozlov/Pury'
     gitUrl = 'https://github.com/NikitaKozlov/Pury.git'
 
-    libraryVersion = '0.9'
+    libraryVersion = '1.0.1'
 
     developerId = 'NikitaKozlov'
     developerName = 'Nikita Kozlov'
