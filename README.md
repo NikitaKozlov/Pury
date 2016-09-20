@@ -38,23 +38,29 @@ In this example, you can see some statistical information that was collected dur
 
 There are three basic annotations:
 
-1. `@StartProfiling` — triggers an event to start Stage or Run. Profiling will start before method execution. 
+1. `@` — triggers an event to start Stage or Run. Profiling will start before method execution. 
 
     ```
-    @StartProfiling(profilerName = "List pagination", runsCounter = 3, stageName = "Loading", stageOrder = 0)
+    @StartProfiling(profilerName = "List pagination", runsCounter = 3, stageName = "Loading", 
+    stageOrder = 0)
     private void loadNextPage() { }
     ```
     
     StartProfiling can accept up to 5 arguments:
-    1. profilerName — name of the profiler is displayed in the result. Along with runsCounter identifies the Profiler.
-    2. runsCounter — amount of runs for Profiler to wait for. Result is available only after all runs are stopped.
-    3. stageName — identifies  a stage to start. Name is displayed in the result.
-    4. stageOrder — stage order reflects the hierarchy of stages. In order to start a new stage, it must be bigger then order of current most nested active stage. Stage order is a subject to one more limitation: first start event must have order number equal zero.
-    5. enabled — if set to false, an annotation is skipped.
+    1. **profilerName** — name of the profiler is displayed in the result. Along with runsCounter identifies the Profiler.
+    2. **runsCounter** — amount of runs for Profiler to wait for. Result is available only after all runs are stopped.
+    3. **stageName** — identifies  a stage to start. Name is displayed in the result.
+    4. **stageOrder** — stage order reflects the hierarchy of stages. In order to start a new stage, it must be bigger then order of current most nested active stage. Stage order is a subject to one more limitation: first start event must have order number equal zero.
+    5. **enabled** — if set to false, an annotation is skipped.
     
     Profiler is identified by combination of profilerName and runsCounter. So if you are using same profilerName, but different runsCounter, then you will get two separate results, instead of a combined one.
     
 2. `@StopProfiling` — triggers an event to stop Stage or Run. Profiling will be stopped after method execution. Once Stage or Run is stopped, all nested stages are also stopped.
+    
+    ```
+    @StopProfiling(profilerName = "List pagination", runsCounter = 3, stageName = "Loading")
+    private void displayNextPage() { }
+    ``
 
 3. `@MethodProfiling` — combination of StartProfiling and StopProfiling.
 
