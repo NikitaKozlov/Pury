@@ -20,11 +20,11 @@ App Start --> 0ms
   Main Activity Launch <-- 1182ms, execution = 139ms
 App Start <-- 1182ms
 ```
-As you can see, Pury measured time for launching the application, including intermediate stages, `
+As you can see, Pury measured time for launching the application, including intermediate stages, 
 like loading data on splash screen and activity’s lifecycle methods. 
 For each stage start and stop timestamps are displayed and so as execution time. 
 
-Output for fragment with pagination:
+Output for a screen with pagination:
 ```
 Get Next Page --> 0ms
   Load --> avg = 1.80ms, min = 1ms, max = 3ms, for 5 runs
@@ -39,7 +39,7 @@ In this example, you can see some statistical information that was collected dur
 
 There are three basic annotations:
 
-1. `@` — triggers an event to start Stage or Run. Profiling will start before method execution. 
+1. `@StartProfiling` — triggers an event to start Stage or Run. Profiling will start before method execution. 
 
     ```
     @StartProfiling(profilerName = "List pagination", runsCounter = 3, stageName = "Loading", 
@@ -47,7 +47,7 @@ There are three basic annotations:
     private void loadNextPage() { }
     ```
     
-    StartProfiling can accept up to 5 arguments:
+    It can accept up to 5 arguments:
     1. **profilerName** — name of the profiler is displayed in the result. Along with runsCounter identifies the Profiler.
     2. **runsCounter** — amount of runs for Profiler to wait for. Result is available only after all runs are stopped.
     3. **stageName** — identifies  a stage to start. Name is displayed in the result.
@@ -104,7 +104,7 @@ public interface Logger {
     void error(String tag, String message);
 }
 ```
-By default result goes to Log.d, warning to Log.w and error to Log.e.
+By default result goes to `Log.d`, warning to `Log.w` and error to `Log.e.
 
 
 ##How to start using Pury?
@@ -118,9 +118,9 @@ Second, include following dependencies:
 ```
 dependencies {
    compile 'com.nikitakozlov.pury:annotations:1.0.1'
-   debugCompile 'com.nikitakozlov.pury:pury:0.9'
+   debugCompile 'com.nikitakozlov.pury:pury:1.0.1'
 }
-``
+```
 If you want to profile on release, then use compile instead of compileDebug for a second dependency.
 
 ##License 
