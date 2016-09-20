@@ -62,9 +62,17 @@ There are three basic annotations:
     private void displayNextPage() { }
     ```
 
-    It has the same arguments as `@StartProfiling`, **except** stageOrder.
+    It has the same arguments as `@StartProfiling`, except **stageOrder**.
 
 3. `@MethodProfiling` — combination of StartProfiling and StopProfiling.
+
+    ```
+    @MethodProfiling(profilerName = "List pagination", runsCounter = 3, stageName = "Process", `
+    stageOrder = 1)
+    private List<String> processNextPage() { }
+    ```
+    
+    It has exact same arguments as StartProfiling with one small remark. If stageName is empty then it will be generated from  method’s name and class. This is made in order to be able to use MethodProfiling without any arguments and get a meaningful result.
 
 
 Since Java 7 doesn’t support repeatable annotations, group annotations for each of annotation above were made:
