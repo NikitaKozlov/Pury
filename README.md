@@ -94,7 +94,7 @@ Pury.stopProfiling();
 Arguments are exactly the same as in corresponding annotations.
 
 ##Logging Results
-By default  Pury uses default logger, but it also allows you to set your own one. All you need to do is to implement Logger interface and set it via Pury.setLogger().
+By default  Pury uses default logger, but it also allows you to set your own one. All you need to do is to implement Logger interface and set it via `Pury.setLogger()`.
 ```
 public interface Logger {
     void result(String tag, String message);
