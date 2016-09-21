@@ -104,7 +104,7 @@ public interface Logger {
     void error(String tag, String message);
 }
 ```
-By default result goes to `Log.d`, warning to `Log.w` and error to `Log.e.
+By default result goes to `Log.d`, warning to `Log.w` and error to `Log.e`.
 
 
 ##How to start using Pury?
