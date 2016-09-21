@@ -1,8 +1,5 @@
 package com.nikitakozlov.pury.internal.profile;
 
-
-import android.util.Log;
-
 public class StopWatch {
 
     private long startTimeStamp;
@@ -19,7 +16,6 @@ public class StopWatch {
         if (!isStopped) {
             execTime = System.currentTimeMillis() - startTimeStamp;
             isStopped = true;
-            Log.d("StopWatch", String.valueOf(execTime));
         }
     }
 
