@@ -5,6 +5,8 @@
 Events can be triggered with one of the annotations or with a method call. 
 All events for a single scenario are united into one report.
 
+If you are interesting in motivation behind this library and inner structure, please, check [this article](https://medium.com/@nikita.kozlov/pury-new-way-to-profile-your-android-application-7e248b5f615e#.op09un7hr).
+
 Output for launching an example app:
 ```
 App Start --> 0ms
