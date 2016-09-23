@@ -2,6 +2,8 @@ package com.nikitakozlov.pury.internal;
 
 import android.util.Log;
 
+import com.nikitakozlov.pury.Logger;
+
 public class DefaultLogger implements Logger {
     @Override
     public void result(String tag, String message) {

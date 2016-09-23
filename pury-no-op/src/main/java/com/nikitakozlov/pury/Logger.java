@@ -1,4 +1,4 @@
-package com.nikitakozlov.pury.internal;
+package com.nikitakozlov.pury;
 
 public interface Logger {
     void result(String tag, String message);

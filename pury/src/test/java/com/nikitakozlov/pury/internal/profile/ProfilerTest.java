@@ -1,7 +1,7 @@
 package com.nikitakozlov.pury.internal.profile;
 
 
-import com.nikitakozlov.pury.internal.Logger;
+import com.nikitakozlov.pury.Logger;
 import com.nikitakozlov.pury.internal.result.ProfileResultProcessor;
 
 import org.junit.Before;
