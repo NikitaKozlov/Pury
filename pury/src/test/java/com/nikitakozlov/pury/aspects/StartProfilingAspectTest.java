@@ -16,6 +16,7 @@ import org.junit.Test;
 
 import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -58,6 +59,15 @@ public class StartProfilingAspectTest {
 
         verify(profilingManager).getProfiler(eq(profilerId));
         verify(profiler).startStage(STAGE_NAME_1, STAGE_ORDER_1);
+    }
+
+    @Test
+    public void weaveJoinPoint_DoesNothing_WhenStartProfilingAnnotationIsDisabled() throws Throwable {
+        ProfilerId profilerId = new ProfilerId(PROFILER_NAME_1, RUNS_COUNTER_5);
+
+        aspect.weaveJoinPoint(mockJoinPoint("methodWithDisabledStartProfilingAnnotation"));
+
+        verify(profilingManager, never()).getProfiler(eq(profilerId));
     }
 
     @Test
@@ -122,6 +132,11 @@ public class StartProfilingAspectTest {
     @StartProfiling(runsCounter = RUNS_COUNTER_5, profilerName = PROFILER_NAME_1,
             stageName = STAGE_NAME_1, stageOrder = STAGE_ORDER_1)
     private void methodWithStartProfilingAnnotation() {
+    }
+
+    @StartProfiling(runsCounter = RUNS_COUNTER_5, profilerName = PROFILER_NAME_1,
+            stageName = STAGE_NAME_1, stageOrder = STAGE_ORDER_1, enabled = false)
+    private void methodWithDisabledStartProfilingAnnotation() {
     }
 
     @StartProfilings(value = {
