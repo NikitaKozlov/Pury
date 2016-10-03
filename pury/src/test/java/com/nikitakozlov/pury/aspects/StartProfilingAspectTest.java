@@ -61,7 +61,7 @@ public class StartProfilingAspectTest {
     }
 
     @Test
-    public void weaveJoinPoint_TakesParametersFromStartProfilingsAnnotationAndStartProfiler() throws Throwable {
+    public void weaveJoinPoint_TakesParametersFromStartProfilingsAnnotationAndStartProfilers() throws Throwable {
         ProfilerId profilerId1 = new ProfilerId(PROFILER_NAME_1, RUNS_COUNTER_5);
         Profiler profiler1 = mock(Profiler.class);
         when(profilingManager.getProfiler(eq(profilerId1))).thenReturn(profiler1);
@@ -81,7 +81,7 @@ public class StartProfilingAspectTest {
     }
 
     @Test
-    public void weaveJoinPoint_TakesParametersFromBothAnnotationsAndStartProfiler() throws Throwable {
+    public void weaveJoinPoint_TakesParametersFromBothAnnotationsAndStartProfilers() throws Throwable {
         ProfilerId profilerId1 = new ProfilerId(PROFILER_NAME_1, RUNS_COUNTER_5);
         Profiler profiler1 = mock(Profiler.class);
         when(profilingManager.getProfiler(eq(profilerId1))).thenReturn(profiler1);
