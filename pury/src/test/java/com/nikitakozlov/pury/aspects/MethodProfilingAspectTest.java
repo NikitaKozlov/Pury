@@ -1,10 +1,10 @@
 package com.nikitakozlov.pury.aspects;
 
-import com.nikitakozlov.pury.annotations.StartProfiling;
-import com.nikitakozlov.pury.annotations.StartProfilings;
+import com.nikitakozlov.pury.annotations.MethodProfiling;
+import com.nikitakozlov.pury.annotations.MethodProfilings;
 import com.nikitakozlov.pury.internal.profile.Profiler;
-import com.nikitakozlov.pury.internal.profile.ProfilingManager;
 import com.nikitakozlov.pury.internal.profile.ProfilerId;
+import com.nikitakozlov.pury.internal.profile.ProfilingManager;
 import com.nikitakozlov.pury.internal.profile.ProfilingManagerSetter;
 
 import org.aspectj.lang.JoinPoint;
@@ -16,10 +16,11 @@ import org.junit.Test;
 
 import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-public class StartProfilingAspectTest {
+public class MethodProfilingAspectTest {
 
     private static final int RUNS_COUNTER_5 = 5;
     private static final String PROFILER_NAME_1 = "profilerName 1";
@@ -39,25 +40,42 @@ public class StartProfilingAspectTest {
     private static final String STAGE_NAME_3 = "stageName 3";
 
     private ProfilingManager profilingManager;
-    private StartProfilingAspect aspect;
+    private MethodProfilingAspect aspect;
 
     @Before
     public void setUp() {
         profilingManager = mock(ProfilingManager.class);
         ProfilingManagerSetter.setInstance(profilingManager);
-        aspect = new StartProfilingAspect();
+        aspect = new MethodProfilingAspect();
     }
 
     @Test
-    public void weaveJoinPoint_TakesParametersFromStartProfilingAnnotationAndStartProfiler() throws Throwable {
+    public void weaveJoinPoint_TakesParametersFromMethodProfilingAnnotationAndStartProfiler() throws Throwable {
         ProfilerId profilerId = new ProfilerId(PROFILER_NAME_1, RUNS_COUNTER_5);
         Profiler profiler = mock(Profiler.class);
         when(profilingManager.getProfiler(eq(profilerId))).thenReturn(profiler);
 
-        aspect.weaveJoinPoint(mockJoinPoint("methodWithStartProfilingAnnotation"));
+        aspect.weaveJoinPoint(mockProceedingJoinPoint("methodWithMethodProfilingAnnotation"));
 
-        verify(profilingManager).getProfiler(eq(profilerId));
+        verify(profilingManager, times(2)).getProfiler(eq(profilerId));
         verify(profiler).startStage(STAGE_NAME_1, STAGE_ORDER_1);
+        verify(profiler).stopStage(STAGE_NAME_1);
+    }
+
+    @Test
+    public void weaveJoinPoint_CreatesDefaultStageNameAndStartProfiler_WhenMethodProfilingAnnotationHasNoStageName() throws Throwable {
+        ProfilerId profilerId = new ProfilerId(PROFILER_NAME_1, RUNS_COUNTER_5);
+        Profiler profiler = mock(Profiler.class);
+        when(profilingManager.getProfiler(eq(profilerId))).thenReturn(profiler);
+
+        String methodName = "methodWithMethodProfilingAnnotationWithoutStageName";
+        String defaultStageName = this.getClass().getSimpleName() + "." + methodName;
+
+        aspect.weaveJoinPoint(mockProceedingJoinPoint(methodName));
+
+        verify(profilingManager, times(2)).getProfiler(eq(profilerId));
+        verify(profiler).startStage(defaultStageName, STAGE_ORDER_1);
+        verify(profiler).stopStage(defaultStageName);
     }
 
     @Test
@@ -70,13 +88,15 @@ public class StartProfilingAspectTest {
         Profiler profiler2 = mock(Profiler.class);
         when(profilingManager.getProfiler(eq(profilerId2))).thenReturn(profiler2);
 
-        aspect.weaveJoinPoint(mockJoinPoint("methodWithStartProfilingsAnnotation"));
+        aspect.weaveJoinPoint(mockProceedingJoinPoint("methodWithMethodProfilingsAnnotation"));
 
-        verify(profilingManager).getProfiler(eq(profilerId1));
+        verify(profilingManager, times(2)).getProfiler(eq(profilerId1));
         verify(profiler1).startStage(STAGE_NAME_1, STAGE_ORDER_1);
+        verify(profiler1).stopStage(STAGE_NAME_1);
 
-        verify(profilingManager).getProfiler(eq(profilerId2));
+        verify(profilingManager, times(2)).getProfiler(eq(profilerId2));
         verify(profiler2).startStage(STAGE_NAME_2, STAGE_ORDER_2);
+        verify(profiler2).stopStage(STAGE_NAME_2);
     }
 
     @Test
@@ -93,16 +113,19 @@ public class StartProfilingAspectTest {
         Profiler profiler3 = mock(Profiler.class);
         when(profilingManager.getProfiler(eq(profilerId3))).thenReturn(profiler3);
 
-        aspect.weaveJoinPoint(mockJoinPoint("methodWithBothAnnotations"));
+        aspect.weaveJoinPoint(mockProceedingJoinPoint("methodWithBothAnnotations"));
 
-        verify(profilingManager).getProfiler(eq(profilerId1));
+        verify(profilingManager, times(2)).getProfiler(eq(profilerId1));
         verify(profiler1).startStage(STAGE_NAME_1, STAGE_ORDER_1);
+        verify(profiler1).stopStage(STAGE_NAME_1);
 
-        verify(profilingManager).getProfiler(eq(profilerId2));
+        verify(profilingManager, times(2)).getProfiler(eq(profilerId2));
         verify(profiler2).startStage(STAGE_NAME_2, STAGE_ORDER_2);
+        verify(profiler2).stopStage(STAGE_NAME_2);
 
-        verify(profilingManager).getProfiler(eq(profilerId3));
+        verify(profilingManager, times(2)).getProfiler(eq(profilerId3));
         verify(profiler3).startStage(STAGE_NAME_3, STAGE_ORDER_3);
+        verify(profiler3).stopStage(STAGE_NAME_3);
     }
 
     @After
@@ -110,36 +133,43 @@ public class StartProfilingAspectTest {
         ProfilingManagerSetter.setInstance(null);
     }
 
-    private JoinPoint mockJoinPoint(String methodName) throws NoSuchMethodException {
-        JoinPoint joinPoint = mock(JoinPoint.class);
+    private ProceedingJoinPoint mockProceedingJoinPoint(String methodName) throws NoSuchMethodException {
+        ProceedingJoinPoint joinPoint = mock(ProceedingJoinPoint.class);
         MethodSignature methodSignature = mock(MethodSignature.class);
+        when(methodSignature.getDeclaringType()).thenReturn(this.getClass());
+        when(methodSignature.getName()).thenReturn(methodName);
 
         when(methodSignature.getMethod()).thenReturn(this.getClass().getDeclaredMethod(methodName));
         when(joinPoint.getSignature()).thenReturn(methodSignature);
         return joinPoint;
     }
 
-    @StartProfiling(runsCounter = RUNS_COUNTER_5, profilerName = PROFILER_NAME_1,
+    @MethodProfiling(runsCounter = RUNS_COUNTER_5, profilerName = PROFILER_NAME_1,
             stageName = STAGE_NAME_1, stageOrder = STAGE_ORDER_1)
-    private void methodWithStartProfilingAnnotation() {
+    private void methodWithMethodProfilingAnnotation() {
     }
 
-    @StartProfilings(value = {
-            @StartProfiling(runsCounter = RUNS_COUNTER_5, profilerName = PROFILER_NAME_1,
+    @MethodProfiling(runsCounter = RUNS_COUNTER_5, profilerName = PROFILER_NAME_1,
+            stageOrder = STAGE_ORDER_1)
+    private void methodWithMethodProfilingAnnotationWithoutStageName() {
+    }
+
+    @MethodProfilings(value = {
+            @MethodProfiling(runsCounter = RUNS_COUNTER_5, profilerName = PROFILER_NAME_1,
                     stageName = STAGE_NAME_1, stageOrder = STAGE_ORDER_1),
-            @StartProfiling(runsCounter = RUNS_COUNTER_4, profilerName = PROFILER_NAME_2,
+            @MethodProfiling(runsCounter = RUNS_COUNTER_4, profilerName = PROFILER_NAME_2,
                     stageName = STAGE_NAME_2, stageOrder = STAGE_ORDER_2)
     })
-    private void methodWithStartProfilingsAnnotation() {
+    private void methodWithMethodProfilingsAnnotation() {
     }
 
-    @StartProfilings(value = {
-        @StartProfiling(runsCounter = RUNS_COUNTER_5, profilerName = PROFILER_NAME_1,
-                stageName = STAGE_NAME_1, stageOrder = STAGE_ORDER_1),
-        @StartProfiling(runsCounter = RUNS_COUNTER_4, profilerName = PROFILER_NAME_2,
-                stageName = STAGE_NAME_2, stageOrder = STAGE_ORDER_2)
+    @MethodProfilings(value = {
+            @MethodProfiling(runsCounter = RUNS_COUNTER_5, profilerName = PROFILER_NAME_1,
+                    stageName = STAGE_NAME_1, stageOrder = STAGE_ORDER_1),
+            @MethodProfiling(runsCounter = RUNS_COUNTER_4, profilerName = PROFILER_NAME_2,
+                    stageName = STAGE_NAME_2, stageOrder = STAGE_ORDER_2)
     })
-    @StartProfiling(runsCounter = RUNS_COUNTER_3, profilerName = PROFILER_NAME_3,
+    @MethodProfiling(runsCounter = RUNS_COUNTER_3, profilerName = PROFILER_NAME_3,
             stageName = STAGE_NAME_3, stageOrder = STAGE_ORDER_3)
     private void methodWithBothAnnotations() {
     }

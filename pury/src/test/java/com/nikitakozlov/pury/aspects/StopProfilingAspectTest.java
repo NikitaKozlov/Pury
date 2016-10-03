@@ -74,7 +74,6 @@ public class StopProfilingAspectTest {
         verify(profilingManager).getProfiler(eq(profilerId1));
         verify(profiler1).stopStage(STAGE_NAME_1);
 
-
         verify(profilingManager).getProfiler(eq(profilerId2));
         verify(profiler2).stopStage(STAGE_NAME_2);
     }
