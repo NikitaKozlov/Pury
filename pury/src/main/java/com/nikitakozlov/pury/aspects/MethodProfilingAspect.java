@@ -20,7 +20,7 @@ import java.util.Collections;
 import java.util.List;
 
 @Aspect
-public class ProfileMethodAspect {
+public class MethodProfilingAspect {
     private static final String POINTCUT_METHOD =
             "execution(@com.nikitakozlov.pury.annotations.MethodProfiling * *(..))";
 
