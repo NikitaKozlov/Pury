@@ -47,7 +47,7 @@ public class ProfileResultProcessorTest {
         ProfileResult result = mProcessor.process(Collections.singletonList(run));
         assertTrue(result instanceof RootSingleProfileResult);
         RootSingleProfileResult rootResult = (RootSingleProfileResult) result;
-        assertEquals(run.getRootStage().getExecTimeInMillis(), rootResult.getExecTime());
+        assertEquals(run.getRootStage().getExecTime(), rootResult.getExecTime());
     }
 
     @Test
@@ -59,13 +59,13 @@ public class ProfileResultProcessorTest {
 
         Stage rootStage = run.getRootStage();
         Stage nestedStage = rootStage.getStages().get(0);
-        long relativeStartTime = nestedStage.getStartTimeInMillis() - rootStage.getStartTimeInMillis();
+        long relativeStartTime = nestedStage.getStartTime() - rootStage.getStartTime();
 
         RootSingleProfileResult result = (RootSingleProfileResult) mProcessor.process(
                 Collections.singletonList(run));
         SingleProfileResult nestedResult = (SingleProfileResult) result.getNestedResults().get(0);
         assertEquals(relativeStartTime, nestedResult.getStartTime());
-        assertEquals(nestedStage.getExecTimeInMillis(), nestedResult.getExecTime());
+        assertEquals(nestedStage.getExecTime(), nestedResult.getExecTime());
     }
 
     @Test
@@ -75,8 +75,8 @@ public class ProfileResultProcessorTest {
         Stage rootStage0 = runs.get(0).getRootStage();
         Stage rootStage1 = runs.get(1).getRootStage();
 
-        AverageTime averageExecTime = calculateAverageTimeOfTwo(rootStage0.getExecTimeInMillis(),
-                rootStage1.getExecTimeInMillis());
+        AverageTime averageExecTime = calculateAverageTimeOfTwo(rootStage0.getExecTime(),
+                rootStage1.getExecTime());
 
         ProfileResult result = mProcessor.process(runs);
         assertTrue(result instanceof RootAverageProfileResult);
@@ -96,11 +96,11 @@ public class ProfileResultProcessorTest {
         Stage nestedStage1 = rootStage1.getStages().get(0);
 
         AverageTime averageStartTime = calculateAverageTimeOfTwo(
-                nestedStage0.getStartTimeInMillis() - rootStage0.getStartTimeInMillis(),
-                nestedStage1.getStartTimeInMillis() - rootStage1.getStartTimeInMillis());
+                nestedStage0.getStartTime() - rootStage0.getStartTime(),
+                nestedStage1.getStartTime() - rootStage1.getStartTime());
 
-        AverageTime averageExecTime = calculateAverageTimeOfTwo(nestedStage0.getExecTimeInMillis(),
-                nestedStage1.getExecTimeInMillis());
+        AverageTime averageExecTime = calculateAverageTimeOfTwo(nestedStage0.getExecTime(),
+                nestedStage1.getExecTime());
 
         RootAverageProfileResult result = (RootAverageProfileResult) mProcessor.process(runs);
         AverageProfileResult nestedResult = (AverageProfileResult) result.getNestedResults().get(0);

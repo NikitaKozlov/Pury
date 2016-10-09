@@ -3,6 +3,7 @@ package com.nikitakozlov.pury.internal.result;
 import java.util.List;
 
 public class SingleProfileResult implements ProfileResult {
+    protected static final int MS_TO_NS = 1000000;
 
     private static final String EXEC_TIME = "execution = ";
     private static final String DEPTH_PREFIX = "  ";
@@ -47,7 +48,7 @@ public class SingleProfileResult implements ProfileResult {
         StringBuilder stringBuilder = new StringBuilder(depthPrefix);
         stringBuilder.append(mStageName);
         stringBuilder.append(" --> ");
-        stringBuilder.append(getStartTime());
+        stringBuilder.append(getStartTime() /  MS_TO_NS);
         stringBuilder.append("ms \n");
         for (ProfileResult result : getNestedResults()) {
             stringBuilder.append(result.toString());
@@ -56,10 +57,10 @@ public class SingleProfileResult implements ProfileResult {
         stringBuilder.append(depthPrefix);
         stringBuilder.append(mStageName);
         stringBuilder.append(" <-- ");
-        stringBuilder.append(getStartTime() + getExecTime());
+        stringBuilder.append((getStartTime() + getExecTime()) /  MS_TO_NS);
         stringBuilder.append("ms, ");
         stringBuilder.append(EXEC_TIME);
-        stringBuilder.append(getExecTime());
+        stringBuilder.append(getExecTime() /  MS_TO_NS);
         stringBuilder.append("ms");
 
         return  stringBuilder.toString();

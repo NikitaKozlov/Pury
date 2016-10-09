@@ -1,7 +1,5 @@
 package com.nikitakozlov.pury.internal.profile;
 
-import com.nikitakozlov.pury.internal.profile.StopWatch;
-
 import org.junit.Test;
 
 import static java.lang.Thread.sleep;
@@ -17,14 +15,14 @@ public class StopWatchTest {
         stopWatch.start();
         sleep(ONE_HUNDERD_MILLIS);
         stopWatch.stop();
-        assertTrue(ONE_HUNDERD_MILLIS <= stopWatch.getExecTimeInMillis());
+        assertTrue(ONE_HUNDERD_MILLIS <= stopWatch.getExecTime());
     }
 
     @Test
     public void getStartTimeInMillis_ReturnsTimeBiggerThenCurrentTimeBeforeStart() throws InterruptedException {
         StopWatch stopWatch = new StopWatch();
         stopWatch.start();
-        long currentTime = System.currentTimeMillis();
-        assertTrue(currentTime >= stopWatch.getStartTimeInMillis());
+        long currentTime = System.nanoTime();
+        assertTrue(currentTime >= stopWatch.getStartTime());
     }
 }

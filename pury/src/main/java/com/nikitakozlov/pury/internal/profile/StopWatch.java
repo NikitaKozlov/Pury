@@ -8,13 +8,13 @@ public class StopWatch {
 
     public void start() {
         if (!isStopped) {
-            startTimeStamp = System.currentTimeMillis();
+            startTimeStamp = System.nanoTime();
         }
     }
 
     public void stop() {
         if (!isStopped) {
-            execTime = System.currentTimeMillis() - startTimeStamp;
+            execTime = System.nanoTime() - startTimeStamp;
             isStopped = true;
         }
     }
@@ -23,11 +23,11 @@ public class StopWatch {
         return isStopped;
     }
 
-    public long getExecTimeInMillis() {
+    public long getExecTime() {
         return execTime;
     }
 
-    public long getStartTimeInMillis() {
+    public long getStartTime() {
         return startTimeStamp;
     }
 }
