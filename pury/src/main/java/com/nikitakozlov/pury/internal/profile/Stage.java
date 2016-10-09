@@ -103,11 +103,11 @@ public class Stage {
         return mIsStarted;
     }
 
-    public long getStartTimeInMillis() {
-        return mStopWatch.getStartTimeInMillis();
+    public long getStartTime() {
+        return mStopWatch.getStartTime();
     }
-    public long getExecTimeInMillis() {
-        return mStopWatch.getExecTimeInMillis();
+    public long getExecTime() {
+        return mStopWatch.getExecTime();
     }
 
     public List<Stage> getStages() {

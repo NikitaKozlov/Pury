@@ -19,7 +19,7 @@ public class RootSingleProfileResult extends SingleProfileResult {
         }
         stringBuilder.append(getStageName());
         stringBuilder.append(" <-- ");
-        stringBuilder.append(getExecTime());
+        stringBuilder.append(getExecTime() / MS_TO_NS);
         stringBuilder.append("ms");
 
         return  stringBuilder.toString();

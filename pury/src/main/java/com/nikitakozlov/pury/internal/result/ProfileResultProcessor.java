@@ -25,8 +25,8 @@ public class ProfileResultProcessor {
 
     private RootSingleProfileResult processSingleRun(Run run) {
         Stage rootStage = run.getRootStage();
-        return new RootSingleProfileResult(rootStage.getName(), rootStage.getExecTimeInMillis(),
-                processStageList(rootStage.getStages(), rootStage.getStartTimeInMillis(), 1));
+        return new RootSingleProfileResult(rootStage.getName(), rootStage.getExecTime(),
+                processStageList(rootStage.getStages(), rootStage.getStartTime(), 1));
     }
 
     private List<SingleProfileResult> processStageList(List<Stage> stages, long rootStartTime, int depth) {
@@ -41,10 +41,10 @@ public class ProfileResultProcessor {
     }
 
     private SingleProfileResult processSingleStage(Stage stage, long rootStartTime, int depth) {
-        long relativeStartTime = stage.getStartTimeInMillis() - rootStartTime;
+        long relativeStartTime = stage.getStartTime() - rootStartTime;
 
         return new SingleProfileResult(stage.getName(), relativeStartTime,
-                stage.getExecTimeInMillis(), processStageList(stage.getStages(),
+                stage.getExecTime(), processStageList(stage.getStages(),
                 rootStartTime, depth + 1), depth);
     }
 

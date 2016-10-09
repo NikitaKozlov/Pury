@@ -4,6 +4,8 @@ import java.util.Locale;
 
 public class AverageTime {
 
+    private static final int MS_TO_NS = 1000000;
+
     private static final String MS = "ms";
     private static final String AVERAGE = "avg = ";
     private static final String MIN = "min = ";
@@ -71,17 +73,17 @@ public class AverageTime {
     public String toString() {
         StringBuilder stringBuilder = new StringBuilder();
         stringBuilder.append(AVERAGE);
-        stringBuilder.append(String.format(Locale.US, "%.2f", mAverageValue));
+        stringBuilder.append(String.format(Locale.US, "%.2f", mAverageValue / MS_TO_NS));
         stringBuilder.append(MS);
         stringBuilder.append(", ");
 
         stringBuilder.append(MIN);
-        stringBuilder.append(mMinValue);
+        stringBuilder.append(mMinValue / MS_TO_NS);
         stringBuilder.append(MS);
         stringBuilder.append(", ");
 
         stringBuilder.append(MAX);
-        stringBuilder.append(mMaxValue);
+        stringBuilder.append(mMaxValue / MS_TO_NS);
         stringBuilder.append(MS);
         stringBuilder.append(", ");
 
