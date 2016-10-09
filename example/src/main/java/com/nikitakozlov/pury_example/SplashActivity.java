@@ -7,8 +7,10 @@ import android.os.Handler;
 import android.os.Looper;
 import android.support.v7.app.AppCompatActivity;
 
+import com.nikitakozlov.pury.Pury;
 import com.nikitakozlov.pury.annotations.StartProfiling;
 import com.nikitakozlov.pury.annotations.StopProfiling;
+import com.nikitakozlov.pury.internal.Logger;
 import com.nikitakozlov.pury_example.profilers.StartApp;
 
 public class SplashActivity extends AppCompatActivity {
@@ -27,6 +29,35 @@ public class SplashActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
         loadData();
+        testPuryNoOp();
+    }
+
+    /**
+     * This method does nothing. It is here to test no-op version.
+     */
+    private void testPuryNoOp() {
+        Pury.getLogger();
+        Pury.isEnabled();
+        Pury.setEnabled(true);
+        Pury.startProfiling("", "", 0, 1);
+        Pury.stopProfiling("", "", 1);
+        Pury.setLogger(new Logger() {
+            @Override
+            public void result(String s, String s1) {
+
+            }
+
+            @Override
+            public void warning(String s, String s1) {
+
+            }
+
+            @Override
+            public void error(String s, String s1) {
+
+            }
+        });
+        Pury.setLogger(null);
     }
 
     @StartProfiling(profilerName = StartApp.PROFILER_NAME, stageName = StartApp.SPLASH_LOAD_DATA,
