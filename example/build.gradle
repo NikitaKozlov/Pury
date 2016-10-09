@@ -27,8 +27,8 @@ dependencies {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
     compile project(':annotations')
-    debugCompile project(':pury')
-    releaseCompile project(':pury-no-op')
+    compile project(':pury')
+    //releaseCompile project(':pury-no-op')
     compile 'com.android.support:appcompat-v7:23.3.0'
     compile 'org.aspectj:aspectjrt:1.8.6'
     compile 'com.android.support:design:23.3.0'

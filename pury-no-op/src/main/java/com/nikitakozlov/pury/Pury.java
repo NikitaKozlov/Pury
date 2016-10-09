@@ -1,6 +1,8 @@
 package com.nikitakozlov.pury;
 
 
+import com.nikitakozlov.pury.internal.Logger;
+
 public final class Pury {
 
     public static void setLogger(Logger logger) { }

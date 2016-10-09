@@ -1,6 +1,7 @@
 package com.nikitakozlov.pury;
 
 import com.nikitakozlov.pury.internal.DefaultLogger;
+import com.nikitakozlov.pury.internal.Logger;
 import com.nikitakozlov.pury.internal.profile.ProfilerId;
 import com.nikitakozlov.pury.internal.profile.ProfilingManager;
 
