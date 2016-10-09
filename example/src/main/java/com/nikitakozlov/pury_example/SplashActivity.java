@@ -36,11 +36,13 @@ public class SplashActivity extends AppCompatActivity {
      * This method does nothing. It is here to test no-op version.
      */
     private void testPuryNoOp() {
+        String testNoopProfilerName = "Test noop";
+
         Pury.getLogger();
         Pury.isEnabled();
         Pury.setEnabled(true);
-        Pury.startProfiling("", "", 0, 1);
-        Pury.stopProfiling("", "", 1);
+        Pury.startProfiling(testNoopProfilerName, "", 0, 1);
+        Pury.stopProfiling(testNoopProfilerName, "", 1);
         Pury.setLogger(new Logger() {
             @Override
             public void result(String s, String s1) {
