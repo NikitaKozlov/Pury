@@ -4,7 +4,6 @@ import com.nikitakozlov.pury.internal.DefaultLogger;
 import com.nikitakozlov.pury.internal.Logger;
 import com.nikitakozlov.pury.internal.profile.ProfilerId;
 import com.nikitakozlov.pury.internal.profile.ProfilingManager;
-import com.nikitakozlov.pury.internal.profile.StageId;
 
 public final class Pury {
     static volatile Logger sLogger;

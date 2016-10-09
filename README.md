@@ -121,9 +121,10 @@ Second, include following dependencies:
 dependencies {
    compile 'com.nikitakozlov.pury:annotations:1.0.1'
    debugCompile 'com.nikitakozlov.pury:pury:1.0.2'
+   releaseCompile 'com.nikitakozlov.pury:pury-no-op:1.0.2'
 }
 ```
-If you want to profile on release, then use compile instead of compileDebug for a second dependency.
+If you want to profile on release, then use compile instead of compileDebug for a second dependency and removed third.
 
 ##License 
 MIT
