@@ -42,8 +42,10 @@ public final class Pury {
      */
     public static void startProfiling(String profilerName, String stageName, int stageOrder,
                                       int runsCounter) {
-        ProfilerId profilerId = new ProfilerId(profilerName, runsCounter);
-        ProfilingManager.getInstance().getProfiler(profilerId).startStage(stageName, stageOrder);
+        if (isEnabled()) {
+            ProfilerId profilerId = new ProfilerId(profilerName, runsCounter);
+            ProfilingManager.getInstance().getProfiler(profilerId).startStage(stageName, stageOrder);
+        }
     }
 
     /**
@@ -54,7 +56,9 @@ public final class Pury {
      *                    Result will be available only after all runs are stopped.
      */
     public static void stopProfiling(String profilerName, String stageName, int runsCounter) {
-        ProfilerId profilerId = new ProfilerId(profilerName, runsCounter);
-        ProfilingManager.getInstance().getProfiler(profilerId).stopStage(stageName);
+        if (isEnabled()) {
+            ProfilerId profilerId = new ProfilerId(profilerName, runsCounter);
+            ProfilingManager.getInstance().getProfiler(profilerId).stopStage(stageName);
+        }
     }
 }
