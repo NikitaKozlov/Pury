@@ -52,7 +52,7 @@ ext {
     siteUrl = 'https://github.com/NikitaKozlov/Pury'
     gitUrl = 'https://github.com/NikitaKozlov/Pury.git'
 
-    libraryVersion = '1.0.2'
+    libraryVersion = '1.0.3'
 
     developerId = 'NikitaKozlov'
     developerName = 'Nikita Kozlov'
@@ -63,5 +63,18 @@ ext {
     allLicenses = ["MIT"]
 }
 
-//apply from: 'https://raw.githubusercontent.com/nuuneoi/JCenter/master/installv1.gradle'
+apply from: 'https://raw.githubusercontent.com/nuuneoi/JCenter/master/installv1.gradle'
 //apply from: 'https://raw.githubusercontent.com/nuuneoi/JCenter/master/bintrayv1.gradle'
+
+apply plugin: 'maven'
+
+group = 'com.nikitakozlov.pury'
+version = '1.0.3'
+
+uploadArchives {
+    repositories {
+        mavenDeployer {
+            repository(url: uri('repo'))
+        }
+    }
+}
