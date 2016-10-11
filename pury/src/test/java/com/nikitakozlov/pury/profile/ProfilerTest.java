@@ -3,15 +3,18 @@ package com.nikitakozlov.pury.profile;
 
 import com.nikitakozlov.pury.Logger;
 import com.nikitakozlov.pury.result.ResultManager;
+import com.nikitakozlov.pury.result.model.ProfileResult;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.mockito.Matchers;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
 import java.util.Arrays;
 import java.util.Collections;
 
+import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyInt;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Matchers.eq;
@@ -128,17 +131,19 @@ public class ProfilerTest {
     }
 
     @Test
-    public void stopStage_CallProcessorAndLogger_WhenRunCounterIsOne() {
+    public void stopStage_CallProcessorAndResultManager_WhenRunCounterIsOne() {
         Run run = spy(new Run(STAGE_0, STAGE_ORDER_START_ORDER));
         when(mRunFactory.startNewRun(STAGE_0, STAGE_ORDER_START_ORDER)).thenReturn(run);
+        ProfileResult result = mock(ProfileResult.class);
+        when(mResultProcessor.process(Collections.singletonList(run))).thenReturn(result);
 
         ProfilerId profilerId = new ProfilerId(METHOD_ID, RUN_COUNTER_1);
         Profiler profiler = new Profiler(profilerId, mCallback, mResultProcessor, mResultManager, mLogger, mRunFactory);
         profiler.startStage(STAGE_0, STAGE_ORDER_START_ORDER);
         profiler.stopStage(STAGE_0);
 
-        verify(mResultProcessor).process(eq(Collections.singletonList(run)));
-        verify(mLogger).result(eq(Profiler.LOG_TAG), anyString());
+        verify(mResultManager).dispatchResult(result);
+        verify(mLogger, never()).result(eq(Profiler.LOG_TAG), anyString());
         verify(mCallback).onDone(profilerId);
     }
 
@@ -147,6 +152,8 @@ public class ProfilerTest {
         Run run = spy(new Run(STAGE_0, STAGE_ORDER_START_ORDER));
         Run run1 = spy(new Run(STAGE_0, STAGE_ORDER_START_ORDER));
         when(mRunFactory.startNewRun(STAGE_0, STAGE_ORDER_START_ORDER)).thenReturn(run, run1);
+        ProfileResult result = mock(ProfileResult.class);
+        when(mResultProcessor.process(Arrays.asList(run, run1))).thenReturn(result);
 
         ProfilerId profilerId = new ProfilerId(METHOD_ID, RUN_COUNTER_2);
         Profiler profiler = new Profiler(profilerId, mCallback, mResultProcessor, mResultManager, mLogger, mRunFactory);
@@ -156,8 +163,8 @@ public class ProfilerTest {
         profiler.startStage(STAGE_0, STAGE_ORDER_START_ORDER);
         profiler.stopStage(STAGE_0);
 
-        verify(mResultProcessor).process(eq(Arrays.asList(run, run1)));
-        verify(mLogger).result(eq(Profiler.LOG_TAG), anyString());
+        verify(mResultManager).dispatchResult(result);
+        verify(mLogger, never()).result(eq(Profiler.LOG_TAG), anyString());
         verify(mCallback).onDone(profilerId);
     }
 
@@ -173,7 +180,7 @@ public class ProfilerTest {
         profiler.stopStage(STAGE_0);
 
         verify(mLogger).error(eq(Profiler.LOG_TAG), anyString());
-        verify(mLogger).result(eq(Profiler.LOG_TAG), anyString());
+        verify(mResultManager).dispatchResult(Matchers.<ProfileResult>any());
     }
 
     @Test
