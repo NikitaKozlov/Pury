@@ -36,7 +36,7 @@ public class SingleProfileResult implements ProfileResult {
         return mExecTime;
     }
 
-    protected String getStageName() {
+    public String getStageName() {
         return mStageName;
     }
 
