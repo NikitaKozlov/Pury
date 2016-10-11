@@ -1,8 +1,15 @@
 package com.nikitakozlov.pury.result;
 
+import com.nikitakozlov.pury.profile.ProfileResultProcessor;
 import com.nikitakozlov.pury.profile.Run;
 import com.nikitakozlov.pury.profile.RunFactory;
 import com.nikitakozlov.pury.profile.Stage;
+import com.nikitakozlov.pury.result.model.AverageProfileResult;
+import com.nikitakozlov.pury.result.model.AverageTime;
+import com.nikitakozlov.pury.result.model.ProfileResult;
+import com.nikitakozlov.pury.result.model.RootAverageProfileResult;
+import com.nikitakozlov.pury.result.model.RootSingleProfileResult;
+import com.nikitakozlov.pury.result.model.SingleProfileResult;
 
 import org.junit.Before;
 import org.junit.Test;

@@ -1,7 +1,6 @@
 package com.nikitakozlov.pury.profile;
 
 import com.nikitakozlov.pury.Pury;
-import com.nikitakozlov.pury.result.ProfileResultProcessor;
 
 import java.util.HashMap;
 import java.util.Map;

@@ -1,7 +1,11 @@
-package com.nikitakozlov.pury.result;
+package com.nikitakozlov.pury.profile;
 
-import com.nikitakozlov.pury.profile.Run;
-import com.nikitakozlov.pury.profile.Stage;
+import com.nikitakozlov.pury.result.model.AverageProfileResult;
+import com.nikitakozlov.pury.result.model.AverageTime;
+import com.nikitakozlov.pury.result.model.ProfileResult;
+import com.nikitakozlov.pury.result.model.RootAverageProfileResult;
+import com.nikitakozlov.pury.result.model.RootSingleProfileResult;
+import com.nikitakozlov.pury.result.model.SingleProfileResult;
 
 import java.util.ArrayList;
 import java.util.Collections;

@@ -2,8 +2,7 @@ package com.nikitakozlov.pury.profile;
 
 
 import com.nikitakozlov.pury.Logger;
-import com.nikitakozlov.pury.result.ProfileResult;
-import com.nikitakozlov.pury.result.ProfileResultProcessor;
+import com.nikitakozlov.pury.result.model.ProfileResult;
 
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;

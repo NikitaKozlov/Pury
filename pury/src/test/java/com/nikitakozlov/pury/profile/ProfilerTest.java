@@ -2,7 +2,6 @@ package com.nikitakozlov.pury.profile;
 
 
 import com.nikitakozlov.pury.Logger;
-import com.nikitakozlov.pury.result.ProfileResultProcessor;
 
 import org.junit.Before;
 import org.junit.Test;
