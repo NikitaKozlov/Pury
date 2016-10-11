@@ -1,9 +1,7 @@
 package com.nikitakozlov.pury;
 
-import com.nikitakozlov.pury.internal.DefaultLogger;
-import com.nikitakozlov.pury.internal.Logger;
-import com.nikitakozlov.pury.internal.profile.ProfilerId;
-import com.nikitakozlov.pury.internal.profile.ProfilingManager;
+import com.nikitakozlov.pury.profile.ProfilerId;
+import com.nikitakozlov.pury.profile.ProfilingManager;
 
 public final class Pury {
     static volatile Logger sLogger;

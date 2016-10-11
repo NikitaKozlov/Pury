@@ -3,9 +3,9 @@ package com.nikitakozlov.pury.aspects;
 import com.nikitakozlov.pury.Pury;
 import com.nikitakozlov.pury.annotations.StopProfiling;
 import com.nikitakozlov.pury.annotations.StopProfilings;
-import com.nikitakozlov.pury.internal.profile.ProfilingManager;
-import com.nikitakozlov.pury.internal.profile.ProfilerId;
-import com.nikitakozlov.pury.internal.profile.StageId;
+import com.nikitakozlov.pury.profile.ProfilingManager;
+import com.nikitakozlov.pury.profile.ProfilerId;
+import com.nikitakozlov.pury.profile.StageId;
 
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.After;

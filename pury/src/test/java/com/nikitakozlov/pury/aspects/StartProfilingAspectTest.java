@@ -2,13 +2,12 @@ package com.nikitakozlov.pury.aspects;
 
 import com.nikitakozlov.pury.annotations.StartProfiling;
 import com.nikitakozlov.pury.annotations.StartProfilings;
-import com.nikitakozlov.pury.internal.profile.Profiler;
-import com.nikitakozlov.pury.internal.profile.ProfilingManager;
-import com.nikitakozlov.pury.internal.profile.ProfilerId;
-import com.nikitakozlov.pury.internal.profile.ProfilingManagerSetter;
+import com.nikitakozlov.pury.profile.Profiler;
+import com.nikitakozlov.pury.profile.ProfilingManager;
+import com.nikitakozlov.pury.profile.ProfilerId;
+import com.nikitakozlov.pury.profile.ProfilingManagerSetter;
 
 import org.aspectj.lang.JoinPoint;
-import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.reflect.MethodSignature;
 import org.junit.After;
 import org.junit.Before;
