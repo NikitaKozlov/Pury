@@ -2,12 +2,22 @@ package com.nikitakozlov.pury.result;
 
 import com.nikitakozlov.pury.result.model.ProfileResult;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class ResultManager {
 
-    public void dispatchResult(ProfileResult result) {
+    public Map<String, ResultHandler> resultHandlers = new HashMap<>();
 
+    public void dispatchResult(ProfileResult result) {
+        for (String key : resultHandlers.keySet()) {
+            resultHandlers.get(key).handleResult(result);
+        }
     }
 
+    public void addResultHander(String key, ResultHandler resultHandler) {
+        resultHandlers.put(key, resultHandler);
+    }
 
 //    StringBuilder result = new StringBuilder("Profiling results");
 //    String methodId = mProfilerId.getProfilerName();
