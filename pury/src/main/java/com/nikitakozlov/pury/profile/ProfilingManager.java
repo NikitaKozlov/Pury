@@ -1,6 +1,7 @@
 package com.nikitakozlov.pury.profile;
 
 import com.nikitakozlov.pury.Pury;
+import com.nikitakozlov.pury.result.ResultManager;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -23,6 +24,7 @@ public class ProfilingManager {
 
     private final Map<ProfilerId, Profiler> mProfilers = new HashMap<>();
     private final ProfileResultProcessor mResultProcessor = new ProfileResultProcessor();
+    private final ResultManager mResultManager = new ResultManager();
     private final RunFactory mRunFactory = new RunFactory();
 
     private final Profiler.Callback mProfilerCallback = new Profiler.Callback() {
@@ -40,7 +42,7 @@ public class ProfilingManager {
             return mProfilers.get(profilerId);
         }
         Profiler methodProfiler = new Profiler(profilerId, mProfilerCallback, mResultProcessor,
-                Pury.getLogger(), mRunFactory);
+                mResultManager, Pury.getLogger(), mRunFactory);
         mProfilers.put(profilerId, methodProfiler);
         return methodProfiler;
     }

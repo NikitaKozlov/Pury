@@ -2,6 +2,7 @@ package com.nikitakozlov.pury.profile;
 
 
 import com.nikitakozlov.pury.Logger;
+import com.nikitakozlov.pury.result.ResultManager;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -44,6 +45,9 @@ public class ProfilerTest {
     Logger mLogger;
 
     @Mock
+    ResultManager mResultManager;
+
+    @Mock
     RunFactory mRunFactory;
 
     @Before
@@ -54,7 +58,7 @@ public class ProfilerTest {
     @Test
     public void startStage_LogWarning_IfNoRunsAndStageOrderNotEqualStartOrder() {
         ProfilerId profilerId = new ProfilerId(METHOD_ID, RUN_COUNTER_1);
-        Profiler profiler = new Profiler(profilerId, mCallback, mResultProcessor, mLogger, mRunFactory);
+        Profiler profiler = new Profiler(profilerId, mCallback, mResultProcessor, mResultManager, mLogger, mRunFactory);
         profiler.startStage(STAGE_1, STAGE_ORDER_1);
 
         verify(mLogger).warning(eq(Profiler.LOG_TAG), anyString());
@@ -64,7 +68,7 @@ public class ProfilerTest {
     @Test
     public void startStage_StartsRun_IfNoRuns() {
         ProfilerId profilerId = new ProfilerId(METHOD_ID, RUN_COUNTER_1);
-        Profiler profiler = new Profiler(profilerId, mCallback, mResultProcessor, mLogger, mRunFactory);
+        Profiler profiler = new Profiler(profilerId, mCallback, mResultProcessor, mResultManager, mLogger, mRunFactory);
         profiler.startStage(STAGE_0, STAGE_ORDER_START_ORDER);
 
         verify(mRunFactory).startNewRun(STAGE_0, STAGE_ORDER_START_ORDER);
@@ -73,7 +77,7 @@ public class ProfilerTest {
     @Test
     public void startStage_StartsSecondRun_IfFirstRunIsStopped() {
         ProfilerId profilerId = new ProfilerId(METHOD_ID, RUN_COUNTER_2);
-        Profiler profiler = new Profiler(profilerId, mCallback, mResultProcessor, mLogger, mRunFactory);
+        Profiler profiler = new Profiler(profilerId, mCallback, mResultProcessor, mResultManager, mLogger, mRunFactory);
         profiler.startStage(STAGE_0, STAGE_ORDER_START_ORDER);
         profiler.stopStage(STAGE_0);
         profiler.startStage(STAGE_0, STAGE_ORDER_START_ORDER);
@@ -84,7 +88,7 @@ public class ProfilerTest {
     @Test
     public void startStage_DontStartsSecondRun_IfFirstRunIsStoppedAndRunCounterIsOne() {
         ProfilerId profilerId = new ProfilerId(METHOD_ID, RUN_COUNTER_1);
-        Profiler profiler = new Profiler(profilerId, mCallback, mResultProcessor, mLogger, mRunFactory);
+        Profiler profiler = new Profiler(profilerId, mCallback, mResultProcessor, mResultManager, mLogger, mRunFactory);
         profiler.startStage(STAGE_0, STAGE_ORDER_START_ORDER);
         profiler.stopStage(STAGE_0);
         profiler.startStage(STAGE_0, STAGE_ORDER_START_ORDER);
@@ -98,7 +102,7 @@ public class ProfilerTest {
         when(mRunFactory.startNewRun(STAGE_0, STAGE_ORDER_START_ORDER)).thenReturn(run);
 
         ProfilerId profilerId = new ProfilerId(METHOD_ID, RUN_COUNTER_1);
-        Profiler profiler = new Profiler(profilerId, mCallback, mResultProcessor, mLogger, mRunFactory);
+        Profiler profiler = new Profiler(profilerId, mCallback, mResultProcessor, mResultManager, mLogger, mRunFactory);
         profiler.startStage(STAGE_0, STAGE_ORDER_START_ORDER);
         profiler.startStage(STAGE_1, STAGE_ORDER_1);
 
@@ -116,7 +120,7 @@ public class ProfilerTest {
         when(mRunFactory.startNewRun(STAGE_0, STAGE_ORDER_START_ORDER)).thenReturn(run);
 
         ProfilerId profilerId = new ProfilerId(METHOD_ID, RUN_COUNTER_1);
-        Profiler profiler = new Profiler(profilerId, mCallback, mResultProcessor, mLogger, mRunFactory);
+        Profiler profiler = new Profiler(profilerId, mCallback, mResultProcessor, mResultManager, mLogger, mRunFactory);
         profiler.startStage(STAGE_0, STAGE_ORDER_START_ORDER);
         profiler.startStage(STAGE_1, STAGE_ORDER_1);
 
@@ -129,7 +133,7 @@ public class ProfilerTest {
         when(mRunFactory.startNewRun(STAGE_0, STAGE_ORDER_START_ORDER)).thenReturn(run);
 
         ProfilerId profilerId = new ProfilerId(METHOD_ID, RUN_COUNTER_1);
-        Profiler profiler = new Profiler(profilerId, mCallback, mResultProcessor, mLogger, mRunFactory);
+        Profiler profiler = new Profiler(profilerId, mCallback, mResultProcessor, mResultManager, mLogger, mRunFactory);
         profiler.startStage(STAGE_0, STAGE_ORDER_START_ORDER);
         profiler.stopStage(STAGE_0);
 
@@ -139,13 +143,13 @@ public class ProfilerTest {
     }
 
     @Test
-    public void stopStage_CallProcessorAndLoggerOnSecondCall_WhenRunCounterIsTwo() {
+    public void stopStage_CallProcessorAndResultManagerOnSecondCall_WhenRunCounterIsTwo() {
         Run run = spy(new Run(STAGE_0, STAGE_ORDER_START_ORDER));
         Run run1 = spy(new Run(STAGE_0, STAGE_ORDER_START_ORDER));
         when(mRunFactory.startNewRun(STAGE_0, STAGE_ORDER_START_ORDER)).thenReturn(run, run1);
 
         ProfilerId profilerId = new ProfilerId(METHOD_ID, RUN_COUNTER_2);
-        Profiler profiler = new Profiler(profilerId, mCallback, mResultProcessor, mLogger, mRunFactory);
+        Profiler profiler = new Profiler(profilerId, mCallback, mResultProcessor, mResultManager, mLogger, mRunFactory);
         profiler.startStage(STAGE_0, STAGE_ORDER_START_ORDER);
         profiler.stopStage(STAGE_0);
 
@@ -163,7 +167,7 @@ public class ProfilerTest {
                 .thenReturn(new Run(STAGE_0, STAGE_ORDER_START_ORDER));
 
         ProfilerId profilerId = new ProfilerId(METHOD_ID, RUN_COUNTER_1);
-        Profiler profiler = new Profiler(profilerId, mCallback, mResultProcessor, mLogger, mRunFactory);
+        Profiler profiler = new Profiler(profilerId, mCallback, mResultProcessor, mResultManager, mLogger, mRunFactory);
         profiler.startStage(STAGE_0, STAGE_ORDER_START_ORDER);
         profiler.stopStage(STAGE_0);
         profiler.stopStage(STAGE_0);
@@ -178,7 +182,7 @@ public class ProfilerTest {
                 .thenReturn(new Run(STAGE_0, STAGE_ORDER_START_ORDER));
 
         ProfilerId profilerId = new ProfilerId(METHOD_ID, RUN_COUNTER_2);
-        Profiler profiler = new Profiler(profilerId, mCallback, mResultProcessor, mLogger, mRunFactory);
+        Profiler profiler = new Profiler(profilerId, mCallback, mResultProcessor, mResultManager, mLogger, mRunFactory);
         profiler.startStage(STAGE_0, STAGE_ORDER_START_ORDER);
         profiler.stopStage(STAGE_0);
         profiler.stopStage(STAGE_0);
@@ -193,7 +197,7 @@ public class ProfilerTest {
                 .thenReturn(new Run(STAGE_0, STAGE_ORDER_START_ORDER));
 
         ProfilerId profilerId = new ProfilerId(METHOD_ID, RUN_COUNTER_1);
-        Profiler profiler = new Profiler(profilerId, mCallback, mResultProcessor, mLogger, mRunFactory);
+        Profiler profiler = new Profiler(profilerId, mCallback, mResultProcessor, mResultManager, mLogger, mRunFactory);
         profiler.startStage(STAGE_0, STAGE_ORDER_START_ORDER);
         profiler.stopStage(STAGE_1);
 

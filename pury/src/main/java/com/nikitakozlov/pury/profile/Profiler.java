@@ -2,6 +2,7 @@ package com.nikitakozlov.pury.profile;
 
 
 import com.nikitakozlov.pury.Logger;
+import com.nikitakozlov.pury.result.ResultManager;
 import com.nikitakozlov.pury.result.model.ProfileResult;
 
 import java.util.List;
@@ -16,6 +17,7 @@ public class Profiler {
     private final int mRunsCounter;
     private final Callback mCallback;
     private final ProfileResultProcessor mResultProcessor;
+    private final ResultManager mResultManager;
     private final Logger mLogger;
     private final RunFactory mRunFactory;
     private final List<Run> mRuns;
@@ -23,12 +25,13 @@ public class Profiler {
     private volatile int mFinishedRuns;
 
     Profiler(ProfilerId profilerId, Callback callback,
-                    ProfileResultProcessor resultProcessor, Logger logger, RunFactory runFactory) {
+             ProfileResultProcessor resultProcessor, ResultManager resultManager, Logger logger, RunFactory runFactory) {
         mProfilerId = profilerId;
         mRunFactory = runFactory;
         mRunsCounter = profilerId.getRunsCounter();
-        this.mResultProcessor = resultProcessor;
-        this.mLogger = logger;
+        mResultProcessor = resultProcessor;
+        mResultManager = resultManager;
+        mLogger = logger;
         mRuns = new CopyOnWriteArrayList<>();
         mCallback = callback;
         mFinishedRuns = 0;

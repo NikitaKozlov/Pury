@@ -1,9 +1,5 @@
-package com.nikitakozlov.pury.result;
+package com.nikitakozlov.pury.profile;
 
-import com.nikitakozlov.pury.profile.ProfileResultProcessor;
-import com.nikitakozlov.pury.profile.Run;
-import com.nikitakozlov.pury.profile.RunFactory;
-import com.nikitakozlov.pury.profile.Stage;
 import com.nikitakozlov.pury.result.model.AverageProfileResult;
 import com.nikitakozlov.pury.result.model.AverageTime;
 import com.nikitakozlov.pury.result.model.ProfileResult;
