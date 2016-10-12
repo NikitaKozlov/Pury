@@ -55,7 +55,7 @@ public class StartProfilingAspect {
             return;
         }
 
-        ProfilingManager profilingManager = ProfilingManager.getInstance();
+        ProfilingManager profilingManager = Pury.getProfilingManager();
         for (StageId stageId : getStageIds(joinPoint)) {
             profilingManager.getProfiler(stageId.getProfilerId())
                     .startStage(stageId.getStageName(), stageId.getStageOrder());

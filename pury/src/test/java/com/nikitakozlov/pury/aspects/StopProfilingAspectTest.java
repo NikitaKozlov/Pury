@@ -1,11 +1,11 @@
 package com.nikitakozlov.pury.aspects;
 
+import com.nikitakozlov.pury.PurySetter;
 import com.nikitakozlov.pury.annotations.StopProfiling;
 import com.nikitakozlov.pury.annotations.StopProfilings;
 import com.nikitakozlov.pury.profile.Profiler;
 import com.nikitakozlov.pury.profile.ProfilingManager;
 import com.nikitakozlov.pury.profile.ProfilerId;
-import com.nikitakozlov.pury.profile.ProfilingManagerSetter;
 
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
@@ -42,7 +42,7 @@ public class StopProfilingAspectTest {
     @Before
     public void setUp() {
         profilingManager = mock(ProfilingManager.class);
-        ProfilingManagerSetter.setInstance(profilingManager);
+        PurySetter.setProfilingManager(profilingManager);
         aspect = new StopProfilingAspect();
     }
 
@@ -115,7 +115,7 @@ public class StopProfilingAspectTest {
 
     @After
     public void tearDown() {
-        ProfilingManagerSetter.setInstance(null);
+        PurySetter.setProfilingManager(null);
     }
 
     private JoinPoint mockJoinPoint(String methodName) throws NoSuchMethodException {

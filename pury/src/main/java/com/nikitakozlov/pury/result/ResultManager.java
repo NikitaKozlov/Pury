@@ -1,5 +1,7 @@
 package com.nikitakozlov.pury.result;
 
+import com.nikitakozlov.pury.ResultHandler;
+import com.nikitakozlov.pury.profile.ProfilingManager;
 import com.nikitakozlov.pury.result.model.ProfileResult;
 
 import java.util.HashMap;
@@ -7,7 +9,7 @@ import java.util.Map;
 
 public class ResultManager {
 
-    public Map<String, ResultHandler> resultHandlers = new HashMap<>();
+    private final Map<String, ResultHandler> resultHandlers = new HashMap<>();
 
     public void dispatchResult(ProfileResult result) {
         for (String key : resultHandlers.keySet()) {
@@ -15,7 +17,7 @@ public class ResultManager {
         }
     }
 
-    public void addResultHander(String key, ResultHandler resultHandler) {
+    public void addResultHandler(String key, ResultHandler resultHandler) {
         resultHandlers.put(key, resultHandler);
     }
 

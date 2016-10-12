@@ -54,7 +54,7 @@ public class StopProfilingAspect {
             return;
         }
 
-        ProfilingManager profilingManager = ProfilingManager.getInstance();
+        ProfilingManager profilingManager = Pury.getProfilingManager();
         for (StageId stageId : getStageIds(joinPoint)) {
             profilingManager.getProfiler(stageId.getProfilerId())
                     .stopStage(stageId.getStageName());

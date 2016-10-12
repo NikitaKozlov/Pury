@@ -52,7 +52,7 @@ public class MethodProfilingAspect {
 
     @Around("constructor() || method() || methodWithMultipleAnnotations() || constructorWithMultipleAnnotations()")
     public Object weaveJoinPoint(ProceedingJoinPoint joinPoint) throws Throwable {
-        ProfilingManager profilingManager = ProfilingManager.getInstance();
+        ProfilingManager profilingManager = Pury.getProfilingManager();
 
         List<StageId> stageIds = getStageIds(joinPoint);
 

@@ -1,5 +1,7 @@
 package com.nikitakozlov.pury.profile;
 
+import com.nikitakozlov.pury.Pury;
+
 import org.junit.After;
 import org.junit.Test;
 
@@ -17,27 +19,17 @@ public class ProfilingManagerTest {
     private static final int RUN_COUNT_1 = 1;
     private static final int RUN_COUNT_2 = 2;
 
-    @Test
-    public void getInstance_ReturnsNotNull() {
-        assertNotNull(ProfilingManager.getInstance());
-    }
 
-    @Test
-    public void setInstance_SetInstanceOfSingleton() {
-        ProfilingManager profilingManager = mock(ProfilingManager.class);
-        ProfilingManager.setInstance(profilingManager);
-        assertEquals(profilingManager, ProfilingManager.getInstance());
-    }
 
     @Test
     public void getProfiler_ReturnsProfiler() {
-        ProfilingManager profilingManager = ProfilingManager.getInstance();
+        ProfilingManager profilingManager = Pury.getProfilingManager();
         assertNotNull(profilingManager.getProfiler(new ProfilerId(METHOD_ID_1, RUN_COUNT_1)));
     }
 
     @Test
     public void getProfiler_ReturnsDifferentProfilersForDifferentIds() {
-        ProfilingManager profilingManager = ProfilingManager.getInstance();
+        ProfilingManager profilingManager = Pury.getProfilingManager();
         ProfilerId id1 = new ProfilerId(METHOD_ID_1, RUN_COUNT_1);
         ProfilerId id2 = new ProfilerId(METHOD_ID_2, RUN_COUNT_2);
         Profiler profiler1 = profilingManager.getProfiler(id1);
@@ -47,7 +39,7 @@ public class ProfilingManagerTest {
 
     @Test
     public void getProfiler_ReturnsSameProfilerForSameId() {
-        ProfilingManager profilingManager = ProfilingManager.getInstance();
+        ProfilingManager profilingManager = Pury.getProfilingManager();
         ProfilerId id = new ProfilerId(METHOD_ID_1, RUN_COUNT_1);
         Profiler profiler = profilingManager.getProfiler(id);
         assertEquals(profiler, profilingManager.getProfiler(id));
@@ -55,7 +47,7 @@ public class ProfilingManagerTest {
 
     @Test
     public void getProfiler_ReturnsDifferentProfilersForSameId_IfFirstProfilerIsDone() {
-        ProfilingManager profilingManager = ProfilingManager.getInstance();
+        ProfilingManager profilingManager = Pury.getProfilingManager();
         ProfilerId id = new ProfilerId(METHOD_ID_1, RUN_COUNT_1);
         Profiler profiler = profilingManager.getProfiler(id);
         profiler.startStage(STAGE_NAME_0, STAGE_ORDER_0);
@@ -64,8 +56,4 @@ public class ProfilingManagerTest {
         assertNotEquals(profiler, profiler2);
     }
 
-    @After
-    public void tearDown() {
-        ProfilingManager.setInstance(null);
-    }
 }

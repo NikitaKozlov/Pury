@@ -1,4 +1,4 @@
-package com.nikitakozlov.pury.result;
+package com.nikitakozlov.pury;
 
 import com.nikitakozlov.pury.result.model.ProfileResult;
 

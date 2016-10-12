@@ -7,24 +7,10 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class ProfilingManager {
-    private static ProfilingManager sInstance = new ProfilingManager();
 
-    public synchronized static ProfilingManager getInstance() {
-        return sInstance;
-    }
-
-    //For Testing only
-    static synchronized void setInstance(ProfilingManager instance) {
-        if (instance == null) {
-            sInstance = new ProfilingManager();
-        } else {
-            sInstance = instance;
-        }
-    }
-
+    private final ResultManager mResultManager;
     private final Map<ProfilerId, Profiler> mProfilers = new HashMap<>();
     private final ProfileResultProcessor mResultProcessor = new ProfileResultProcessor();
-    private final ResultManager mResultManager = new ResultManager();
     private final RunFactory mRunFactory = new RunFactory();
 
     private final Profiler.Callback mProfilerCallback = new Profiler.Callback() {
@@ -34,7 +20,8 @@ public class ProfilingManager {
         }
     };
 
-    private ProfilingManager() {
+    public ProfilingManager(ResultManager resultManager) {
+        mResultManager = resultManager;
     }
 
     public synchronized Profiler getProfiler(ProfilerId profilerId) {
