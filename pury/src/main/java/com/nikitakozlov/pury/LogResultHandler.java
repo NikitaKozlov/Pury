@@ -58,7 +58,7 @@ public class LogResultHandler implements ResultHandler {
         @Override
         public void visit(RootAverageProfileResult rootAverageProfileResult) {
             logMessageBuilder.append(rootAverageProfileResult.getStageName());
-            logMessageBuilder.append(" --> 0ms \n");
+            logMessageBuilder.append(" --> 0ms\n");
             for (ProfileResult result : rootAverageProfileResult.getNestedResults()) {
                 result.accept(this);
                 logMessageBuilder.append("\n");
@@ -72,7 +72,7 @@ public class LogResultHandler implements ResultHandler {
         public void visit(RootSingleProfileResult rootSingleProfileResult) {
 
             logMessageBuilder.append(rootSingleProfileResult.getStageName());
-            logMessageBuilder.append(" --> 0ms \n");
+            logMessageBuilder.append(" --> 0ms\n");
             for (ProfileResult result : rootSingleProfileResult.getNestedResults()) {
                 result.accept(this);
                 logMessageBuilder.append("\n");
@@ -90,7 +90,7 @@ public class LogResultHandler implements ResultHandler {
             logMessageBuilder.append(singleProfileResult.getStageName());
             logMessageBuilder.append(" --> ");
             logMessageBuilder.append(singleProfileResult.getStartTime() /  MS_TO_NS);
-            logMessageBuilder.append("ms \n");
+            logMessageBuilder.append("ms\n");
             for (ProfileResult result : singleProfileResult.getNestedResults()) {
                 result.accept(this);
                 logMessageBuilder.append("\n");
