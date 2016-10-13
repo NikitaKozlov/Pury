@@ -31,18 +31,14 @@ public class RootAverageProfileResult implements ProfileResult {
         visitor.visit(this);
     }
 
-    @Override
-    public String toString() {
-        StringBuilder stringBuilder = new StringBuilder(mStageName);
-        stringBuilder.append(" --> 0ms \n");
-        for (ProfileResult result : getNestedResults()) {
-            stringBuilder.append(result.toString());
-            stringBuilder.append("\n");
-        }
-        stringBuilder.append(mStageName);
-        stringBuilder.append(" <-- ");
-        stringBuilder.append(mExecTime.toString());
 
-        return  stringBuilder.toString();
+    @Override
+    public String getStageName() {
+        return mStageName;
+    }
+
+    @Override
+    public int getDepth() {
+        return 0;
     }
 }

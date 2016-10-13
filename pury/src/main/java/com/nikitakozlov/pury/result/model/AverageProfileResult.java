@@ -6,8 +6,6 @@ import java.util.List;
 
 public class AverageProfileResult implements ProfileResult {
 
-    private static final String DEPTH_PREFIX = "  ";
-
     private final String mStageName;
     private final AverageTime mStartTime;
     private final AverageTime mExecTime;
@@ -42,33 +40,13 @@ public class AverageProfileResult implements ProfileResult {
     }
 
     @Override
-    public String toString() {
-
-        String depthPrefix = getFullDepthPrefix();
-
-        StringBuilder stringBuilder = new StringBuilder(depthPrefix);
-        stringBuilder.append(mStageName);
-        stringBuilder.append(" --> ");
-        stringBuilder.append(getStartTime());
-        stringBuilder.append("\n");
-        for (ProfileResult result : getNestedResults()) {
-            stringBuilder.append(result);
-            stringBuilder.append("\n");
-        }
-        stringBuilder.append(depthPrefix);
-        stringBuilder.append(mStageName);
-        stringBuilder.append(" <-- ");
-        stringBuilder.append(getExecTime());
-
-        return  stringBuilder.toString();
+    public String getStageName() {
+        return mStageName;
     }
 
-    private final String getFullDepthPrefix() {
-        StringBuilder stringBuilder = new StringBuilder();
-        for (int i = 0; i < mDepth; i++) {
-            stringBuilder.append(DEPTH_PREFIX);
-        }
-        return stringBuilder.toString();
+    @Override
+    public int getDepth() {
+        return mDepth;
     }
 }
 

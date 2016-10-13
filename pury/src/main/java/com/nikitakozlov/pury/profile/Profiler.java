@@ -8,10 +8,11 @@ import com.nikitakozlov.pury.result.model.ProfileResult;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
+import static com.nikitakozlov.pury.Pury.LOG_TAG;
+
 public class Profiler {
 
     static final int START_ORDER = 0;
-    static final String LOG_TAG = "Pury";
 
     private final ProfilerId mProfilerId;
     private final int mRunsCounter;

@@ -1,12 +1,12 @@
 package com.nikitakozlov.pury;
 
-import com.nikitakozlov.pury.log_result_handler.LogResultHandler;
 import com.nikitakozlov.pury.profile.ProfilerId;
 import com.nikitakozlov.pury.profile.ProfilingManager;
 import com.nikitakozlov.pury.result.ResultManager;
 
 public final class Pury {
 
+    public static final String LOG_TAG = "Pury";
     public static final String LOG_RESULT_HANDLER = "LogResultHandler";
 
     private static volatile Logger sLogger;

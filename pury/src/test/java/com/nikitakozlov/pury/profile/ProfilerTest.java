@@ -2,6 +2,7 @@ package com.nikitakozlov.pury.profile;
 
 
 import com.nikitakozlov.pury.Logger;
+import com.nikitakozlov.pury.Pury;
 import com.nikitakozlov.pury.result.ResultManager;
 import com.nikitakozlov.pury.result.model.ProfileResult;
 
@@ -14,6 +15,7 @@ import org.mockito.MockitoAnnotations;
 import java.util.Arrays;
 import java.util.Collections;
 
+import static com.nikitakozlov.pury.Pury.LOG_TAG;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyInt;
 import static org.mockito.Matchers.anyString;
@@ -64,7 +66,7 @@ public class ProfilerTest {
         Profiler profiler = new Profiler(profilerId, mCallback, mResultProcessor, mResultManager, mLogger, mRunFactory);
         profiler.startStage(STAGE_1, STAGE_ORDER_1);
 
-        verify(mLogger).warning(eq(Profiler.LOG_TAG), anyString());
+        verify(mLogger).warning(eq(LOG_TAG), anyString());
         verify(mRunFactory, never()).startNewRun(anyString(), anyInt());
     }
 
@@ -127,7 +129,7 @@ public class ProfilerTest {
         profiler.startStage(STAGE_0, STAGE_ORDER_START_ORDER);
         profiler.startStage(STAGE_1, STAGE_ORDER_1);
 
-        verify(mLogger).error(eq(Profiler.LOG_TAG), anyString());
+        verify(mLogger).error(eq(LOG_TAG), anyString());
     }
 
     @Test
@@ -142,8 +144,8 @@ public class ProfilerTest {
         profiler.startStage(STAGE_0, STAGE_ORDER_START_ORDER);
         profiler.stopStage(STAGE_0);
 
-        verify(mResultManager).dispatchResult(result);
-        verify(mLogger, never()).result(eq(Profiler.LOG_TAG), anyString());
+        verify(mResultManager).dispatchResult(result, profilerId);
+        verify(mLogger, never()).result(eq(LOG_TAG), anyString());
         verify(mCallback).onDone(profilerId);
     }
 
@@ -163,8 +165,8 @@ public class ProfilerTest {
         profiler.startStage(STAGE_0, STAGE_ORDER_START_ORDER);
         profiler.stopStage(STAGE_0);
 
-        verify(mResultManager).dispatchResult(result);
-        verify(mLogger, never()).result(eq(Profiler.LOG_TAG), anyString());
+        verify(mResultManager).dispatchResult(result, profilerId);
+        verify(mLogger, never()).result(eq(LOG_TAG), anyString());
         verify(mCallback).onDone(profilerId);
     }
 
@@ -179,8 +181,8 @@ public class ProfilerTest {
         profiler.stopStage(STAGE_0);
         profiler.stopStage(STAGE_0);
 
-        verify(mLogger).error(eq(Profiler.LOG_TAG), anyString());
-        verify(mResultManager).dispatchResult(Matchers.<ProfileResult>any());
+        verify(mLogger).error(eq(LOG_TAG), anyString());
+        verify(mResultManager).dispatchResult(Matchers.<ProfileResult>any(), eq(profilerId));
     }
 
     @Test
@@ -194,8 +196,8 @@ public class ProfilerTest {
         profiler.stopStage(STAGE_0);
         profiler.stopStage(STAGE_0);
 
-        verify(mLogger).error(eq(Profiler.LOG_TAG), anyString());
-        verify(mLogger, never()).result(eq(Profiler.LOG_TAG), anyString());
+        verify(mLogger).error(eq(LOG_TAG), anyString());
+        verify(mLogger, never()).result(eq(LOG_TAG), anyString());
     }
 
     @Test
@@ -208,6 +210,6 @@ public class ProfilerTest {
         profiler.startStage(STAGE_0, STAGE_ORDER_START_ORDER);
         profiler.stopStage(STAGE_1);
 
-        verify(mLogger).error(eq(Profiler.LOG_TAG), anyString());
+        verify(mLogger).error(eq(LOG_TAG), anyString());
     }
 }

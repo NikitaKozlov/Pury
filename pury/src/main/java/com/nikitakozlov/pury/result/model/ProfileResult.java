@@ -8,4 +8,8 @@ public interface ProfileResult {
     List<? extends ProfileResult> getNestedResults();
 
     void accept(ResultVisitor visitor);
+
+    String getStageName();
+
+    int getDepth();
 }
