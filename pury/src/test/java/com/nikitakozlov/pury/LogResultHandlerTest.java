@@ -1,6 +1,9 @@
 package com.nikitakozlov.pury;
 
 import com.nikitakozlov.pury.profile.ProfilerId;
+import com.nikitakozlov.pury.result.model.AverageProfileResult;
+import com.nikitakozlov.pury.result.model.AverageTime;
+import com.nikitakozlov.pury.result.model.RootAverageProfileResult;
 import com.nikitakozlov.pury.result.model.RootSingleProfileResult;
 import com.nikitakozlov.pury.result.model.SingleProfileResult;
 
@@ -54,6 +57,33 @@ public class LogResultHandlerTest {
         LogResultHandler logResultHandler = new LogResultHandler();
 
         logResultHandler.handleResult(appStartProfileResult, profilerId);
+
+        verify(mLogger).result(Pury.LOG_TAG, expectedResult);
+    }
+
+
+    @Test
+    public void handleResult_ShouldLogProperly_WhenRunCounterIsFive() {
+        String expectedResult = "Profiling results for Pagination:\n" +
+        "Get Next Page --> 0ms\n" +
+        "  Load --> avg = 1.08ms, min = 0ms, max = 2ms, for 5 runs\n" +
+        "  Load <-- avg = 260.97ms, min = 241ms, max = 285ms, for 5 runs\n" +
+        "Get Next Page <-- avg = 380.11ms, min = 347ms, max = 406ms, for 5 runs";
+
+        ProfilerId profilerId = new ProfilerId("Pagination", 5);
+
+        AverageTime loadStartAvgTime = new AverageTime(1080000, 0, 2000000L, 5);
+        AverageTime loadExecAvgTime = new AverageTime(260970000, 241000000L, 285000000L, 5);
+        AverageProfileResult loadProfileResult = new AverageProfileResult("Load", loadStartAvgTime,
+                loadExecAvgTime, Collections.<AverageProfileResult>emptyList(), 1);
+
+        AverageTime getNextPageAvgTime = new AverageTime(380110000, 347000000L, 406000000L, 5);
+        RootAverageProfileResult rootAverageProfileResult = new RootAverageProfileResult("Get Next Page",
+                getNextPageAvgTime, Collections.singletonList(loadProfileResult));
+
+        LogResultHandler logResultHandler = new LogResultHandler();
+
+        logResultHandler.handleResult(rootAverageProfileResult, profilerId);
 
         verify(mLogger).result(Pury.LOG_TAG, expectedResult);
     }
