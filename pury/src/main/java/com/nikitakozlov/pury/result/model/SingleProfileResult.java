@@ -1,5 +1,7 @@
 package com.nikitakozlov.pury.result.model;
 
+import com.nikitakozlov.pury.result.ResultVisitor;
+
 import java.util.List;
 
 public class SingleProfileResult implements ProfileResult {
@@ -26,6 +28,11 @@ public class SingleProfileResult implements ProfileResult {
     @Override
     public List<? extends ProfileResult> getNestedResults() {
         return mNestedResults;
+    }
+
+    @Override
+    public void accept(ResultVisitor visitor) {
+        visitor.visit(this);
     }
 
     public long getStartTime() {

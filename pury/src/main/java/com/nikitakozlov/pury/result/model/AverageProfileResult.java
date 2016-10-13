@@ -1,5 +1,7 @@
 package com.nikitakozlov.pury.result.model;
 
+import com.nikitakozlov.pury.result.ResultVisitor;
+
 import java.util.List;
 
 public class AverageProfileResult implements ProfileResult {
@@ -32,6 +34,11 @@ public class AverageProfileResult implements ProfileResult {
     @Override
     public List<? extends ProfileResult> getNestedResults() {
         return mAverageProfileResults;
+    }
+
+    @Override
+    public void accept(ResultVisitor visitor) {
+        visitor.visit(this);
     }
 
     @Override

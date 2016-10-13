@@ -13,8 +13,6 @@ public class AverageTime {
     private static final String FOR = "for ";
     private static final String RUNS = " runs";
 
-
-
     private final double mAverageValue;
     private final long mMinValue;
     private final long mMaxValue;

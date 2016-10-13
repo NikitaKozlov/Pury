@@ -83,7 +83,7 @@ public class Profiler {
     private void logIfFinished() {
         if (mRunsCounter == mFinishedRuns) {
             ProfileResult profileResult = mResultProcessor.process(mRuns);
-            mResultManager.dispatchResult(profileResult);
+            mResultManager.dispatchResult(profileResult, mProfilerId);
             mCallback.onDone(mProfilerId);
         }
     }
