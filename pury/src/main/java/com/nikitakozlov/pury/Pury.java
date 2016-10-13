@@ -11,8 +11,14 @@ public final class Pury {
     private static volatile Logger sLogger;
     private static volatile boolean sEnabled = true;
 
-    private static final ResultManager sResultManager = new ResultManager();
-    private static volatile ProfilingManager sProfilingManager = new ProfilingManager(sResultManager);
+    private static final ResultManager sResultManager;
+    private static volatile ProfilingManager sProfilingManager;
+
+    static {
+        sResultManager = new ResultManager();
+        sResultManager.addResultHandler(LOG_RESULT_HANDLER, new LogResultHandler());
+        sProfilingManager = new ProfilingManager(sResultManager);
+    }
 
     public static void setLogger(Logger logger) {
         sLogger = logger;
@@ -68,11 +74,11 @@ public final class Pury {
     }
 
     public static void addResultHandler(String key, ResultHandler resultHandler) {
-
+        sResultManager.addResultHandler(key, resultHandler);
     }
 
     public static void removeResultHandler(String key) {
-
+        sResultManager.removeResultHandler(key);
     }
 
     public static ProfilingManager getProfilingManager() {

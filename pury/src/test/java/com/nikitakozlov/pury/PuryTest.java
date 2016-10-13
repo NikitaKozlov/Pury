@@ -1,7 +1,5 @@
 package com.nikitakozlov.pury;
 
-import com.nikitakozlov.pury.profile.ProfilingManager;
-
 import org.junit.Test;
 
 import static org.junit.Assert.assertNotNull;

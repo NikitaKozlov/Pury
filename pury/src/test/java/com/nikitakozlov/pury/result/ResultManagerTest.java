@@ -11,6 +11,7 @@ import org.mockito.Mock;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.MockitoAnnotations.initMocks;
 
@@ -39,6 +40,19 @@ public class ResultManagerTest {
         ProfileResult result = mock(ProfileResult.class);
         resultManager.dispatchResult(result);
         verify(resultHandler1).handleResult(result);
+        verify(resultHandler2).handleResult(result);
+    }
+
+    @Test
+    public void dispatchResult_ShouldNotCallRemovedResultHandler() {
+        ResultManager resultManager = new ResultManager();
+        resultManager.addResultHandler(KEY_1, resultHandler1);
+        resultManager.addResultHandler(KEY_2, resultHandler2);
+        resultManager.removeResultHandler(KEY_1);
+
+        ProfileResult result = mock(ProfileResult.class);
+        resultManager.dispatchResult(result);
+        verify(resultHandler1, never()).handleResult(result);
         verify(resultHandler2).handleResult(result);
     }
 }
