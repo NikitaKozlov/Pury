@@ -1,13 +1,12 @@
 package com.nikitakozlov.pury.aspects;
 
+import com.nikitakozlov.pury.PurySetter;
 import com.nikitakozlov.pury.annotations.MethodProfiling;
 import com.nikitakozlov.pury.annotations.MethodProfilings;
-import com.nikitakozlov.pury.internal.profile.Profiler;
-import com.nikitakozlov.pury.internal.profile.ProfilerId;
-import com.nikitakozlov.pury.internal.profile.ProfilingManager;
-import com.nikitakozlov.pury.internal.profile.ProfilingManagerSetter;
+import com.nikitakozlov.pury.profile.Profiler;
+import com.nikitakozlov.pury.profile.ProfilerId;
+import com.nikitakozlov.pury.profile.ProfilingManager;
 
-import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.reflect.MethodSignature;
 import org.junit.After;
@@ -46,7 +45,7 @@ public class MethodProfilingAspectTest {
     @Before
     public void setUp() {
         profilingManager = mock(ProfilingManager.class);
-        ProfilingManagerSetter.setInstance(profilingManager);
+        PurySetter.setProfilingManager(profilingManager);
         aspect = new MethodProfilingAspect();
     }
 
@@ -140,7 +139,7 @@ public class MethodProfilingAspectTest {
 
     @After
     public void tearDown() {
-        ProfilingManagerSetter.setInstance(null);
+        PurySetter.setProfilingManager(null);
     }
 
     private ProceedingJoinPoint mockProceedingJoinPoint(String methodName) throws NoSuchMethodException {

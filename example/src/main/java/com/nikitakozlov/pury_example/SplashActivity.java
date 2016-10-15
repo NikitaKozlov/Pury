@@ -10,7 +10,7 @@ import android.support.v7.app.AppCompatActivity;
 import com.nikitakozlov.pury.Pury;
 import com.nikitakozlov.pury.annotations.StartProfiling;
 import com.nikitakozlov.pury.annotations.StopProfiling;
-import com.nikitakozlov.pury.internal.Logger;
+import com.nikitakozlov.pury.Logger;
 import com.nikitakozlov.pury_example.profilers.StartApp;
 
 public class SplashActivity extends AppCompatActivity {
