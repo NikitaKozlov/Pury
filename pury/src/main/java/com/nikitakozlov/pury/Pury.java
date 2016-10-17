@@ -4,6 +4,9 @@ import com.nikitakozlov.pury.profile.ProfilerId;
 import com.nikitakozlov.pury.profile.ProfilingManager;
 import com.nikitakozlov.pury.result.ResultManager;
 
+/**
+ * Main interface for interacting with Pury.
+ */
 public final class Pury {
 
     public static final String LOG_TAG = "Pury";
@@ -21,10 +24,17 @@ public final class Pury {
         sProfilingManager = new ProfilingManager(sResultManager);
     }
 
+    /**
+     * Set logger for Pury to use. Default ResultHandler will also use it for output.
+     * @param logger Logger to set.
+     */
     public static void setLogger(Logger logger) {
         sLogger = logger;
     }
 
+    /**
+     * @return Logger that was set previously. Or a default logger if no logger was set.
+     */
     public synchronized static Logger getLogger() {
         if (sLogger == null) {
             sLogger = new DefaultLogger();
@@ -32,10 +42,16 @@ public final class Pury {
         return sLogger;
     }
 
+    /**
+     * @return true if Pury is enabled, false otherwise.
+     */
     public static boolean isEnabled() {
         return sEnabled;
     }
 
+    /**
+     * @param enabled pass false if you want to disable Pury.
+     */
     public synchronized static void setEnabled(boolean enabled) {
         if (!enabled) {
             sProfilingManager.clear();
@@ -74,14 +90,31 @@ public final class Pury {
         }
     }
 
+    /**
+     * Default {@link ResultHandler} logs result into {@link Logger}. Adding custom ResultHandlers
+     * allows to customize result processing. For example instead of logging result send it to somewhere,
+     * or save it in a permanent storage.
+     * @param key that identify ResultHandler
+     * @param resultHandler ResultHandler to process result
+     */
     public static void addResultHandler(String key, ResultHandler resultHandler) {
         sResultManager.addResultHandler(key, resultHandler);
     }
 
+    /**
+     * Remove {@link ResultHandler} by key. To remove default result handler use {@link #LOG_RESULT_HANDLER}
+     * @param key that identify ResultHandler that should be removed.
+     */
     public static void removeResultHandler(String key) {
         sResultManager.removeResultHandler(key);
     }
 
+    /**
+     * {@link #startProfiling(String, String, int, int)} and {@link #stopProfiling(String, String, int)}
+     * creates {@link ProfilerId} on every call. To avoid creating same ProfilerId multiple times,
+     * it is possible to call ProfilingManager directly.
+     * @return {@link ProfilingManager}
+     */
     public static ProfilingManager getProfilingManager() {
         return sProfilingManager;
     }
