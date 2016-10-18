@@ -4,6 +4,9 @@ import com.nikitakozlov.pury.result.ResultVisitor;
 
 import java.util.List;
 
+/**
+ * Represent result for multiple runs for a single stage.
+ */
 public class AverageProfileResult implements ProfileResult {
 
     private final String mStageName;
@@ -21,10 +24,16 @@ public class AverageProfileResult implements ProfileResult {
         mDepth = depth;
     }
 
+    /**
+     * @return Averaged start time since start of top most stage.
+     */
     public AverageTime getStartTime() {
         return mStartTime;
     }
 
+    /**
+     * @return Averaged execution time.
+     */
     public AverageTime getExecTime() {
         return mExecTime;
     }
