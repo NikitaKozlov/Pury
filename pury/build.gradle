@@ -1,5 +1,5 @@
-
 apply plugin: 'com.android.library'
+apply plugin: 'jacoco-android'
 apply plugin: 'com.nikitakozlov.weaverlite'
 
 weaverLite {
