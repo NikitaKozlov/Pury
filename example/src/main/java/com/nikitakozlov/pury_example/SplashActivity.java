@@ -29,39 +29,9 @@ public class SplashActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
         loadData();
-        testPuryNoOp();
+        //This method does nothing. It is here to test no-op version.
+        PuryNoOpTest.test();
     }
-
-    /**
-     * This method does nothing. It is here to test no-op version.
-     */
-    private void testPuryNoOp() {
-        String testNoopProfilerName = "Test noop";
-
-        Pury.getLogger();
-        Pury.isEnabled();
-        Pury.setEnabled(true);
-        Pury.startProfiling(testNoopProfilerName, "", 0, 1);
-        Pury.stopProfiling(testNoopProfilerName, "", 1);
-        Pury.setLogger(new Logger() {
-            @Override
-            public void result(String s, String s1) {
-
-            }
-
-            @Override
-            public void warning(String s, String s1) {
-
-            }
-
-            @Override
-            public void error(String s, String s1) {
-
-            }
-        });
-        Pury.setLogger(null);
-    }
-
     @StartProfiling(profilerName = StartApp.PROFILER_NAME, stageName = StartApp.SPLASH_LOAD_DATA,
             stageOrder = StartApp.SPLASH_LOAD_DATA_ORDER)
     private void loadData() {

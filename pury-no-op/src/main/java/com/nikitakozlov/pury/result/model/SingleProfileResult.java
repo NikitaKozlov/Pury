@@ -2,6 +2,7 @@ package com.nikitakozlov.pury.result.model;
 
 import com.nikitakozlov.pury.result.ResultVisitor;
 
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -9,51 +10,39 @@ import java.util.List;
  */
 public class SingleProfileResult implements ProfileResult {
 
-    private final String mStageName;
-    private final List<SingleProfileResult> mNestedResults;
-    private final long mStartTime;
-    private final long mExecTime;
-    private final int mDepth;
-
-    public SingleProfileResult(String stageName, long startTime, long execTime,
+    public SingleProfileResult(String mStageName, long startTime, long execTime,
                                List<SingleProfileResult> nestedResults, int depth) {
-        mStageName = stageName;
-        mNestedResults = nestedResults;
-        mStartTime = startTime;
-        mExecTime = execTime;
-        mDepth = depth;
     }
 
     /**
      * @return start time of a stage since start of the top most stage.
      */
     public long getStartTime() {
-        return mStartTime;
+        return 0;
     }
 
     /**
      * @return execution time of a stage.
      */
     public long getExecTime() {
-        return mExecTime;
+        return 0;
     }
 
     @Override
     public List<? extends ProfileResult> getNestedResults() {
-        return mNestedResults;
+        return null;
     }
 
     @Override
     public void accept(ResultVisitor visitor) {
-        visitor.visit(this);
     }
     @Override
     public String getStageName() {
-        return mStageName;
+        return null;
     }
 
     @Override
     public int getDepth() {
-        return mDepth;
+        return 0;
     }
 }
