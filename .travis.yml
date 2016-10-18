@@ -11,8 +11,7 @@ android:
 jdk: oraclejdk8
 
 script:
-  - ./gradlew assembleRelease
-  - ./gradlew test
+  - ./gradlew build jacocoTestReport
 
 after_success:
   - bash <(curl -s https://codecov.io/bash)
