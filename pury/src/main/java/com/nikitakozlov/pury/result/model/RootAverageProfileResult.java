@@ -4,6 +4,10 @@ import com.nikitakozlov.pury.result.ResultVisitor;
 
 import java.util.List;
 
+/**
+ * Represent result for multiple runs for top most stage. Compare to {@link AverageProfileResult},
+ * it doesn't have Start Time because it is always zero.
+ */
 public class RootAverageProfileResult implements ProfileResult {
 
     private final String mStageName;
@@ -17,6 +21,9 @@ public class RootAverageProfileResult implements ProfileResult {
         mAverageProfileResults = averageProfileResults;
     }
 
+    /**
+     * @return Averaged execution time.
+     */
     public AverageTime getExecTime() {
         return mExecTime;
     }

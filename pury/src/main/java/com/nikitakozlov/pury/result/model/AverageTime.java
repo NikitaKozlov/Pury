@@ -2,6 +2,9 @@ package com.nikitakozlov.pury.result.model;
 
 import java.util.Locale;
 
+/**
+ * Represents average time for given amount of measurements.
+ */
 public class AverageTime {
 
     private static final int MS_TO_NS = 1000000;
@@ -16,29 +19,40 @@ public class AverageTime {
     private final double mAverageValue;
     private final long mMinValue;
     private final long mMaxValue;
-    private final int mRuns;
+    private final int mMeasurementCounter;
 
-    public AverageTime(double averageValue, long minValue, long maxValue, int runs) {
+    public AverageTime(double averageValue, long minValue, long maxValue, int measurementCounter) {
         mAverageValue = averageValue;
         mMinValue = minValue;
         mMaxValue = maxValue;
-        mRuns = runs;
+        mMeasurementCounter = measurementCounter;
     }
 
+    /**
+      * @return average time.
+     */
     public double getAverageValue() {
         return mAverageValue;
     }
-
+    /**
+     * @return min time from all measurements.
+     */
     public long getMinValue() {
         return mMinValue;
     }
 
+    /**
+     * @return max time from all measurements.
+     */
     public long getMaxValue() {
         return mMaxValue;
     }
 
-    public int getRuns() {
-        return mRuns;
+    /**
+     * @return amount of measurements.
+     */
+    public int getMeasurementCounter() {
+        return mMeasurementCounter;
     }
 
     @Override
@@ -51,7 +65,7 @@ public class AverageTime {
         if (Double.compare(that.mAverageValue, mAverageValue) != 0) return false;
         if (mMinValue != that.mMinValue) return false;
         if (mMaxValue != that.mMaxValue) return false;
-        return mRuns == that.mRuns;
+        return mMeasurementCounter == that.mMeasurementCounter;
 
     }
 
@@ -63,7 +77,7 @@ public class AverageTime {
         result = (int) (temp ^ (temp >>> 32));
         result = 31 * result + (int) (mMinValue ^ (mMinValue >>> 32));
         result = 31 * result + (int) (mMaxValue ^ (mMaxValue >>> 32));
-        result = 31 * result + mRuns;
+        result = 31 * result + mMeasurementCounter;
         return result;
     }
 
@@ -86,7 +100,7 @@ public class AverageTime {
         stringBuilder.append(", ");
 
         stringBuilder.append(FOR);
-        stringBuilder.append(mRuns);
+        stringBuilder.append(mMeasurementCounter);
         stringBuilder.append(RUNS);
 
         return stringBuilder.toString();

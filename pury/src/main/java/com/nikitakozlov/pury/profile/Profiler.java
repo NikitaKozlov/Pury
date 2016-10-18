@@ -38,6 +38,11 @@ public class Profiler {
         mFinishedRuns = 0;
     }
 
+    /**
+     * @param stageName  Name of a stage to start. Used in results.
+     * @param stageOrder Stage order must be bigger then order of current most nested active stage.
+     *                   First profiling must starts with value 0.
+     */
     public synchronized void startStage(String stageName, int stageOrder) {
         if (mActiveRun == null || mActiveRun.isStopped()) {
             if (mRuns.size() < mRunsCounter) {
@@ -59,6 +64,9 @@ public class Profiler {
         mRuns.add(mActiveRun);
     }
 
+    /**
+     * @param stageName Name of stage to stop. Used in results.
+     */
     public synchronized void stopStage(String stageName) {
         if (mActiveRun != null) {
 

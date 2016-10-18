@@ -1,18 +1,31 @@
 package com.nikitakozlov.pury.profile;
 
+/**
+ * Used to identify Profiler
+ */
 public class ProfilerId {
     private final String mProfilerName;
     private final int mRunsCounter;
 
+    /**
+     * @param profilerName Profiler Name.
+     * @param runsCounter Amount of runs to complete
+     */
     public ProfilerId(String profilerName, int runsCounter) {
         this.mProfilerName = profilerName;
         this.mRunsCounter = runsCounter;
     }
 
+    /**
+     * @return Profiler Name
+     */
     public String getProfilerName() {
         return mProfilerName;
     }
 
+    /**
+     * @return RunCounter that represents amount of runs to complete
+     */
     public int getRunsCounter() {
         return mRunsCounter;
     }

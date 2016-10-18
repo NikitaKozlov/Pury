@@ -4,6 +4,9 @@ import com.nikitakozlov.pury.result.ResultVisitor;
 
 import java.util.List;
 
+/**
+ * Represent result for a single stage.
+ */
 public class SingleProfileResult implements ProfileResult {
 
     private final String mStageName;
@@ -21,6 +24,20 @@ public class SingleProfileResult implements ProfileResult {
         mDepth = depth;
     }
 
+    /**
+     * @return start time of a stage since start of the top most stage.
+     */
+    public long getStartTime() {
+        return mStartTime;
+    }
+
+    /**
+     * @return execution time of a stage.
+     */
+    public long getExecTime() {
+        return mExecTime;
+    }
+
     @Override
     public List<? extends ProfileResult> getNestedResults() {
         return mNestedResults;
@@ -30,15 +47,7 @@ public class SingleProfileResult implements ProfileResult {
     public void accept(ResultVisitor visitor) {
         visitor.visit(this);
     }
-
-    public long getStartTime() {
-        return mStartTime;
-    }
-
-    public long getExecTime() {
-        return mExecTime;
-    }
-
+    @Override
     public String getStageName() {
         return mStageName;
     }
