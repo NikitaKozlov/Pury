@@ -25,7 +25,7 @@ public class SingleProfileResult implements ProfileResult {
     }
 
     /**
-     * @return start time of a stage since start of top most stage.
+     * @return start time of a stage since start of the top most stage.
      */
     public long getStartTime() {
         return mStartTime;

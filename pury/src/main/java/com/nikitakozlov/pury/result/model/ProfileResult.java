@@ -10,8 +10,8 @@ import java.util.List;
 public interface ProfileResult {
 
     /**
-     * Results preserve nesting structure of a stages. So that if a given stage has tho nested stages,
-     * than corresponding result also has two results that are correspond to those nested stages.
+     * Results preserve nesting structure of stages. So that if a given stage has two nested stages,
+     * than corresponding result also has two nested results.
      * @return list of nested results.
      */
     List<? extends ProfileResult> getNestedResults();

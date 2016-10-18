@@ -33,7 +33,7 @@ public final class Pury {
     }
 
     /**
-     * @return Logger that was set previously. Or a default logger if no logger was set.
+     * @return Logger that was set previously. Or a default one if no logger was set.
      */
     public synchronized static Logger getLogger() {
         if (sLogger == null) {
@@ -62,7 +62,7 @@ public final class Pury {
     /**
      *
      * @param profilerName used to identify profiler. Used in results.
-     * @param stageName Name of stage to start. Used in results.
+     * @param stageName Name of a stage to start. Used in results.
      * @param stageOrder Stage order must be bigger then order of current most nested active stage.
      *                   First profiling must starts with value 0.
      * @param runsCounter used to identify profiler. Amount of runs to average.
@@ -79,7 +79,7 @@ public final class Pury {
     /**
      *
      * @param profilerName used to identify profiler. Used in results.
-     * @param stageName  Name of stage to stop. Used in results.
+     * @param stageName  Name of a stage to stop. Used in results.
      * @param runsCounter used to identify profiler. Amount of runs to average.
      *                    Result will be available only after all runs are stopped.
      */
@@ -91,9 +91,9 @@ public final class Pury {
     }
 
     /**
-     * Default {@link ResultHandler} logs result into {@link Logger}. Adding custom ResultHandlers
-     * allows to customize result processing. For example instead of logging result send it to somewhere,
-     * or save it in a permanent storage.
+     * Adding custom ResultHandlers allows to customize result processing. For example instead of
+     * logging result send it somewhere, or save it in a permanent storage. Default
+     * {@link ResultHandler} logs result into {@link Logger}.
      * @param key that identify ResultHandler
      * @param resultHandler ResultHandler to process result
      */
@@ -103,7 +103,7 @@ public final class Pury {
 
     /**
      * Remove {@link ResultHandler} by key. To remove default result handler use {@link #LOG_RESULT_HANDLER}
-     * @param key that identify ResultHandler that should be removed.
+     * @param key that identify ResultHandler to remove.
      */
     public static void removeResultHandler(String key) {
         sResultManager.removeResultHandler(key);

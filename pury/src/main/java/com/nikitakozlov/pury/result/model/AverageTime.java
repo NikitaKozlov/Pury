@@ -29,27 +29,27 @@ public class AverageTime {
     }
 
     /**
-      * @return average time
+      * @return average time.
      */
     public double getAverageValue() {
         return mAverageValue;
     }
     /**
-     * @return min time from all measurements
+     * @return min time from all measurements.
      */
     public long getMinValue() {
         return mMinValue;
     }
 
     /**
-     * @return max time from all measurements
+     * @return max time from all measurements.
      */
     public long getMaxValue() {
         return mMaxValue;
     }
 
     /**
-     * @return amount of measurements
+     * @return amount of measurements.
      */
     public int getMeasurementCounter() {
         return mMeasurementCounter;
