@@ -1,4 +1,6 @@
 language: android
+sudo: false # faster builds
+
 android:
   components:
     - tools
@@ -9,6 +11,7 @@ android:
 jdk: oraclejdk8
 
 script:
+  - ./gradlew assembleRelease
   - ./gradlew test
 
 after_success:

@@ -10,38 +10,30 @@ import java.util.List;
  */
 public class RootAverageProfileResult implements ProfileResult {
 
-    private final String mStageName;
-    private final AverageTime mExecTime;
-    private final List<AverageProfileResult> mAverageProfileResults;
-
     public RootAverageProfileResult(String stageName, AverageTime execTime,
                                     List<AverageProfileResult> averageProfileResults) {
-        mStageName = stageName;
-        mExecTime = execTime;
-        mAverageProfileResults = averageProfileResults;
     }
 
     /**
      * @return Averaged execution time.
      */
     public AverageTime getExecTime() {
-        return mExecTime;
+        return null;
     }
 
     @Override
     public List<? extends ProfileResult> getNestedResults() {
-        return mAverageProfileResults;
+        return null;
     }
 
     @Override
     public void accept(ResultVisitor visitor) {
-        visitor.visit(this);
     }
 
 
     @Override
     public String getStageName() {
-        return mStageName;
+        return null;
     }
 
     @Override
