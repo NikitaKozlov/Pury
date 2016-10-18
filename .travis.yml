@@ -1,4 +1,6 @@
 language: android
+sudo: false # faster builds
+
 android:
   components:
     - tools
@@ -9,5 +11,8 @@ android:
 jdk: oraclejdk8
 
 script:
-  - ./gradlew test
   - ./gradlew assembleRelease
+  - ./gradlew test
+
+after_success:
+  - bash <(curl -s https://codecov.io/bash)
