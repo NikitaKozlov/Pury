@@ -1,5 +1,6 @@
 package com.nikitakozlov.pury.aspects;
 
+import com.nikitakozlov.pury.Pury;
 import com.nikitakozlov.pury.PurySetter;
 import com.nikitakozlov.pury.annotations.StartProfiling;
 import com.nikitakozlov.pury.annotations.StartProfilings;
@@ -70,6 +71,16 @@ public class StartProfilingAspectTest {
     }
 
     @Test
+    public void weaveJoinPoint_DoesNothing_WhenPuryIsDisabled() throws Throwable {
+        ProfilerId profilerId = new ProfilerId(PROFILER_NAME_1, RUNS_COUNTER_5);
+
+        Pury.setEnabled(false);
+        aspect.weaveJoinPoint(mockJoinPoint("methodWithStartProfilingAnnotation"));
+
+        verify(profilingManager, never()).getProfiler(eq(profilerId));
+    }
+
+    @Test
     public void weaveJoinPoint_TakesParametersFromStartProfilingsAnnotationAndStartProfilers() throws Throwable {
         ProfilerId profilerId1 = new ProfilerId(PROFILER_NAME_1, RUNS_COUNTER_5);
         Profiler profiler1 = mock(Profiler.class);
@@ -117,6 +128,7 @@ public class StartProfilingAspectTest {
     @After
     public void tearDown() {
         PurySetter.setProfilingManager(null);
+        Pury.setEnabled(true);
     }
 
     private JoinPoint mockJoinPoint(String methodName) throws NoSuchMethodException {
