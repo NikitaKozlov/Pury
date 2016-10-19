@@ -1,20 +1,10 @@
 package com.nikitakozlov.pury.result.model;
 
-import java.util.Locale;
-
 /**
  * Represents average time for given amount of measurements.
  */
 public class AverageTime {
 
-    private static final int MS_TO_NS = 1000000;
-
-    private static final String MS = "ms";
-    private static final String AVERAGE = "avg = ";
-    private static final String MIN = "min = ";
-    private static final String MAX = "max = ";
-    private static final String FOR = "for ";
-    private static final String RUNS = " runs";
 
     private final double mAverageValue;
     private final long mMinValue;
@@ -79,30 +69,5 @@ public class AverageTime {
         result = 31 * result + (int) (mMaxValue ^ (mMaxValue >>> 32));
         result = 31 * result + mMeasurementCounter;
         return result;
-    }
-
-    @Override
-    public String toString() {
-        StringBuilder stringBuilder = new StringBuilder();
-        stringBuilder.append(AVERAGE);
-        stringBuilder.append(String.format(Locale.US, "%.2f", mAverageValue / MS_TO_NS));
-        stringBuilder.append(MS);
-        stringBuilder.append(", ");
-
-        stringBuilder.append(MIN);
-        stringBuilder.append(mMinValue / MS_TO_NS);
-        stringBuilder.append(MS);
-        stringBuilder.append(", ");
-
-        stringBuilder.append(MAX);
-        stringBuilder.append(mMaxValue / MS_TO_NS);
-        stringBuilder.append(MS);
-        stringBuilder.append(", ");
-
-        stringBuilder.append(FOR);
-        stringBuilder.append(mMeasurementCounter);
-        stringBuilder.append(RUNS);
-
-        return stringBuilder.toString();
     }
 }
