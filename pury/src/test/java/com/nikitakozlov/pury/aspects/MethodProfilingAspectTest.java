@@ -120,6 +120,15 @@ public class MethodProfilingAspectTest {
     }
 
     @Test
+    public void weaveJoinPoint_DoesNothing_WhenMethodProfilingAnnotationsChildIsDisabled() throws Throwable {
+        ProfilerId profilerId = new ProfilerId(PROFILER_NAME_1, RUNS_COUNTER_5);
+
+        aspect.weaveJoinPoint(mockProceedingJoinPoint("methodWithMethodProfilingsAnnotationWithDisabledChild"));
+
+        verify(profilingManager, never()).getProfiler(eq(profilerId));
+    }
+
+    @Test
     public void weaveJoinPoint_TakesParametersFromBothAnnotationsAndStartProfilers() throws Throwable {
         ProfilerId profilerId1 = new ProfilerId(PROFILER_NAME_1, RUNS_COUNTER_5);
         Profiler profiler1 = mock(Profiler.class);
@@ -198,6 +207,13 @@ public class MethodProfilingAspectTest {
                     stageName = STAGE_NAME_2, stageOrder = STAGE_ORDER_2)
     })
     private void methodWithMethodProfilingsAnnotation() {
+    }
+
+    @MethodProfilings(value = {
+            @MethodProfiling(runsCounter = RUNS_COUNTER_5, profilerName = PROFILER_NAME_1,
+                    stageName = STAGE_NAME_1, stageOrder = STAGE_ORDER_1, enabled = false)
+    })
+    private void methodWithMethodProfilingsAnnotationWithDisabledChild() {
     }
 
     @MethodProfilings(value = {

@@ -88,13 +88,22 @@ public class StopProfilingAspectTest {
         Profiler profiler2 = mock(Profiler.class);
         when(profilingManager.getProfiler(eq(profilerId2))).thenReturn(profiler2);
 
-        aspect.weaveJoinPoint(mockJoinPoint("methodWithStartProfilingsAnnotation"));
+        aspect.weaveJoinPoint(mockJoinPoint("methodWithStopProfilingsAnnotation"));
 
         verify(profilingManager).getProfiler(eq(profilerId1));
         verify(profiler1).stopStage(STAGE_NAME_1);
 
         verify(profilingManager).getProfiler(eq(profilerId2));
         verify(profiler2).stopStage(STAGE_NAME_2);
+    }
+
+    @Test
+    public void weaveJoinPoint_DoesNothing_WhenStopProfilingAnnotationsChildIsDisabled() throws Throwable {
+        ProfilerId profilerId = new ProfilerId(PROFILER_NAME_1, RUNS_COUNTER_5);
+
+        aspect.weaveJoinPoint(mockJoinPoint("methodWithStopProfilingsAnnotationWithDisabledChild"));
+
+        verify(profilingManager, never()).getProfiler(eq(profilerId));
     }
 
     @Test
@@ -165,7 +174,14 @@ public class StopProfilingAspectTest {
             @StopProfiling(runsCounter = RUNS_COUNTER_4, profilerName = PROFILER_NAME_2,
                     stageName = STAGE_NAME_2)
     })
-    private void methodWithStartProfilingsAnnotation() {
+    private void methodWithStopProfilingsAnnotation() {
+    }
+
+    @StopProfilings(value = {
+            @StopProfiling(runsCounter = RUNS_COUNTER_5, profilerName = PROFILER_NAME_1,
+                    stageName = STAGE_NAME_1, enabled = false)
+    })
+    private void methodWithStopProfilingsAnnotationWithDisabledChild() {
     }
 
     @StopProfilings(value = {
