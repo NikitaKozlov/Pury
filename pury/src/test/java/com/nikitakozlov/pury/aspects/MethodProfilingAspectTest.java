@@ -148,6 +148,17 @@ public class MethodProfilingAspectTest {
         verify(profiler3).stopStage(STAGE_NAME_3);
     }
 
+    /**
+     * This test is made just to remove point cut methods from test coverage diagram.
+     */
+    @Test
+    public void dummyTest() {
+        aspect.constructor();
+        aspect.method();
+        aspect.constructorWithMultipleAnnotations();
+        aspect.methodWithMultipleAnnotations();
+    }
+
     @After
     public void tearDown() {
         PurySetter.setProfilingManager(null);
