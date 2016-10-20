@@ -44,30 +44,4 @@ public class AverageTime {
     public int getMeasurementCounter() {
         return mMeasurementCounter;
     }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        AverageTime that = (AverageTime) o;
-
-        if (Double.compare(that.mAverageValue, mAverageValue) != 0) return false;
-        if (mMinValue != that.mMinValue) return false;
-        if (mMaxValue != that.mMaxValue) return false;
-        return mMeasurementCounter == that.mMeasurementCounter;
-
-    }
-
-    @Override
-    public int hashCode() {
-        int result;
-        long temp;
-        temp = Double.doubleToLongBits(mAverageValue);
-        result = (int) (temp ^ (temp >>> 32));
-        result = 31 * result + (int) (mMinValue ^ (mMinValue >>> 32));
-        result = 31 * result + (int) (mMaxValue ^ (mMaxValue >>> 32));
-        result = 31 * result + mMeasurementCounter;
-        return result;
-    }
 }
