@@ -10,6 +10,7 @@ import org.junit.Test;
 import org.mockito.Mock;
 
 import static org.junit.Assert.assertNotNull;
+import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.initMocks;
@@ -50,6 +51,17 @@ public class PuryTest {
     }
 
     @Test
+    public void startProfiling_DoesNothing_WhenPuryIsDisabled() {
+        ProfilerId profilerId = new ProfilerId(PROFILER_NAME, RUNS_COUNTER_5);
+        PurySetter.setProfilingManager(mProfilingManager);
+
+        Pury.setEnabled(false);
+        Pury.startProfiling(PROFILER_NAME, STAGE_NAME, STAGE_ORDER, RUNS_COUNTER_5);
+
+        verify(mProfilingManager, never()).getProfiler(profilerId);
+    }
+
+    @Test
     public void stopProfiling_GetsProfilerAndStopsStage() {
         ProfilerId profilerId = new ProfilerId(PROFILER_NAME, RUNS_COUNTER_5);
         when(mProfilingManager.getProfiler(profilerId)).thenReturn(mProfiler);
@@ -61,8 +73,20 @@ public class PuryTest {
         verify(mProfiler).stopStage(STAGE_NAME);
     }
 
+    @Test
+    public void stopProfiling_DoesNothing_WhenPuryIsDisabled() {
+        ProfilerId profilerId = new ProfilerId(PROFILER_NAME, RUNS_COUNTER_5);
+        PurySetter.setProfilingManager(mProfilingManager);
+
+        Pury.setEnabled(false);
+        Pury.stopProfiling(PROFILER_NAME, STAGE_NAME, RUNS_COUNTER_5);
+
+        verify(mProfilingManager, never()).getProfiler(profilerId);
+    }
+
     @After
     public void tearDown() {
         PurySetter.setProfilingManager(null);
+        Pury.setEnabled(true);
     }
 }
