@@ -133,6 +133,24 @@ public class ProfilerTest {
     }
 
     @Test
+    public void startStage_LogsError_WhenNestedStageOrderIsTooSmall() {
+        StageError stageError = mock(StageError.class);
+        //Any type, shouldn't be null.
+        when(stageError.getType()).thenReturn(StageError.Type.START_TO_SMALL_ORDER);
+        Run run = mock(Run.class);
+        when(run.startStage(STAGE_1, STAGE_ORDER_START_ORDER)).thenReturn(stageError);
+        when(mRunFactory.startNewRun(STAGE_0, STAGE_ORDER_START_ORDER)).thenReturn(run);
+
+        ProfilerId profilerId = new ProfilerId(METHOD_ID, RUN_COUNTER_1);
+        Profiler profiler = new Profiler(profilerId, mCallback, mResultProcessor, mResultManager, mLogger, mRunFactory);
+        profiler.startStage(STAGE_0, STAGE_ORDER_START_ORDER);
+        profiler.startStage(STAGE_1, STAGE_ORDER_START_ORDER);
+
+        verify(mLogger).error(eq(LOG_TAG), anyString());
+    }
+
+
+    @Test
     public void stopStage_CallProcessorAndResultManager_WhenRunCounterIsOne() {
         Run run = spy(new Run(STAGE_0, STAGE_ORDER_START_ORDER));
         when(mRunFactory.startNewRun(STAGE_0, STAGE_ORDER_START_ORDER)).thenReturn(run);
