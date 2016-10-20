@@ -19,8 +19,6 @@ public class ProfilingManagerTest {
     private static final int RUN_COUNT_1 = 1;
     private static final int RUN_COUNT_2 = 2;
 
-
-
     @Test
     public void getProfiler_ReturnsProfiler() {
         ProfilingManager profilingManager = Pury.getProfilingManager();
@@ -54,6 +52,15 @@ public class ProfilingManagerTest {
         profiler.stopStage(STAGE_NAME_0);
         Profiler profiler2 = profilingManager.getProfiler(id);
         assertNotEquals(profiler, profiler2);
+    }
+
+    @Test
+    public void clear_RemovedAllProfilers() {
+        ProfilerId id = new ProfilerId(METHOD_ID_1, RUN_COUNT_1);
+        ProfilingManager profilingManager = Pury.getProfilingManager();
+        Profiler profiler = profilingManager.getProfiler(id);
+        profilingManager.clear();
+        assertNotEquals(profiler, profilingManager.getProfiler(id));
     }
 
 }

@@ -84,7 +84,7 @@ public class ProfileResultProcessorTest {
         ProfileResult result = mProcessor.process(runs);
         assertTrue(result instanceof RootAverageProfileResult);
         RootAverageProfileResult rootResult = (RootAverageProfileResult) result;
-        assertEquals(averageExecTime, rootResult.getExecTime());
+        assertEqualAverageTimes(averageExecTime, rootResult.getExecTime());
     }
 
     @Test
@@ -108,8 +108,8 @@ public class ProfileResultProcessorTest {
         RootAverageProfileResult result = (RootAverageProfileResult) mProcessor.process(runs);
         AverageProfileResult nestedResult = (AverageProfileResult) result.getNestedResults().get(0);
 
-        assertEquals(averageStartTime, nestedResult.getStartTime());
-        assertEquals(averageExecTime, nestedResult.getExecTime());
+        assertEqualAverageTimes(averageStartTime, nestedResult.getStartTime());
+        assertEqualAverageTimes(averageExecTime, nestedResult.getExecTime());
     }
 
     private Run getRunWithoutNestedStages(long pause) throws InterruptedException {
@@ -132,5 +132,12 @@ public class ProfileResultProcessorTest {
         long max = Math.max(time1, time2);
         double average = time1/2.0 + time2/2.0;
         return new AverageTime(average, min, max, 2);
+    }
+
+    private static void assertEqualAverageTimes(AverageTime expected, AverageTime actual) {
+        assertEquals(expected.getAverageValue(), actual.getAverageValue(), 0.001d);
+        assertEquals(expected.getMaxValue(), actual.getMaxValue());
+        assertEquals(expected.getMinValue(), actual.getMinValue());
+        assertEquals(expected.getMeasurementCounter(), expected.getMeasurementCounter());
     }
 }

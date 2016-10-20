@@ -1,5 +1,6 @@
 package com.nikitakozlov.pury.aspects;
 
+import com.nikitakozlov.pury.Pury;
 import com.nikitakozlov.pury.PurySetter;
 import com.nikitakozlov.pury.annotations.StartProfiling;
 import com.nikitakozlov.pury.annotations.StartProfilings;
@@ -70,6 +71,16 @@ public class StartProfilingAspectTest {
     }
 
     @Test
+    public void weaveJoinPoint_DoesNothing_WhenPuryIsDisabled() throws Throwable {
+        ProfilerId profilerId = new ProfilerId(PROFILER_NAME_1, RUNS_COUNTER_5);
+
+        Pury.setEnabled(false);
+        aspect.weaveJoinPoint(mockJoinPoint("methodWithStartProfilingAnnotation"));
+
+        verify(profilingManager, never()).getProfiler(eq(profilerId));
+    }
+
+    @Test
     public void weaveJoinPoint_TakesParametersFromStartProfilingsAnnotationAndStartProfilers() throws Throwable {
         ProfilerId profilerId1 = new ProfilerId(PROFILER_NAME_1, RUNS_COUNTER_5);
         Profiler profiler1 = mock(Profiler.class);
@@ -86,6 +97,15 @@ public class StartProfilingAspectTest {
 
         verify(profilingManager).getProfiler(eq(profilerId2));
         verify(profiler2).startStage(STAGE_NAME_2, STAGE_ORDER_2);
+    }
+
+    @Test
+    public void weaveJoinPoint_DoesNothing_WhenStartProfilingAnnotationsChildIsDisabled() throws Throwable {
+        ProfilerId profilerId = new ProfilerId(PROFILER_NAME_1, RUNS_COUNTER_5);
+
+        aspect.weaveJoinPoint(mockJoinPoint("methodWithStartProfilingsAnnotationWithDisabledChild"));
+
+        verify(profilingManager, never()).getProfiler(eq(profilerId));
     }
 
     @Test
@@ -114,9 +134,21 @@ public class StartProfilingAspectTest {
         verify(profiler3).startStage(STAGE_NAME_3, STAGE_ORDER_3);
     }
 
+    /**
+     * This test is made just to remove point cut methods from test coverage diagram.
+     */
+    @Test
+    public void dummyTest() {
+        aspect.constructor();
+        aspect.method();
+        aspect.constructorWithMultipleAnnotations();
+        aspect.methodWithMultipleAnnotations();
+    }
+
     @After
     public void tearDown() {
         PurySetter.setProfilingManager(null);
+        Pury.setEnabled(true);
     }
 
     private JoinPoint mockJoinPoint(String methodName) throws NoSuchMethodException {
@@ -145,6 +177,13 @@ public class StartProfilingAspectTest {
                     stageName = STAGE_NAME_2, stageOrder = STAGE_ORDER_2)
     })
     private void methodWithStartProfilingsAnnotation() {
+    }
+
+    @StartProfilings(value = {
+            @StartProfiling(runsCounter = RUNS_COUNTER_5, profilerName = PROFILER_NAME_1,
+                    stageName = STAGE_NAME_1, stageOrder = STAGE_ORDER_1, enabled = false)
+    })
+    private void methodWithStartProfilingsAnnotationWithDisabledChild() {
     }
 
     @StartProfilings(value = {
