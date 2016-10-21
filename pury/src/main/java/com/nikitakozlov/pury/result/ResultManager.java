@@ -8,19 +8,19 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class ResultManager {
-    private final Map<String, Plugin> resultHandlers = new HashMap<>();
+    private final Map<String, Plugin> plugins = new HashMap<>();
 
     public void dispatchResult(ProfileResult result, ProfilerId profilerId) {
-        for (String key : resultHandlers.keySet()) {
-            resultHandlers.get(key).handleResult(result, profilerId);
+        for (String key : plugins.keySet()) {
+            plugins.get(key).handleResult(result, profilerId);
         }
     }
 
     public void addPlugin(String key, Plugin plugin) {
-        resultHandlers.put(key, plugin);
+        plugins.put(key, plugin);
     }
 
     public void removePlugin(String key) {
-        resultHandlers.remove(key);
+        plugins.remove(key);
     }
 }
