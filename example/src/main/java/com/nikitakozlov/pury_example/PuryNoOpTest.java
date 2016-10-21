@@ -1,8 +1,8 @@
 package com.nikitakozlov.pury_example;
 
 import com.nikitakozlov.pury.Logger;
+import com.nikitakozlov.pury.Plugin;
 import com.nikitakozlov.pury.Pury;
-import com.nikitakozlov.pury.ResultHandler;
 import com.nikitakozlov.pury.profile.ProfilerId;
 import com.nikitakozlov.pury.result.model.ProfileResult;
 
@@ -34,17 +34,17 @@ public class PuryNoOpTest {
         });
         Pury.setLogger(null);
 
-        testResultHandlers();
+        testPlugins();
     }
 
-    private static void testResultHandlers() {
+    private static void testPlugins() {
         String key = "key";
-        Pury.addResultHandler(key, new ResultHandler() {
+        Pury.addPlugin(key, new Plugin() {
             @Override
             public void handleResult(ProfileResult result, ProfilerId profilerId) {
 
             }
         });
-        Pury.removeResultHandler(key);
+        Pury.removePlugin(key);
     }
 }

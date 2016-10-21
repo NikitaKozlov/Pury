@@ -7,7 +7,7 @@ import com.nikitakozlov.pury.profile.ProfilingManager;
 public final class Pury {
 
     public static final String LOG_TAG = "Pury";
-    public static final String LOG_RESULT_HANDLER = "LogResultHandler";
+    public static final String LOGGER_PLUGIN = "LoggerPlugin";
 
     public static void setLogger(Logger logger) {
     }
@@ -45,22 +45,22 @@ public final class Pury {
     }
 
     /**
-     * Adding custom ResultHandlers allows to customize result processing. For example instead of
+     * Adding custom Plugins allows to customize result processing. For example instead of
      * logging result send it somewhere, or save it in a permanent storage. Default
-     * {@link ResultHandler} logs result into {@link Logger}.
+     * {@link Plugin} logs result into {@link Logger}.
      *
-     * @param key           that identify ResultHandler
-     * @param resultHandler ResultHandler to process result
+     * @param key           that identify Plugin
+     * @param plugin Plugin to process result
      */
-    public static void addResultHandler(String key, ResultHandler resultHandler) {
+    public static void addPlugin(String key, Plugin plugin) {
     }
 
     /**
-     * Remove {@link ResultHandler} by key. To remove default result handler use {@link #LOG_RESULT_HANDLER}
+     * Remove {@link Plugin} by key. To remove default result handler use {@link #LOGGER_PLUGIN}
      *
-     * @param key that identify ResultHandler to remove.
+     * @param key that identify Plugin to remove.
      */
-    public static void removeResultHandler(String key) {
+    public static void removePlugin(String key) {
     }
 
     /**

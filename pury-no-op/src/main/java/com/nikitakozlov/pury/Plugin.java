@@ -4,10 +4,10 @@ import com.nikitakozlov.pury.profile.ProfilerId;
 import com.nikitakozlov.pury.result.model.ProfileResult;
 
 /**
- * ResultHandler allows to customize result processing. For example instead of logging result send
+ * Plugin allows to customize result processing. For example instead of logging result send
  * it somewhere, or save it in a permanent storage.
  */
-public interface ResultHandler {
+public interface Plugin {
 
     /**
      * Hook method that will be called once result is ready.

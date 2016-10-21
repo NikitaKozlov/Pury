@@ -13,7 +13,7 @@ import java.util.Locale;
 
 import static com.nikitakozlov.pury.Pury.LOG_TAG;
 
-public class LogResultHandler implements ResultHandler {
+public class LoggerPlugin implements Plugin {
 
     private static final String RIGHT_ARROW = " --> ";
     private static final String LEFT_ARROW = " <-- ";
@@ -36,11 +36,11 @@ public class LogResultHandler implements ResultHandler {
         StringBuilder logMessage = new StringBuilder("Profiling results");
         String methodId = profilerId.getProfilerName();
         if (!methodId.isEmpty()) {
-            logMessage.append(" for ");
-            logMessage.append(methodId);
+            logMessage.append(" for ")
+                    .append(methodId);
         }
-        logMessage.append(":\n");
-        logMessage.append(visitor.getLogMessage());
+        logMessage.append(":\n")
+                .append(visitor.getLogMessage());
         Pury.getLogger().result(LOG_TAG, logMessage.toString());
     }
 
@@ -53,8 +53,8 @@ public class LogResultHandler implements ResultHandler {
         public void visit(AverageProfileResult averageProfileResult) {
 
             appendFullDepthPrefix(logMessageBuilder, averageProfileResult.getDepth());
-            logMessageBuilder.append(averageProfileResult.getStageName());
-            logMessageBuilder.append(RIGHT_ARROW);
+            logMessageBuilder.append(averageProfileResult.getStageName())
+                    .append(RIGHT_ARROW);
             averageTimeToString(averageProfileResult.getStartTime(), logMessageBuilder);
             logMessageBuilder.append("\n");
             for (ProfileResult result : averageProfileResult.getNestedResults()) {
@@ -62,59 +62,59 @@ public class LogResultHandler implements ResultHandler {
                 logMessageBuilder.append("\n");
             }
             appendFullDepthPrefix(logMessageBuilder, averageProfileResult.getDepth());
-            logMessageBuilder.append(averageProfileResult.getStageName());
-            logMessageBuilder.append(LEFT_ARROW);
+            logMessageBuilder.append(averageProfileResult.getStageName())
+                    .append(LEFT_ARROW);
             averageTimeToString(averageProfileResult.getExecTime(), logMessageBuilder);
         }
 
         @Override
         public void visit(RootAverageProfileResult rootAverageProfileResult) {
-            logMessageBuilder.append(rootAverageProfileResult.getStageName());
-            logMessageBuilder.append(" --> 0ms\n");
+            logMessageBuilder.append(rootAverageProfileResult.getStageName())
+                    .append(" --> 0ms\n");
             for (ProfileResult result : rootAverageProfileResult.getNestedResults()) {
                 result.accept(this);
                 logMessageBuilder.append("\n");
             }
-            logMessageBuilder.append(rootAverageProfileResult.getStageName());
-            logMessageBuilder.append(LEFT_ARROW);
+            logMessageBuilder.append(rootAverageProfileResult.getStageName())
+                    .append(LEFT_ARROW);
             averageTimeToString(rootAverageProfileResult.getExecTime(), logMessageBuilder);
         }
 
         @Override
         public void visit(RootSingleProfileResult rootSingleProfileResult) {
 
-            logMessageBuilder.append(rootSingleProfileResult.getStageName());
-            logMessageBuilder.append(" --> 0ms\n");
+            logMessageBuilder.append(rootSingleProfileResult.getStageName())
+                    .append(" --> 0ms\n");
             for (ProfileResult result : rootSingleProfileResult.getNestedResults()) {
                 result.accept(this);
                 logMessageBuilder.append("\n");
             }
-            logMessageBuilder.append(rootSingleProfileResult.getStageName());
-            logMessageBuilder.append(LEFT_ARROW);
-            logMessageBuilder.append(rootSingleProfileResult.getExecTime() / MS_TO_NS);
-            logMessageBuilder.append(MS);
+            logMessageBuilder.append(rootSingleProfileResult.getStageName())
+                    .append(LEFT_ARROW)
+                    .append(rootSingleProfileResult.getExecTime() / MS_TO_NS)
+                    .append(MS);
         }
 
         @Override
         public void visit(SingleProfileResult singleProfileResult) {
 
             appendFullDepthPrefix(logMessageBuilder, singleProfileResult.getDepth());
-            logMessageBuilder.append(singleProfileResult.getStageName());
-            logMessageBuilder.append(RIGHT_ARROW);
-            logMessageBuilder.append(singleProfileResult.getStartTime() / MS_TO_NS);
-            logMessageBuilder.append("ms\n");
+            logMessageBuilder.append(singleProfileResult.getStageName())
+                    .append(RIGHT_ARROW)
+                    .append(singleProfileResult.getStartTime() / MS_TO_NS)
+                    .append("ms\n");
             for (ProfileResult result : singleProfileResult.getNestedResults()) {
                 result.accept(this);
                 logMessageBuilder.append("\n");
             }
             appendFullDepthPrefix(logMessageBuilder, singleProfileResult.getDepth());
-            logMessageBuilder.append(singleProfileResult.getStageName());
-            logMessageBuilder.append(LEFT_ARROW);
-            logMessageBuilder.append((singleProfileResult.getStartTime() + singleProfileResult.getExecTime()) / MS_TO_NS);
-            logMessageBuilder.append("ms, ");
-            logMessageBuilder.append(EXEC_TIME);
-            logMessageBuilder.append(singleProfileResult.getExecTime() / MS_TO_NS);
-            logMessageBuilder.append(MS);
+            logMessageBuilder.append(singleProfileResult.getStageName())
+                    .append(LEFT_ARROW)
+                    .append((singleProfileResult.getStartTime() + singleProfileResult.getExecTime()) / MS_TO_NS)
+                    .append("ms, ")
+                    .append(EXEC_TIME)
+                    .append(singleProfileResult.getExecTime() / MS_TO_NS)
+                    .append(MS);
         }
 
         String getLogMessage() {
@@ -128,24 +128,24 @@ public class LogResultHandler implements ResultHandler {
         }
 
         private void averageTimeToString(AverageTime time, StringBuilder stringBuilder) {
-            stringBuilder.append(AVERAGE);
-            stringBuilder.append(String.format(Locale.US, "%.2f", time.getAverageValue() / MS_TO_NS));
-            stringBuilder.append(MS);
-            stringBuilder.append(", ");
+            stringBuilder.append(AVERAGE)
+                    .append(String.format(Locale.US, "%.2f", time.getAverageValue() / MS_TO_NS))
+                    .append(MS)
+                    .append(", ")
 
-            stringBuilder.append(MIN);
-            stringBuilder.append(time.getMinValue() / MS_TO_NS);
-            stringBuilder.append(MS);
-            stringBuilder.append(", ");
+                    .append(MIN)
+                    .append(time.getMinValue() / MS_TO_NS)
+                    .append(MS)
+                    .append(", ")
 
-            stringBuilder.append(MAX);
-            stringBuilder.append(time.getMaxValue() / MS_TO_NS);
-            stringBuilder.append(MS);
-            stringBuilder.append(", ");
+                    .append(MAX)
+                    .append(time.getMaxValue() / MS_TO_NS)
+                    .append(MS)
+                    .append(", ")
 
-            stringBuilder.append(FOR);
-            stringBuilder.append(time.getMeasurementCounter());
-            stringBuilder.append(RUNS);
+                    .append(FOR)
+                    .append(time.getMeasurementCounter())
+                    .append(RUNS);
         }
     }
 }

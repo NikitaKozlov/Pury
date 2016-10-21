@@ -10,7 +10,7 @@ import com.nikitakozlov.pury.result.ResultManager;
 public final class Pury {
 
     public static final String LOG_TAG = "Pury";
-    public static final String LOG_RESULT_HANDLER = "LogResultHandler";
+    public static final String LOG_RESULT_HANDLER = "LoggerPlugin";
 
     private static volatile Logger sLogger;
     private static volatile boolean sEnabled = true;
@@ -20,12 +20,12 @@ public final class Pury {
 
     static {
         sResultManager = new ResultManager();
-        sResultManager.addResultHandler(LOG_RESULT_HANDLER, new LogResultHandler());
+        sResultManager.addPlugin(LOG_RESULT_HANDLER, new LoggerPlugin());
         sProfilingManager = new ProfilingManager(sResultManager);
     }
 
     /**
-     * Set logger for Pury to use. Default ResultHandler will also use it for output.
+     * Set logger for Pury to use. Default Plugin will also use it for output.
      * @param logger Logger to set.
      */
     public static void setLogger(Logger logger) {
@@ -91,22 +91,22 @@ public final class Pury {
     }
 
     /**
-     * Adding custom ResultHandlers allows to customize result processing. For example instead of
+     * Adding custom Plugins allows to customize result processing. For example instead of
      * logging result send it somewhere, or save it in a permanent storage. Default
-     * {@link ResultHandler} logs result into {@link Logger}.
-     * @param key that identify ResultHandler
-     * @param resultHandler ResultHandler to process result
+     * {@link Plugin} logs result into {@link Logger}.
+     * @param key that identify Plugin
+     * @param plugin Plugin to process result
      */
-    public static void addResultHandler(String key, ResultHandler resultHandler) {
-        sResultManager.addResultHandler(key, resultHandler);
+    public static void addPlugin(String key, Plugin plugin) {
+        sResultManager.addPlugin(key, plugin);
     }
 
     /**
-     * Remove {@link ResultHandler} by key. To remove default result handler use {@link #LOG_RESULT_HANDLER}
-     * @param key that identify ResultHandler to remove.
+     * Remove {@link Plugin} by key. To remove default result handler use {@link #LOG_RESULT_HANDLER}
+     * @param key that identify Plugin to remove.
      */
-    public static void removeResultHandler(String key) {
-        sResultManager.removeResultHandler(key);
+    public static void removePlugin(String key) {
+        sResultManager.removePlugin(key);
     }
 
     /**
