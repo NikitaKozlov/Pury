@@ -15,11 +15,10 @@ import org.mockito.Mock;
 import java.util.Arrays;
 import java.util.Collections;
 
-import static org.junit.Assert.*;
 import static org.mockito.Mockito.verify;
 import static org.mockito.MockitoAnnotations.initMocks;
 
-public class LogResultHandlerTest {
+public class LoggerPluginTest {
 
     @Mock
     Logger mLogger;
@@ -54,9 +53,9 @@ public class LogResultHandlerTest {
         RootSingleProfileResult appStartProfileResult = new RootSingleProfileResult("App Start",
                 1242000000, Arrays.asList(splashScreenProfileResult, mainActivityLaunchProfileResult));
 
-        LogResultHandler logResultHandler = new LogResultHandler();
+        LoggerPlugin loggerPlugin = new LoggerPlugin();
 
-        logResultHandler.handleResult(appStartProfileResult, profilerId);
+        loggerPlugin.handleResult(appStartProfileResult, profilerId);
 
         verify(mLogger).result(Pury.LOG_TAG, expectedResult);
     }
@@ -71,9 +70,9 @@ public class LogResultHandlerTest {
         RootSingleProfileResult appStartProfileResult = new RootSingleProfileResult("App Start",
                 1242000000, Collections.<SingleProfileResult>emptyList());
 
-        LogResultHandler logResultHandler = new LogResultHandler();
+        LoggerPlugin loggerPlugin = new LoggerPlugin();
 
-        logResultHandler.handleResult(appStartProfileResult, profilerId);
+        loggerPlugin.handleResult(appStartProfileResult, profilerId);
 
         verify(mLogger).result(Pury.LOG_TAG, expectedResult);
     }
@@ -105,9 +104,9 @@ public class LogResultHandlerTest {
         RootAverageProfileResult rootAverageProfileResult = new RootAverageProfileResult("Get Next Page",
                 getNextPageAvgTime, Collections.singletonList(loadProfileResult));
 
-        LogResultHandler logResultHandler = new LogResultHandler();
+        LoggerPlugin loggerPlugin = new LoggerPlugin();
 
-        logResultHandler.handleResult(rootAverageProfileResult, profilerId);
+        loggerPlugin.handleResult(rootAverageProfileResult, profilerId);
 
         verify(mLogger).result(Pury.LOG_TAG, expectedResult);
     }

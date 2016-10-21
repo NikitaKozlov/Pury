@@ -26,14 +26,14 @@ public class PuryTest {
     private static final int STAGE_ORDER_START_ORDER = 0;
     private static final String STAGE_NAME = "stageName";
 
-    private static final String RESULT_HANDLER_KEY_1 = "key 1";
-    private static final String RESULT_HANDLER_KEY_2 = "key 2";
+    private static final String PLUGIN_KEY_1 = "key 1";
+    private static final String PLUGIN_KEY_2 = "key 2";
 
     @Mock
-    ResultHandler resultHandler1;
+    Plugin plugin1;
 
     @Mock
-    ResultHandler resultHandler2;
+    Plugin plugin2;
 
     @Mock
     ProfilingManager mProfilingManager;
@@ -99,31 +99,31 @@ public class PuryTest {
 
     //First integration test for result handlers
     @Test
-    public void pury_ShouldCallAllResultHandlers() {
-        Pury.addResultHandler(RESULT_HANDLER_KEY_1, resultHandler1);
-        Pury.addResultHandler(RESULT_HANDLER_KEY_2, resultHandler2);
+    public void pury_ShouldCallAllPlugins() {
+        Pury.addPlugin(PLUGIN_KEY_1, plugin1);
+        Pury.addPlugin(PLUGIN_KEY_2, plugin2);
 
         ProfilerId profilerId = new ProfilerId(PROFILER_NAME, RUNS_COUNTER_1);
         Pury.startProfiling(PROFILER_NAME, STAGE_NAME, STAGE_ORDER_START_ORDER, RUNS_COUNTER_1);
         Pury.stopProfiling(PROFILER_NAME, STAGE_NAME, RUNS_COUNTER_1);
 
-        verify(resultHandler1).handleResult(Matchers.<ProfileResult>any(), eq(profilerId));
-        verify(resultHandler2).handleResult(Matchers.<ProfileResult>any(), eq(profilerId));
+        verify(plugin1).handleResult(Matchers.<ProfileResult>any(), eq(profilerId));
+        verify(plugin2).handleResult(Matchers.<ProfileResult>any(), eq(profilerId));
     }
 
     //Second integration test for result handlers
     @Test
-    public void pury_ShouldNotCallRemovedResultHandler() {
-        Pury.addResultHandler(RESULT_HANDLER_KEY_1, resultHandler1);
-        Pury.addResultHandler(RESULT_HANDLER_KEY_2, resultHandler2);
-        Pury.removeResultHandler(RESULT_HANDLER_KEY_1);
+    public void pury_ShouldNotCallRemovedPlugin() {
+        Pury.addPlugin(PLUGIN_KEY_1, plugin1);
+        Pury.addPlugin(PLUGIN_KEY_2, plugin2);
+        Pury.removePlugin(PLUGIN_KEY_1);
 
         ProfilerId profilerId = new ProfilerId(PROFILER_NAME, RUNS_COUNTER_1);
         Pury.startProfiling(PROFILER_NAME, STAGE_NAME, STAGE_ORDER_START_ORDER, RUNS_COUNTER_1);
         Pury.stopProfiling(PROFILER_NAME, STAGE_NAME, RUNS_COUNTER_1);
 
-        verify(resultHandler1, never()).handleResult(Matchers.<ProfileResult>any(), eq(profilerId));
-        verify(resultHandler2).handleResult(Matchers.<ProfileResult>any(), eq(profilerId));
+        verify(plugin1, never()).handleResult(Matchers.<ProfileResult>any(), eq(profilerId));
+        verify(plugin2).handleResult(Matchers.<ProfileResult>any(), eq(profilerId));
     }
 
     @After
