@@ -10,7 +10,7 @@ import com.nikitakozlov.pury.result.ResultManager;
 public final class Pury {
 
     public static final String LOG_TAG = "Pury";
-    public static final String LOG_RESULT_HANDLER = "LoggerPlugin";
+    public static final String LOGGER_PLUGIN = "LoggerPlugin";
 
     private static volatile Logger sLogger;
     private static volatile boolean sEnabled = true;
@@ -20,7 +20,7 @@ public final class Pury {
 
     static {
         sResultManager = new ResultManager();
-        sResultManager.addPlugin(LOG_RESULT_HANDLER, new LoggerPlugin());
+        sResultManager.addPlugin(LOGGER_PLUGIN, new LoggerPlugin());
         sProfilingManager = new ProfilingManager(sResultManager);
     }
 
