@@ -109,6 +109,11 @@ public interface Logger {
 ```
 By default result goes to `Log.d`, warning to `Log.w` and error to `Log.e`.
 
+##Plugins
+*Wiki page for Plugins is in the process of creation*
+
+Plugins enable customisation and better control over reporting profiling results. They provides access to raw results to process them in the most suitable way.
+If you are interested to read more about them, please check this [post](https://medium.com/@nikita.kozlov/get-access-to-raw-profiling-results-with-plugins-for-pury-f9a7cc5e8345#.lz704xr1y)
 
 ##How to start using Pury?
 In order to start using Pury, you need to do only two simple steps. 
