@@ -102,7 +102,7 @@ public final class Pury {
     }
 
     /**
-     * Remove {@link Plugin} by key. To remove default result handler use {@link #LOG_RESULT_HANDLER}
+     * Remove {@link Plugin} by key. To remove default result handler use {@link #LOGGER_PLUGIN}
      * @param key that identify Plugin to remove.
      */
     public static void removePlugin(String key) {
