@@ -112,6 +112,13 @@ public class ProfileResultProcessorTest {
         assertEqualAverageTimes(averageExecTime, nestedResult.getExecTime());
     }
 
+    @Test
+    public void process_ReturnsAverageForNestedStages_WhenSomeScenariosAreCut() throws InterruptedException {
+        List<Run> runs = Arrays.asList(getRunWithNestedStage(PAUSE_30),
+                getRunWithoutNestedStages(PAUSE_50));
+        RootAverageProfileResult result = (RootAverageProfileResult) mProcessor.process(runs);
+    }
+
     private Run getRunWithoutNestedStages(long pause) throws InterruptedException {
         Run run = mRunFactory.startNewRun(STAGE_NAME_0, STAGE_ORDER_0);
         Thread.sleep(pause);
