@@ -64,7 +64,10 @@ public class ProfileResultProcessor {
         for (int i = 0; i < nestedResultsCounter; i++) {
             List<SingleProfileResult> resultRow = new ArrayList<>(inputResults.size());
             for (ProfileResult inputResult : inputResults) {
-                resultRow.add((SingleProfileResult) inputResult.getNestedResults().get(i));
+                List<? extends ProfileResult> nestedResults = inputResult.getNestedResults();
+                if (nestedResults.size() > i) {
+                    resultRow.add((SingleProfileResult) nestedResults.get(i));
+                }
             }
             outputResult.add(resultRow);
         }
