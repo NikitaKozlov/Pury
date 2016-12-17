@@ -29,6 +29,8 @@ dependencies {
 //    compile project(':annotations')
     compile 'com.nikitakozlov.pury:annotations:1.0.1'
     debugCompile project(':pury')
+//    compile 'com.nikitakozlov.pury:pury:1.1.0'
+
     releaseCompile project(':pury-no-op')
     compile 'com.android.support:appcompat-v7:23.3.0'
     compile 'org.aspectj:aspectjrt:1.8.6'
