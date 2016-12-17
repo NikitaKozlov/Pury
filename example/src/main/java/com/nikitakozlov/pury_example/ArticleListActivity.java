@@ -52,6 +52,7 @@ public class ArticleListActivity extends AppCompatActivity {
     private ArticleAdapter mArticleAdapter;
     private volatile int mPage = 0;
     private boolean mIsLoading;
+    private boolean mFinalize = true;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -124,10 +125,24 @@ public class ArticleListActivity extends AppCompatActivity {
     private List<String> processNextPage(final List<String> articles) {
         try {
             Thread.sleep((long) (PAGE_PROCESS_DELAY + random.nextFloat() * DELAY_MAX_VARIATON));
+
+            //This is made to test when some runs has less stages then others
+            if (mFinalize) {
+                finalizePage();
+                mFinalize = false;
+            } else {
+                mFinalize = true;
+            }
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
 
         return articles;
+    }
+
+    @MethodProfiling(profilerName = Pagination.PROFILER_NAME, runsCounter = Pagination.RUN_COUNTER,
+            stageName = Pagination.FINALIZE_PAGE, stageOrder = Pagination.FINALIZE_PAGE_ORDER)
+    private void finalizePage() throws InterruptedException {
+        Thread.sleep(20L);
     }
 }
