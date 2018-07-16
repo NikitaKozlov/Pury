@@ -1,7 +1,8 @@
 [![Build Status](https://travis-ci.org/NikitaKozlov/Pury.svg?branch=master)](https://travis-ci.org/NikitaKozlov/Pury)
 [![codecov](https://codecov.io/gh/NikitaKozlov/Pury/branch/master/graph/badge.svg)](https://codecov.io/gh/NikitaKozlov/Pury)
 [![Gitter](https://badges.gitter.im/gitterHQ/gitter.svg)](https://gitter.im/NikitaKozlov/Pury)
-#Pury
+
+# Pury
 **Pury** is a profiling library for measuring time between multiple independent events. 
 Events can be triggered with one of the annotations or with a method call. 
 All events for a single scenario are united into one report.
@@ -38,7 +39,7 @@ Get Next Page <-- avg = 378.80ms, min = 353ms, max = 411ms, for 5 runs
 ```
 In this example, you can see some statistical information that was collected during 5 runs. For each stage start timestamp and execution time are displayed.
 
-##How to profile with Pury?
+## How to profile with Pury?
 
 There are three basic annotations:
 
@@ -96,7 +97,7 @@ Pury.stopProfiling();
 ```
 Arguments are exactly the same as in corresponding annotations.
 
-##Logging Results
+## Logging Results
 By default  Pury uses default logger, but it also allows you to set your own one. All you need to do is to implement Logger interface and set it via `Pury.setLogger()`.
 ```
 public interface Logger {
@@ -109,13 +110,13 @@ public interface Logger {
 ```
 By default result goes to `Log.d`, warning to `Log.w` and error to `Log.e`.
 
-##Plugins
+## Plugins
 *Wiki page for Plugins is in the process of creation*
 
 Plugins enable customisation and better control over reporting profiling results. They provides access to raw results to process them in the most suitable way.
 If you are interested to read more about them, please check this [post](https://medium.com/@nikita.kozlov/get-access-to-raw-profiling-results-with-plugins-for-pury-f9a7cc5e8345#.lz704xr1y)
 
-##How to start using Pury?
+## How to start using Pury?
 In order to start using Pury, you need to do only two simple steps. 
 
 First, apply AspectJ weaving plugin, there are more then one such a plugin out there. 
@@ -132,7 +133,7 @@ dependencies {
 ```
 If you want to profile on release, then use compile instead of compileDebug for a second dependency and removed third.
 
-##License 
+## License 
 **The MIT License (MIT)**
 
 Copyright (c) 2016 Nikita Kozlov
